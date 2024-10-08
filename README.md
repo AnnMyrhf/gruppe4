@@ -13,6 +13,7 @@ Um Merge-Konflikte zu lösen, muss eine Person die betroffenen Dateien manuell b
 
 Regelmäßiges Mergen von Branches in den Hauptzweig hilft, Konflikte frühzeitig zu erkennen und zu lösen und verhindert größere Probleme am Ende eines Projekts.
 
+Clear Naming Conventions für Branches erleichtern die Übersicht und das Management von verschiedenen Entwicklungszweigen. Git-Tools wie git mergetool bieten visuelle Hilfsmittel zur Lösung von Merge-Konflikten und machen den Prozess effizienter.
 **3. Git mit IntelliJ/PyCharm benutzen: Local Repository und Remote Repository**
 
 **4. Nützliche Git-Tools und Plattformen (z. B. GitHub)**
