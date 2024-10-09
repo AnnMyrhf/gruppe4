@@ -20,3 +20,9 @@ Ein Remote Repository liegt auf einem externen Server (z. B. GitHub, GitLab) und
 + Remote Repository hinzufügen: Über VCS > Git > Remotes kann eine Verbindung zu einem externen Repository hergestellt werden. Hierzu muss die URL des Remote-Repositories eingetragen werden.
 + Push: Über den Push-Befehl werden lokale Commits ins Remote Repository hochgeladen. So werden die Änderungen für andere Teammitglieder verfügbar.
 + Pull und Fetch: Mit dem Pull-Befehl werden die neuesten Änderungen aus dem Remote Repository in das lokale Repository integriert. Der Fetch-Befehl lädt die Änderungen aus dem Remote Repository herunter, ohne sie sofort in den lokalen Branch zu integrieren.
+
+### Zusammenspiel von Local und Remote Repository
+
+Das lokale Repository dient zum Entwickeln und Testen von Code, während das Remote Repository zur Synchronisation und Zusammenarbeit genutzt wird. Änderungen werden erst lokal committet und dann ins Remote Repository gepusht. Teammitglieder können diese Änderungen dann durch Pull-Befehle in ihre eigenen lokalen Repositories integrieren.
+
+Das Zusammenspiel dieser beiden Repository-Arten gewährleistet eine sichere und effiziente Verwaltung von Code und erleichtert die Zusammenarbeit im Team. IntelliJ IDEA bietet hierfür eine benutzerfreundliche Oberfläche, die viele Arbeitsschritte vereinfacht.
