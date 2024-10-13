@@ -1,11 +1,11 @@
 # gruppe4-handout
-Gruppe 4 - Übung Handout
+Gruppe 4 - Übung Handout 
 
-**1. Was ist Git und warum sollte es verwendet werden?**
+**1. Was ist Git und warum sollte es verwendet werden? (Katja)**
 
 Git ist ein verteiltes Versionskontrollsystem, das Änderungen an Dateien – vor allem Quellcode – verwaltet. Es ermöglicht mehreren Entwicklern, parallel zu arbeiten, Änderungen nachzuverfolgen und bei Bedarf auf ältere Versionen zurückzugreifen.
 
-**2. Grundlegende Git Befehle**
+**2. Grundlegende Git Befehle (Maik)**
 
 1. **`git init`**  
    Initialisiert ein neues Git-Repository im aktuellen Verzeichnis.
@@ -46,11 +46,11 @@ Git ist ein verteiltes Versionskontrollsystem, das Änderungen an Dateien – vo
 13. **`git diff`**  
     Zeigt die Unterschiede zwischen Dateien im Arbeitsverzeichnis, der Staging-Area oder zwischen Commits.
 
-**3. Branches und ihre Nutzung, Umgang mit Merge-Konflikten**
+**3. Branches und ihre Nutzung, Umgang mit Merge-Konflikten (Ann-Kathrin)**
 
 Git sollte verwendet werden, weil es die Zusammenarbeit erleichtert, Versionskonflikte minimiert und die Entwicklungshistorie eines Projekts sichert. Durch Branches können neue Features isoliert entwickelt und getestet werden, ohne das Hauptprojekt zu beeinträchtigen.
 
-**4. Git mit IntelliJ/PyCharm benutzen: Local Repository und Remote Repository**
+**4. Git mit IntelliJ/PyCharm benutzen: Local Repository und Remote Repository (Monique)**
 
 ## Git mit IntelliJ benutzen: Local Repository und Remote Repository
 In Verbindung mit der Entwicklungsumgebung IntelliJ IDEA wird die Nutzung von Git besonders benutzerfreundlich.
@@ -78,7 +78,8 @@ Das lokale Repository dient zum Entwickeln und Testen von Code, während das Rem
 
 Das Zusammenspiel dieser beiden Repository-Arten gewährleistet eine sichere und effiziente Verwaltung von Code und erleichtert die Zusammenarbeit im Team. IntelliJ IDEA bietet hierfür eine benutzerfreundliche Oberfläche, die viele Arbeitsschritte vereinfacht.
 
-**5. Nützliche Git-Tools und Plattformen (z. B. GitHub)**
+**5. Nützliche Git-Tools und Plattformen (z. B. GitHub) (Katja)**
+
 Nützliche Git-Tools und Plattformen umfassen **GitHub**, **GitLab** und **Bitbucket**. Sie bieten Hosting für Git-Repositories, erleichtern die Zusammenarbeit in Teams und bieten Funktionen wie Pull Requests, Issue-Tracking und CI/CD-Integration.
 
 Zusätzlich gibt es Tools wie **Sourcetree** und **GitKraken** für visuelle Git-Interfaces, die die Nutzung von Git-Befehlen vereinfachen. **GitLens** für Visual Studio Code erweitert den Editor um Git-Features wie Commit-Tracking und Autorenverlauf.
