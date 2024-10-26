@@ -1,4 +1,4 @@
 package com.cityfeedback.backend.repositories;
 
-public class BuegrerService {
+public class BeschwerdeRepository {
 }
