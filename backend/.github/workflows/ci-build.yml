@@ -1,0 +1,26 @@
+name: Maven CI
+
+on:
+  push:
+    branches:
+      - maik_CICD  # Trigger für Push-Events auf den Branch maik_CICD
+  pull_request:
+    branches:
+      - maik_CICD  # Trigger für Pull Requests in den Branch maik_CICD
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # Checkt den Code ins Laufverzeichnis aus
+
+      - name: Set up JDK 23
+        uses: actions/setup-java@v3  # Rüstet Java auf
+        with:
+          distribution: 'temurin'  # JDK-Distribution
+          java-version: '23'        # Java-Version auf 23 setzen
+
+      - name: Build with Maven
+        run: ./mvnw clean install  # Führt den Maven-Build aus
