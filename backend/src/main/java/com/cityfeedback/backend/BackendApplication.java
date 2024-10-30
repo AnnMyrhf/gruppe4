@@ -8,7 +8,7 @@ public class BackendApplication {
 
     public static void main(String[] args) {
         System.out.println("Moderne Softwareenticklung");
-        System.out.println("Test2");
+        System.out.println("Test3");
         SpringApplication.run(BackendApplication.class, args);
     }
 
