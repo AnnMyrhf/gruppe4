@@ -3,10 +3,10 @@ name: Maven CI
 on:
   push:
     branches:
-      - maik_CICD  # Trigger für Push-Events auf den Branch maik_CICD
+      - main  # Trigger für Push-Events auf den Branch maik_CICD
   pull_request:
     branches:
-      - maik_CICD  # Trigger für Pull Requests in den Branch maik_CICD
+      - main  # Trigger für Pull Requests in den Branch maik_CICD
 
 jobs:
   build:
