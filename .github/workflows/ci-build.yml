@@ -23,4 +23,4 @@ jobs:
           java-version: '23'        # Java-Version auf 23 setzen
 
       - name: Build with Maven
-        run: ./mvnw clean install  # Führt den Maven-Build aus
+        run: ./backend/mvnw clean install  # Führt den Maven-Build aus
