@@ -22,5 +22,11 @@ jobs:
           distribution: 'temurin'  # JDK-Distribution
           java-version: '23'        # Java-Version auf 23 setzen
 
-      - name: Build with Maven
+
+      - name: give permission
+        run: chmod +x ./mvnw
+        working-directory: backend
+
+      - name: Build and test with Maven
         run: ./mvnw clean install  # Führt den Maven-Build aus
+        working-directory: backend
