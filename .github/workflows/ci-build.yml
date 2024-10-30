@@ -28,5 +28,5 @@ jobs:
         working-directory: backend
 
       - name: Build with Maven
-        run: ./backend/mvnw clean install  # Führt den Maven-Build aus
-
+        run: ./mvnw clean install  # Führt den Maven-Build aus
+        working-directory: backend
