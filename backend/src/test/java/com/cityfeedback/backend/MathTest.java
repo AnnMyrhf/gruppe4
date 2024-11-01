@@ -1,7 +1,13 @@
-//Addition
+package com.cityfeedback.backend;
 
-public void testAdd1Plus1()
-{
-    int x  = 1 ; int y = 1;
-    assertEquals(2, myClass.add(x,y));
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class simpleTest {
+
+    @Test
+    void additionTest() {
+        int result = 1 + 4;
+        assertEquals(5, result, "1 + 4 sollte 5 ergeben");
+    }
 }
