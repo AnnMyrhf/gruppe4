@@ -7,7 +7,7 @@ public class simpleTest {
 
     @Test
     void additionTest() {
-        int result = 1 + 4;
-        assertEquals(5, result, "1 + 4 sollte 5 ergeben");
+        int result = 2 + 2;
+        assertEquals(4, result, "2 + 2 sollte 4 ergeben");
     }
 }
