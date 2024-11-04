@@ -16,9 +16,7 @@ import jakarta.persistence.Id;
 @Data // automatisch Getter, Setter, toString() usw
 @NoArgsConstructor // leerer Konstruktor fuer JPA benoetigt
 @AllArgsConstructor
-
 public class Mitarbeiter {
-
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
     private String id;
