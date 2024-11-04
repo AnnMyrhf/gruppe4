@@ -25,11 +25,7 @@ public class BeschwerdeService {
         }
 
         // Validierung des Datentyps des Anhangs
-        if (!DATENTYP_ANHANG_PATTERN.matcher(beschwerde.getDatentypAnhang()).matches()) {
-            return false;
-        }
-
-        return true;
+        return DATENTYP_ANHANG_PATTERN.matcher(beschwerde.getDatentypAnhang()).matches();
     }
 }
 
