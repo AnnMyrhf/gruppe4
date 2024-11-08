@@ -24,7 +24,7 @@ public class BeschwerdeValidierungTest {
 
     @Test
     public void testAnhangOptional() {
-        // Erstellen einer Beschwerde ohne Anhang (null)
+        // Erstellen einer Beschwerde ohne Anhang
         assertDoesNotThrow(() -> new Beschwerde(new Date(), "OPEN", "Infrastruktur", "hoch", "Beschwerdetext", false, "pdf"));
     }
 
