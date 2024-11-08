@@ -23,6 +23,12 @@ public class BeschwerdeValidierungTest {
     }
 
     @Test
+    public void testAnhangOptional() {
+        // Erstellen einer Beschwerde ohne Anhang (null)
+        assertDoesNotThrow(() -> new Beschwerde(new Date(), "offen", "Infrastruktur", "hoch", "Beschwerdetext", false, "pdf"));
+    }
+
+    @Test
     public void testFehlendesStatusFeld() {
         Beschwerde Beschwerde = new Beschwerde(new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
         assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
