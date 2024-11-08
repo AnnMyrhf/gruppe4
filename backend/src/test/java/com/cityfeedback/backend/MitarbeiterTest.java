@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.cityfeedback.backend.domain.Mitarbeiter;
+import com.cityfeedback.backend.services.MitarbeiterService;
 
 public class MitarbeiterTest {
 
@@ -24,47 +26,76 @@ public class MitarbeiterTest {
         assertEquals("Hallo12!", mitarbeiter.getPasswort());
         assertEquals("Verwaltung", mitarbeiter.getAbteilung());
         assertEquals("Chef", mitarbeiter.getPosition());
-
-        // Sicherstellen, dass das Mitarbeiter-Objekt nicht null ist
-        assertNotNull(mitarbeiter);
     }
 
     @Test
-    void testVorname(){
-        String buchstabenRegEx = "^[a-zA-ZäöüÄÖÜß-]+$";
+    void testInvalidVornameThrowsException() {
+        Mitarbeiter invalidMitarbeiter = new Mitarbeiter("1234", "Frau", "123Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+        MitarbeiterService service = new MitarbeiterService();
 
-        assertTrue(mitarbeiter.getVorname().matches(buchstabenRegEx));
+        // Test, ob eine IllegalArgumentException bei einem ungültigen Vornamen geworfen wird
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            service.createNewMitarbeiter(invalidMitarbeiter);
+        });
+
+        // Überprüfen, ob die Nachricht der Exception korrekt ist
+        assertEquals("Vorname ist ungültig", thrown.getMessage());
     }
 
     @Test
-    void testNachname(){
-        String buchstabenRegEx = "^[a-zA-ZäöüÄÖÜß-]+$";
+    void testInvalidNachnameThrowsException() {
+        Mitarbeiter invalidMitarbeiter = new Mitarbeiter("1234", "Frau", "Anna", "Müller123", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+        MitarbeiterService service = new MitarbeiterService();
 
-        assertTrue(mitarbeiter.getNachname().matches(buchstabenRegEx));
-    }
+        // Test, ob eine IllegalArgumentException bei einem ungültigen Vornamen geworfen wird
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            service.createNewMitarbeiter(invalidMitarbeiter);
+        });
 
-
-
-    @Test
-    void testEmail(){
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // ueberprüft, ob E-Mail-Adresse aus einem Local-Part (Buchstaben, Zahlen, Unterstriche, Bindestriche, Punkte), einem @-Zeichen und einer Domain (mindestens zwei Teile, getrennt durch Punkte, und ein TLD mit zwei bis vier Zeichen) besteht.
-
-        assertTrue(mitarbeiter.getEmail().matches(emailRegex));
-
+        // Überprüfen, ob die Nachricht der Exception korrekt ist
+        assertEquals("Nachname ist ungültig", thrown.getMessage());
     }
 
     @Test
-    void testTelefonnummer(){
-        String telefonnummerRegex = "^\\d+$"; // nur Zahlen
+    void testInvalidPasswortThrowsException() {
+        Mitarbeiter invalidMitarbeiter = new Mitarbeiter("1234", "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "passwort", "Verwaltung", "Chef");
+        MitarbeiterService service = new MitarbeiterService();
 
-        assertTrue(mitarbeiter.getTelefonnummer().matches(telefonnummerRegex));
+        // Test, ob eine IllegalArgumentException bei einem ungültigen Vornamen geworfen wird
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            service.createNewMitarbeiter(invalidMitarbeiter);
+        });
 
+        // Überprüfen, ob die Nachricht der Exception korrekt ist
+        assertEquals("Passwort ist ungültig", thrown.getMessage());
     }
 
     @Test
-    void testPasswort(){
-        String passwortRegEx ="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"; // Passwort mit mindestens 8 Zeichen und mindestens einem Buchstaben, einer Zahl und einem Sonderzeichen
+    void testInvalidEMailThrowsException() {
+        Mitarbeiter invalidMitarbeiter = new Mitarbeiter("1234", "Frau", "Anna", "Müller", "123456", "Halloweb.com", "Hallo123!", "Verwaltung", "Chef");
+        MitarbeiterService service = new MitarbeiterService();
 
-        assertTrue(mitarbeiter.getPasswort().matches(passwortRegEx));
+        // Test, ob eine IllegalArgumentException bei einem ungültigen Vornamen geworfen wird
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            service.createNewMitarbeiter(invalidMitarbeiter);
+        });
+
+        // Überprüfen, ob die Nachricht der Exception korrekt ist
+        assertEquals("E-Mail ist ungültig", thrown.getMessage());
     }
+
+    @Test
+    void testInvalidTelefonnummerThrowsException() {
+        Mitarbeiter invalidMitarbeiter = new Mitarbeiter("1234", "Frau", "Anna", "Müller", "123456A", "Hallo@web.com", "Hallo123!", "Verwaltung", "Chef");
+        MitarbeiterService service = new MitarbeiterService();
+
+        // Test, ob eine IllegalArgumentException bei einem ungültigen Vornamen geworfen wird
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            service.createNewMitarbeiter(invalidMitarbeiter);
+        });
+
+        // Überprüfen, ob die Nachricht der Exception korrekt ist
+        assertEquals("Telefonnummer ist ungültig", thrown.getMessage());
+    }
+
 }
