@@ -21,27 +21,26 @@ public class Buerger {
 
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
-    private String id;
+    private Long id;
 
-    //@NotBlank (message="Anrede darf nicht leer sein!")//  darf nicht null oder leer sein
+    @NotBlank(message = "Anrede darf nicht leer sein!")//  darf nicht null oder leer sein
     private String anrede;
 
-    //@NotBlank (message="Vorname darf nicht leer sein!")
-   // @Size(max = 30, message = "Vorname darf max. 30 Zeichen lang sein!")
+    @NotBlank(message = "Vorname darf nicht leer sein!")
+    @Size(max = 30, message = "Vorname darf max. 30 Zeichen lang sein!")
     private String vorname;
 
-    //@NotBlank (message="Nachname darf nicht leer sein!")
-    //@Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
+    @NotBlank(message = "Nachname darf nicht leer sein!")
+    @Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
     private String nachname;
 
-    //@NotBlank (message = "Telefonnummer darf nicht leer sein!")
+    @NotBlank(message = "Telefonnummer darf nicht leer sein!")
     private String telefonnummer;
 
-    //@Email
-    //@NotBlank (message = "E-Mail darf nicht leer sein!")
+    @Email
+    @NotBlank(message = "E-Mail darf nicht leer sein!")
     private String email;
 
-    //@Size(min = 8 , message = "Passwort muss min. 8 Zeichen lang sein")
-    //@Pattern(regexp  ="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$", message = "Passwort muss mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten!")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Das Passwort min. 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten!")
     private String passwort;
 }
