@@ -37,7 +37,8 @@ jobs:
 
       - name: Run tests
         run: mvn test
+        working-directory: backend
 
       - name: Build and test with Maven
-        run: ./mvnw clean install  # Führt den Maven-Build aus
+        run: mvn clean install  # Führt den Maven-Build aus
         working-directory: backend
