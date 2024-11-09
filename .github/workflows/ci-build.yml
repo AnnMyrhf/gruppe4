@@ -30,11 +30,6 @@ jobs:
           distribution: 'temurin'  # JDK-Distribution
           java-version: '23'        # Java-Version auf 23 setzen
 
-
-      - name: Give permissions
-        run: chmod +x ./mvnw
-        working-directory: backend
-
       - name: Run tests
         run: mvn test
         working-directory: backend
