@@ -3,10 +3,18 @@ name: Maven CI
 on:
   push:
     branches:
-      - main  # Trigger für Push-Events auf den Branch maik_CICD
+      - main
+      - AnnKathrin
+      - Monique
+      - Katja
+      - maik
   pull_request:
     branches:
-      - main  # Trigger für Pull Requests in den Branch maik_CICD
+      - main
+      - AnnKathrin
+      - Monique
+      - Katja
+      - maik
 
 jobs:
   build:
@@ -23,9 +31,12 @@ jobs:
           java-version: '23'        # Java-Version auf 23 setzen
 
 
-      - name: give permission
+      - name: Give permissions
         run: chmod +x ./mvnw
         working-directory: backend
+
+      - name: Run tests
+        run: mvn test
 
       - name: Build and test with Maven
         run: ./mvnw clean install  # Führt den Maven-Build aus
