@@ -19,13 +19,13 @@ public class Beschwerde {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private Date ErstellDatum;
-    private String Status;
-    private String BeschwerdeTyp;
-    private String Prioritaet;
-    private String Textfeld;
-    private boolean Anhang;
-    private String DatentypAnhang;
+    private Date erstellDatum;
+    private String status;
+    private String beschwerdeTyp;
+    private String prioritaet;
+    private String textfeld;
+    private boolean anhang;
+    private String datentypAnhang;
 
     public Beschwerde(Date ErstellDatum,
                       String Status,
@@ -36,13 +36,13 @@ public class Beschwerde {
                       String DatentypAnhang)
     {
         this.id = UUID.randomUUID().toString();
-        this.ErstellDatum = ErstellDatum;
-        this.Status = Status;
-        this.BeschwerdeTyp = BeschwerdeTyp;
-        this.Prioritaet = Prioritaet;
-        this.Textfeld = Textfeld;
-        this.Anhang = Anhang;
-        this.DatentypAnhang = DatentypAnhang;
+        this.erstellDatum = ErstellDatum;
+        this.status = Status;
+        this.beschwerdeTyp = BeschwerdeTyp;
+        this.prioritaet = Prioritaet;
+        this.textfeld = Textfeld;
+        this.anhang = Anhang;
+        this.datentypAnhang = DatentypAnhang;
     }
 
     // Getter methods for each field
