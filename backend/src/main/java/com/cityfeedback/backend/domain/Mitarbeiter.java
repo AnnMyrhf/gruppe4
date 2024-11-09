@@ -4,11 +4,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Repraesentiert einen Buerger in der CityFeedback-Anwendung
  */
 @Entity // JPA-Entitaet fuer DB
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mitarbeiter {
 
     @Id // Markiert id als Primaerschluessel
@@ -23,22 +29,9 @@ public class Mitarbeiter {
     private String abteilung;
     private String position;
 
-    // Manuell definierter Konstruktor
-    public Mitarbeiter(String id, String anrede, String vorname, String nachname, String telefonnummer,
-                       String email, String passwort, String abteilung, String position) {
-        this.id = id;
-        this.anrede = anrede;
-        this.vorname = vorname;
-        this.nachname = nachname;
-        this.telefonnummer = telefonnummer;
-        this.email = email;
-        this.passwort = passwort;
-        this.abteilung = abteilung;
-        this.position = position;
-    }
-
     // Getter-Methoden für alle Felder
-    public String getId() {
+
+    /*public String getId() {
         return id;
     }
 
@@ -105,5 +98,5 @@ public class Mitarbeiter {
 
     public void setPosition(String position) {
         this.position = position;
-    }
+    }*/
 }
