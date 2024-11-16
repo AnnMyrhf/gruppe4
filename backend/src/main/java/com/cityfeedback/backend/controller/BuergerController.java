@@ -2,13 +2,10 @@ package com.cityfeedback.backend.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.services.BuergerService;
-
-import java.util.List;
 
 
 /**
@@ -26,8 +23,8 @@ public class BuergerController {
         return buergerService.registriereBuerger(buerger);
     }
 
-/*   @DeleteMapping("/loesche-buerger/{id}")
+    @DeleteMapping("/loesche-buerger/{id}")
     public ResponseEntity<?> loescheBuerger(@PathVariable("id") Long id) {
         return buergerService.loescheBuerger(id);
-    }*/
+    }
 }

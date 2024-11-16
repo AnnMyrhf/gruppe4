@@ -3,18 +3,14 @@ package com.cityfeedback.backend;
 import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.repositories.BuergerRepository;
 import com.cityfeedback.backend.services.BuergerService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
 
 import java.lang.module.ResolutionException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,21 +65,21 @@ public class BuergerTest {
 
     }*/
 
-    /*@Test
+    @Test
     public void loescheBuerger_sollErfolgreichSein() { // Ueberprüft, ob ein Buerger erfolgreich geloescht werden kann.
 
-        buergerRepository.save(testBuerger4);
+        Buerger buergerLoeschen = buergerRepository.save(testBuerger4);
 
-        ResponseEntity<?> response = buergerService.loescheBuerger(testBuerger4);
+        ResponseEntity<?> response = buergerService.loescheBuerger(buergerLoeschen.getId());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-       // assertFalse(buergerRepository.existsByEmail(testBuerger4.getEmail()));
+        assertFalse(buergerRepository.existsByEmail(buergerLoeschen.getEmail()));
 
-    }*/
+    }
 
-   /* @Test
+   @Test
     public void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() { // Prueft, ob eine ResolutionException geworfen wird, wenn versucht wird, einen nicht existierenden Buerrger zu loeschen.
 
         assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
-    }*/
+    }
 }

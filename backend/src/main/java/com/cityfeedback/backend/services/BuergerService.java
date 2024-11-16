@@ -8,22 +8,23 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class BuergerService {
 
+    public static final String BUERGER_EXISTIERT_NICHT = "Ein Buerger mit dieser ID existiert nicht:";
     private static final Logger log = LoggerFactory.getLogger(BuergerService.class);
+
+    @Autowired
     BuergerRepository buergerRepository;
     //PasswordEncoder encoder;
 
@@ -75,14 +76,13 @@ public class BuergerService {
      * @throws EntityNotFoundException Wenn kein Buerger mit der angegebenen ID gefunden wird.
      * @author Ann-Kathrin Meyerhof
      */
-/*    @Transactional
+    @Transactional
     public ResponseEntity<?> loescheBuerger(Long id) {
-        try {
-            buergerRepository.deleteById(id);
-            // TODO alle zum Buerger gehoerende Beschwerden loeschen oder alle Buerger-Attribute anoynm setzen?
-            return ResponseEntity.ok("Buerger-Account erfolgreich geloescht!");
-        } catch (EmptyResultDataAccessException ex) {
-            throw new EntityNotFoundException("Buerger mit der ID " + id + " existiert nicht.");
-        }
-    }*/
+
+        Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
+        buergerRepository.delete(buerger);
+
+        return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
+
+    }
 }
