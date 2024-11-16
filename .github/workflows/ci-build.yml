@@ -17,7 +17,7 @@ on:
       - maik
 
 jobs:
-  build:
+  buildAndTest:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,7 @@ jobs:
         with:
           distribution: 'temurin'  # JDK-Distribution
           java-version: '23'        # Java-Version auf 23 setzen
+          cache: maven
 
       - name: Run tests
         run: mvn test
