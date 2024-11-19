@@ -14,12 +14,12 @@ public class MitarbeiterService {
     }
 
     public void createNewMitarbeiter(Mitarbeiter mitarbeiter){
-        //validateInput(mitarbeiter);
         try {
             validateInput(mitarbeiter);
             mitarbeiterRepository.save(mitarbeiter);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception gefangen: " + e.getMessage());
+            throw e;
         }
     }
 
