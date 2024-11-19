@@ -1,6 +1,8 @@
 package com.cityfeedback.backend.services;
 import com.cityfeedback.backend.domain.Mitarbeiter;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MitarbeiterService {
     //private MitarbeiterRepository mitarbeiterRepository;
     /*public MitarbeiterService(MitarbeiterRepository mitarbeiterRepository){
@@ -13,8 +15,6 @@ public class MitarbeiterService {
 
     public void createNewMitarbeiter(Mitarbeiter mitarbeiter){
         validateInput(mitarbeiter);
-
-
         /*try {
             validateInput(mitarbeiter);
         } catch (IllegalArgumentException e) {
