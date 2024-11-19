@@ -19,7 +19,7 @@ public class Mitarbeiter {
 
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
-    private Integer id;
+    private Long id;
     private String anrede;
     private String vorname;
     private String nachname;

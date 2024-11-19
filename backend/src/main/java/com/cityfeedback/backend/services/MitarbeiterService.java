@@ -1,25 +1,31 @@
 package com.cityfeedback.backend.services;
 import com.cityfeedback.backend.domain.Mitarbeiter;
+import com.cityfeedback.backend.repositories.MitarbeiterRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MitarbeiterService {
-    //private MitarbeiterRepository mitarbeiterRepository;
-    /*public MitarbeiterService(MitarbeiterRepository mitarbeiterRepository){
+    private MitarbeiterRepository mitarbeiterRepository;
+
+    public MitarbeiterService(MitarbeiterRepository mitarbeiterRepository){
         this.mitarbeiterRepository = mitarbeiterRepository;
-    }*/
-
-
-    public MitarbeiterService(){
     }
 
     public void createNewMitarbeiter(Mitarbeiter mitarbeiter){
-        validateInput(mitarbeiter);
-        /*try {
+        //validateInput(mitarbeiter);
+        try {
             validateInput(mitarbeiter);
+            mitarbeiterRepository.save(mitarbeiter);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception gefangen: " + e.getMessage());
-        }*/
+        }
+    }
+
+    public void deleteMitarbeiter(Long id){
+        Optional<Mitarbeiter> mitarbeiter = mitarbeiterRepository.findById(id);
+        mitarbeiterRepository.delete(mitarbeiter.get());
     }
 
     public static void validateInput(Mitarbeiter mitarbeiter) {
