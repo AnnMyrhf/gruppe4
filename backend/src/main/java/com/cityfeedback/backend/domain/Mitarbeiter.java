@@ -1,9 +1,6 @@
 package com.cityfeedback.backend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +15,17 @@ import lombok.NoArgsConstructor;
 public class Mitarbeiter {
 
     @Id // Markiert id als Primaerschluessel
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
+    @SequenceGenerator(
+            name = "mitarbeiter_id",
+            sequenceName = "mitarbeiter_id",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "mitarbeiter_id"
+    )
     private Long id;
+
     private String anrede;
     private String vorname;
     private String nachname;
@@ -29,4 +35,14 @@ public class Mitarbeiter {
     private String abteilung;
     private String position;
 
+    public Mitarbeiter(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, String abteilung, String position) {
+        this.position = position;
+        this.abteilung = abteilung;
+        this.passwort = passwort;
+        this.email = email;
+        this.telefonnummer = telefonnummer;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.anrede = anrede;
+    }
 }
