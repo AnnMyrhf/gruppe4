@@ -50,7 +50,5 @@ public class MitarbeiterService {
         if (!mitarbeiter.getTelefonnummer().matches(telefonnummerRegex)) {
             throw new IllegalArgumentException("Telefonnummer ist ungültig");
         }
-
-        System.out.println("Eingabe Gültig");
     }
 }
