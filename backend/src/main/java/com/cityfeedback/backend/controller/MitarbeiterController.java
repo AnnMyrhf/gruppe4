@@ -22,6 +22,7 @@ public class MitarbeiterController {
         this.mitarbeiterService = mitarbeiterService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody Mitarbeiter mitarbeiter) {
         try {
