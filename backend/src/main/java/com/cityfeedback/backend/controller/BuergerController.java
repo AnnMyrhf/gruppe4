@@ -18,6 +18,7 @@ public class BuergerController {
 
     BuergerService buergerService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/registriere-buerger")
     public ResponseEntity<?> registriereBuerger(@Valid @RequestBody Buerger buerger) {
         return buergerService.registriereBuerger(buerger);
