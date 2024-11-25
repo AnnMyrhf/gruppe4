@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Repraesentiert einen Buerger in der CityFeedback-Anwendung
@@ -12,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mitarbeiter {
+public class Mitarbeiter implements UserDetails {
 
     @Id // Markiert id als Primaerschluessel
     @SequenceGenerator(
@@ -35,14 +41,42 @@ public class Mitarbeiter {
     private String abteilung;
     private String position;
 
-    public Mitarbeiter(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, String abteilung, String position) {
-        this.position = position;
-        this.abteilung = abteilung;
-        this.passwort = passwort;
-        this.email = email;
-        this.telefonnummer = telefonnummer;
-        this.nachname = nachname;
-        this.vorname = vorname;
-        this.anrede = anrede;
+    /*
+     * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
+     *
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("MITARBEITER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return passwort;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -19,12 +19,12 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository){
         return args -> {
             buergerRepository.save(new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?"));
             mitarbeiterRepository.save(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
         };
-    }
+    }*/
 
 }
