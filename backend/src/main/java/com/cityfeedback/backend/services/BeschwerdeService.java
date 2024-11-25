@@ -1,9 +1,19 @@
 package com.cityfeedback.backend.services;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import com.cityfeedback.backend.domain.Beschwerde;
+import com.cityfeedback.backend.repositories.BeschwerdeRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BeschwerdeService {
+    private BeschwerdeRepository beschwerdeRepository;
+
+    public BeschwerdeService(BeschwerdeRepository beschwerdeRepository){
+        this.beschwerdeRepository = beschwerdeRepository;
+    }
 
     // Regex-Muster zur Validierung
     private static final Pattern STATUS_PATTERN = Pattern.compile("^(OPEN|IN_PROGRESS|RESOLVED|CLOSED)$");
@@ -39,6 +49,10 @@ public class BeschwerdeService {
         }
 
         return true;
+    }
+
+    public List<Beschwerde> getAll(){
+        return beschwerdeRepository.findAll();
     }
 }
 
