@@ -1,9 +1,6 @@
 package com.cityfeedback.backend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +20,8 @@ public class Beschwerde {
     private String status;
     private String beschwerdeTyp;
     private String prioritaet;
+
+    @Column(length = 2000)
     private String textfeld;
     private boolean anhang;
     private String datentypAnhang;
@@ -39,6 +38,7 @@ public class Beschwerde {
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;
         this.prioritaet = Prioritaet;
+
         this.textfeld = Textfeld;
         this.anhang = Anhang;
         this.datentypAnhang = DatentypAnhang;

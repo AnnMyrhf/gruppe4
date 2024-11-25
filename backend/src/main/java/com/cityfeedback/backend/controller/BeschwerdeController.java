@@ -21,6 +21,7 @@ public class BeschwerdeController {
         this.beschwerdeService = beschwerdeService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getAll")
     List<Beschwerde> getAll(){
         return beschwerdeService.getAll();
