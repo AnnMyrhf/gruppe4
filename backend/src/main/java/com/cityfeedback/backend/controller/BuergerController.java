@@ -12,19 +12,24 @@ import com.cityfeedback.backend.services.BuergerService;
  * REST-Controller für die Buerger-Registrierung
  * Verarbeitet HTTP -Requests fuer Buerger.
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
 public class BuergerController {
 
     BuergerService buergerService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/registriere-buerger")
+    @PostMapping("/buerger-registrieren")
     public ResponseEntity<?> registriereBuerger(@Valid @RequestBody Buerger buerger) {
         return buergerService.registriereBuerger(buerger);
     }
 
-    @DeleteMapping("/loesche-buerger/{id}")
+    @PostMapping("/buerger-anmelden")
+    public ResponseEntity<?> anmeldenBuerger(@RequestBody Buerger buerger) {
+        return buergerService.anmeldenBuerger(buerger);
+    }
+
+    @DeleteMapping("/buerger-loeschen{id}")
     public ResponseEntity<?> loescheBuerger(@PathVariable("id") Long id) {
         return buergerService.loescheBuerger(id);
     }
