@@ -16,7 +16,7 @@ export default function MitarbeiterDashboard() {
 
     // Styles
     const mainStyle = {
-        height: "100vh",
+        height: "100%",
         margin: 0,
         display: "flex",
         flexDirection: "column",
@@ -25,6 +25,22 @@ export default function MitarbeiterDashboard() {
         backgroundColor: "#F2F6FE",
         gap: "32px",
         padding: "64px",
+    };
+
+    const cardStyle = {
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        maxWidth: "1200px",
+        border: "1px solid #ddd",
+        padding: "32px",
+        borderRadius: "8px",
+        backgroundColor: "#ffffff",
+        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+        gap: "32px",
+        textDecoration: "none",
+        color: "inherit"
+
     };
 
     return (
@@ -37,7 +53,7 @@ export default function MitarbeiterDashboard() {
                         key={beschwerde.id}
                         to={`/mitarbeiter/dashboard/${beschwerde.id}`} // Navigiere zur Detail-Seite mit ID
                         state={{ beschwerden }} // Übergebe die Beschwerden als State
-                        style={{ textDecoration: "none" }}
+                        style={cardStyle}
                     >
                         <Beschwerde beschwerde={beschwerde} />
                     </Link>

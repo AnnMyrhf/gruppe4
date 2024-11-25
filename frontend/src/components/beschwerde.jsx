@@ -3,17 +3,11 @@ export default function Beschwerde(props) {
 
     //Styles
     const cardStyle = {
+        height: "100%",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
-        width: "100%",
-        maxWidth: "1200px",
-        border: "1px solid #ddd",
-        padding: "32px",
-        borderRadius: "8px",
-        backgroundColor: "#ffffff",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-        gap: "32px"
-
+        gap: "32px",
     };
 
     const headerStyle = {
@@ -72,7 +66,15 @@ export default function Beschwerde(props) {
             </div>
             <div style={descriptionStyle}>
                 <p className="Label">Beschreibung:</p>
-                <p>{beschwerde.textfeld}</p>
+                <p style={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical', // Präfix für -webkit-box-orient
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 5, // Präfix für -webkit-line-clamp
+                    lineHeight: '1.5em', // Optional: Zeilenhöhe für Berechnung
+                    maxHeight: 'calc(1.5em * 5)', // Maximale Höhe basierend auf 5 Zeilen
+                }}>{beschwerde.textfeld}</p>
             </div>
         </div>
     );
