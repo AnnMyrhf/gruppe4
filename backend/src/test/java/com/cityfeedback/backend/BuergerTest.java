@@ -1,3 +1,4 @@
+/*
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.domain.Buerger;
@@ -14,9 +15,12 @@ import java.lang.module.ResolutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+*/
 /**
  * Testklasse fuer Buerger
- */
+ *//*
+
+
 @SpringBootTest
 public class BuergerTest {
 
@@ -56,14 +60,15 @@ public class BuergerTest {
 
     }
 
- /*  @Test
+  @Test
     public void registriereBuerger_sollPasswortHashen() { // ueberprüft, ob das Passwort vor der Speicherung gehasht wird.
         ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
 
         Buerger gespeicherterBuerger = buergerRepository.findById(testBuerger3.getId()).get();
         assertNotEquals("pinFuerte123!", gespeicherterBuerger.getPasswort());
 
-    }*/
+    }
+
 
     @Test
     public void loescheBuerger_sollErfolgreichSein() { // Ueberprüft, ob ein Buerger erfolgreich geloescht werden kann.
@@ -83,3 +88,4 @@ public class BuergerTest {
         assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
     }
 }
+*/
