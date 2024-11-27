@@ -1,11 +1,12 @@
-package com.cityfeedback.backend.controller;
+package com.cityfeedback.backend.buergerverwaltung.api;
 
+import com.cityfeedback.backend.security.LoginDaten;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.cityfeedback.backend.domain.Buerger;
-import com.cityfeedback.backend.services.BuergerService;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 
 
 /**
@@ -25,8 +26,8 @@ public class BuergerController {
     }
 
     @PostMapping("/buerger-anmelden")
-    public ResponseEntity<?> anmeldenBuerger(@RequestBody Buerger buerger) {
-        return buergerService.anmeldenBuerger(buerger);
+    public ResponseEntity<?> anmeldenBuerger(@RequestBody LoginDaten loginDaten) {
+        return buergerService.anmeldenBuerger(loginDaten);
     }
 
     @DeleteMapping("/buerger-loeschen{id}")

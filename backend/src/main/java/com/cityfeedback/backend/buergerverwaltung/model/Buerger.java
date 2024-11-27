@@ -1,5 +1,6 @@
-package com.cityfeedback.backend.domain;
+package com.cityfeedback.backend.buergerverwaltung.model;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

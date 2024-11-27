@@ -1,4 +1,4 @@
-package com.cityfeedback.backend.domain;
+package com.cityfeedback.backend.mitarbeiterverwaltung.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

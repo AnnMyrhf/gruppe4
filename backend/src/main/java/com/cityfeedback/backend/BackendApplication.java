@@ -1,13 +1,7 @@
 package com.cityfeedback.backend;
 
-import com.cityfeedback.backend.domain.Buerger;
-import com.cityfeedback.backend.domain.Mitarbeiter;
-import com.cityfeedback.backend.repositories.BuergerRepository;
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 /**
  * Hauptklasse, welche die Anwendung ausfuehrt

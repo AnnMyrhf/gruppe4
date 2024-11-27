@@ -1,10 +1,9 @@
-package com.cityfeedback.backend.repositories;
+package com.cityfeedback.backend.buergerverwaltung.infrastructure;
 
-import com.cityfeedback.backend.domain.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

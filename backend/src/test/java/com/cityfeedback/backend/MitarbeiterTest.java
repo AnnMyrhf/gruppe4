@@ -1,15 +1,15 @@
 /*
 package com.cityfeedback.backend;
 
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
+import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.cityfeedback.backend.domain.Mitarbeiter;
-import com.cityfeedback.backend.services.MitarbeiterService;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MitarbeiterTest {

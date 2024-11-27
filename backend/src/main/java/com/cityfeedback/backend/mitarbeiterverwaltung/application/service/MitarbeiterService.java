@@ -1,6 +1,6 @@
-package com.cityfeedback.backend.services;
-import com.cityfeedback.backend.domain.Mitarbeiter;
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
+package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

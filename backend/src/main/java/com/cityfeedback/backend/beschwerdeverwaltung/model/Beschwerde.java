@@ -1,10 +1,10 @@
-package com.cityfeedback.backend.domain;
+package com.cityfeedback.backend.beschwerdeverwaltung.model;
 
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data

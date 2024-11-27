@@ -1,9 +1,8 @@
 package com.cityfeedback.backend.security;
 
 
-import com.cityfeedback.backend.domain.Buerger;
-import com.cityfeedback.backend.repositories.BuergerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Ann-Kathrin Meyerhof
  */
 @Service
-public class BenutzerDetailsService implements UserDetailsService {
-    @Autowired
+public class BuergerDetailsService implements UserDetailsService {
+
     BuergerRepository buergerRepository;
 
     @Override

@@ -8,18 +8,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Sicherheitspaket für Spring Security
@@ -31,7 +25,7 @@ import java.util.List;
 public class WebSecurityConfig {
 
     @Autowired
-    BenutzerDetailsService benutzerDetailsService;
+    BuergerDetailsService buergerDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -46,7 +40,7 @@ public class WebSecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(benutzerDetailsService);
+        authProvider.setUserDetailsService(buergerDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
@@ -69,40 +63,17 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                //.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-                .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll());
-        /*http
-                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/mitarbeiter", "mitarbeiter/**").hasRole("MITARBEITER") // Nur für Mitarbeiter
-                        .requestMatchers("/buerger","buerger/**").hasRole("BUERGER") // Nur für Buerger
-                        .requestMatchers("/").permitAll()
-                );
-*/
+
+        http.csrf(csrf -> csrf.disable());
+        http.exceptionHandling((exception) -> exception.authenticationEntryPoint(unauthorizedHandler));
+        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll());// TODO, muss noch umgebaut werden fuer geschuetzte Ressourcen
+        http.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)); // fuer h2-Konsole
+
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8081"));
-
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // erlaubte HTTP-Methoden
-        // Legt die erlaubten Header-Felder fest (Authorization, Content-Type)
-        //configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true); // Erlaubt das Senden von Cookies und anderen Credentials
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**", configuration); // Registriert die CORS-Konfiguration für alle URLs
-        return source;
     }
 }
 

@@ -1,17 +1,11 @@
-package com.cityfeedback.backend.controller;
+package com.cityfeedback.backend.mitarbeiterverwaltung.api;
 
-import com.cityfeedback.backend.domain.Mitarbeiter;
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
-import com.cityfeedback.backend.services.MitarbeiterService;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor

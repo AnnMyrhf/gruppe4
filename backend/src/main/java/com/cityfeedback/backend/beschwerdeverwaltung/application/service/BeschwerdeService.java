@@ -1,7 +1,7 @@
-package com.cityfeedback.backend.services;
+package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
 import java.util.regex.Pattern;
-import com.cityfeedback.backend.domain.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 
 public class BeschwerdeService {
 

@@ -1,8 +1,8 @@
-package com.cityfeedback.backend.services;
+package com.cityfeedback.backend.buergerverwaltung.application.service;
 
-import com.cityfeedback.backend.domain.Buerger;
-import com.cityfeedback.backend.repositories.BuergerRepository;
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.security.LoginDaten;
+import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +23,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
@@ -34,21 +34,24 @@ public class BuergerService {
     public static final String BUERGER_EXISTIERT_NICHT = "Ein Buerger mit dieser E-Mail-Adresse existiert nicht:";
     private static final Logger log = LoggerFactory.getLogger(BuergerService.class);
 
+    @Autowired
     BuergerRepository buergerRepository;
+    @Autowired
     AuthenticationManager authenticationManager;
-    MitarbeiterRepository mitarbeiterRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
     JwtUtils jwtUtils;
 
-    public ResponseEntity<?> anmeldenBuerger(Buerger buerger) {
+    public ResponseEntity<?> anmeldenBuerger(LoginDaten loginDaten) {
         try {
             // Suche nach dem Bürger in der Datenbank
-            Buerger buergerDB = buergerRepository.findByEmail(buerger.getEmail())
-                    .orElseThrow(() -> new UsernameNotFoundException(BUERGER_EXISTIERT_NICHT + buerger.getEmail()));
+            buergerRepository.findByEmail(loginDaten.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException(BUERGER_EXISTIERT_NICHT + loginDaten.getEmail()));
 
             // Authentifizierung
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(buerger.getEmail(), buerger.getPasswort())
+                    new UsernamePasswordAuthenticationToken(loginDaten.getEmail(), loginDaten.getPasswort())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -75,7 +78,6 @@ public class BuergerService {
      * @throws DataAccessException Falls ein Datenbankfehler auftritt.
      * @author Ann-Kathrin Meyerhof
      */
-    // TODO PW-Hashing
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> registriereBuerger(@Valid Buerger buerger) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
 
@@ -85,8 +87,8 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
-        buerger.setPasswort(passwordEncoder.encode(buerger.getPasswort())); // Passwort hashen
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), passwordEncoder.encode(buerger.getPasswort()), buerger.getBeschwerden());
+       // neuerBuerger.setPasswort(passwordEncoder.encode(buerger.getPasswort())); // Passwort hashen
 
         try {
             // Bürger in der Datenbank speichern

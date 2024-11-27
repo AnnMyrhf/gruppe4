@@ -1,6 +1,6 @@
 package com.cityfeedback.backend.security;
 
-import com.cityfeedback.backend.domain.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    // Erstmalige JWT-Erzeugung aus Email, Datum, Ablaufdatum und "supersecure-Geheimnis"
+    // Erstmalige JWT-Erzeugung aus Email, Datum, Ablaufdatum und "supersecure-Geheimnis" (siehe applications propperties)
     public String generateJwtToken(Authentication authentication) {
 
         Buerger userPrincipal = (Buerger) authentication.getPrincipal();
@@ -34,8 +34,8 @@ public class JwtUtils {
     }
 
     // Manuelle JWT-Generierung (wenn Benutzerdaten geändert werden)
-    public String generateJwtTokenMitBenutzerNamen(String benutzerName) {
-        return Jwts.builder().setSubject(benutzerName).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+    public String generateJwtTokenMitEmail(String email) {
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
 
