@@ -1,4 +1,4 @@
-package com.cityfeedback.backend.security;
+package com.cityfeedback.backend.security.valueobjects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.cityfeedback.backend.buergerverwaltung.api;
 
-import com.cityfeedback.backend.security.LoginDaten;
+import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
