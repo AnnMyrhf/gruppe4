@@ -1,25 +1,23 @@
 package com.cityfeedback.backend;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.cityfeedback.backend.repositories.BeschwerdeRepository;
 import org.junit.jupiter.api.Test;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.regex.Pattern;
 import com.cityfeedback.backend.services.BeschwerdeService;
 import com.cityfeedback.backend.domain.Beschwerde;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class BeschwerdeValidierungTest {
-    private BeschwerdeService BeschwerdeService;
-
-    @BeforeEach
-    public void setup() {
-        BeschwerdeService = new BeschwerdeService();
-    }
+    @Autowired
+    private BeschwerdeRepository beschwerdeRepository;
+    BeschwerdeService beschwerdeService = new BeschwerdeService(beschwerdeRepository);
 
     @Test
     public void testGueltigeBeschwerdeDaten() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertTrue(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
+        Beschwerde beschwerde = new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        assertTrue(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
     @Test
@@ -30,14 +28,14 @@ public class BeschwerdeValidierungTest {
 
     @Test
     public void testFehlendesStatusFeld() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
+        Beschwerde beschwerde = new Beschwerde(new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
     @Test
     public void testUnbekanntesStatusFormat() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "UNBEKANNT", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
+        Beschwerde beschwerde = new Beschwerde(new Date(), "UNBEKANNT", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
     @Test
@@ -56,6 +54,6 @@ public class BeschwerdeValidierungTest {
     @Test
     public void testLeeresTextfeld() {
         Beschwerde Beschwerde = new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
+        assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
     }
 }
