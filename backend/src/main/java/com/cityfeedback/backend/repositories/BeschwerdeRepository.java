@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BeschwerdeRepository extends JpaRepository<Beschwerde, Long> {
-    List<Beschwerde> findByBuergerId(Long buergerId);
+    List<Beschwerde> findByBuergerId(Long buerger_Id);
 }
 

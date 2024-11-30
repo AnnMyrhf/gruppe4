@@ -45,7 +45,6 @@ public class Beschwerde {
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;
         this.prioritaet = Prioritaet;
-
         this.textfeld = Textfeld;
         this.anhang = Anhang;
         this.datentypAnhang = DatentypAnhang;

@@ -1,7 +1,6 @@
 package com.cityfeedback.backend.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.repositories.BeschwerdeRepository;
@@ -14,8 +13,8 @@ public class BeschwerdeService {
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
 
-    public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
-        return beschwerdeRepository.findByBuergerId(buergerId);
+    public List<Beschwerde> getComplaintsFromBuerger(Long buerger_id) {
+        return beschwerdeRepository.findByBuergerId(buerger_id);
     }
 
     public Beschwerde createBeschwerde(Beschwerde beschwerde) {
