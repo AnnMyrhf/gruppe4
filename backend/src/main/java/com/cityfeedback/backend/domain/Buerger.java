@@ -49,5 +49,4 @@ public class Buerger {
 
     @OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
     private List<Beschwerde> beschwerden = new ArrayList<>();
-
 }

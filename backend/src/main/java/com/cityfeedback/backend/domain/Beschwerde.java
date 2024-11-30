@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -26,7 +25,12 @@ public class Beschwerde {
     private boolean anhang;
     private String datentypAnhang;
 
-    public Beschwerde(Date ErstellDatum,
+    @ManyToOne
+    @JoinColumn(name="buerger_id")
+    private Buerger buerger;
+
+    public Beschwerde(Long id,
+                      Date ErstellDatum,
                       String Status,
                       String BeschwerdeTyp,
                       String Prioritaet,
@@ -34,6 +38,7 @@ public class Beschwerde {
                       boolean Anhang,
                       String DatentypAnhang)
     {
+        this.id = id;
         this.erstellDatum = ErstellDatum;
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;

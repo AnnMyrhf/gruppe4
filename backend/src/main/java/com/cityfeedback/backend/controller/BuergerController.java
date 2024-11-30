@@ -28,4 +28,9 @@ public class BuergerController {
     public ResponseEntity<?> loescheBuerger(@PathVariable("id") Long id) {
         return buergerService.loescheBuerger(id);
     }
+
+    @GetMapping("/beschwerden/{id}")
+    public Buerger beschwerden(@PathVariable("id") Long id) {
+        return buergerService.getComplaintsFromBuerger(id);
+    }
 }

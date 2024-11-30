@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,12 +27,13 @@ public class BackendApplication {
     @Bean
     CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository){
         return args -> {
-            buergerRepository.save(new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?"));
+            buergerRepository.save(new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", new ArrayList<>()));
             mitarbeiterRepository.save(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf"));
+            beschwerdeRepository.save(new Beschwerde(2L,new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf"));
+            beschwerdeRepository.save(new Beschwerde(3L,new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf"));
+            beschwerdeRepository.save(new Beschwerde(4L,new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf"));
+            beschwerdeRepository.save(new Beschwerde(5L,new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +
                     "\n" +
                     "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
                     "\n" +

@@ -48,7 +48,7 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort());
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
         //passwordEncoder.encode(buerger.getPasswort()) // Passwort hashen
 
 
@@ -84,5 +84,9 @@ public class BuergerService {
 
         return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
 
+    }
+
+    public Buerger getComplaintsFromBuerger(Long id) {
+        return buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
     }
 }
