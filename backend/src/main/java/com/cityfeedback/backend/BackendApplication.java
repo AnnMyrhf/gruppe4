@@ -45,6 +45,7 @@ public class BackendApplication {
                     "Mit freundlichen Grüßen\n" +
                     "Max Mustermann", true, "application/pdf"));
             mitarbeiterService.createNewMitarbeiter(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            mitarbeiterService.Test();
         };
     }
 }
