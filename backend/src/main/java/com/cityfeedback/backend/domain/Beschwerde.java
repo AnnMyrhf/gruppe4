@@ -3,6 +3,7 @@ package com.cityfeedback.backend.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Beschwerde {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,4 +50,5 @@ public class Beschwerde {
         this.anhang = Anhang;
         this.datentypAnhang = DatentypAnhang;
     }
+
 }
