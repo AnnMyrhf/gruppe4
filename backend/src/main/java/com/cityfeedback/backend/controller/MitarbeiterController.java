@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/mitarbeiter")
 @RestController
 public class MitarbeiterController {
@@ -16,7 +17,7 @@ public class MitarbeiterController {
         this.mitarbeiterService = mitarbeiterService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody Mitarbeiter mitarbeiter) {
         try {
