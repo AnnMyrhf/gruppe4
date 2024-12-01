@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.module.ResolutionException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BuergerTest {
 
     // Testobjekte
-    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?");
-    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?");
-    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!");
-    Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!");
+    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", new ArrayList<>());
+    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", new ArrayList<>());
+    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", new ArrayList<>());
+    Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", new ArrayList<>());
 
     @Autowired
     private BuergerService buergerService;

@@ -1,7 +1,9 @@
 package com.cityfeedback.backend.services;
 
+import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.repositories.BuergerRepository;
+import com.cityfeedback.backend.repositories.BeschwerdeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +29,8 @@ public class BuergerService {
 
     @Autowired
     BuergerRepository buergerRepository;
+    @Autowired
+    BeschwerdeRepository beschwerdeRepository;
     //PasswordEncoder encoder;
 
     /**
@@ -48,7 +53,7 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort());
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
         //passwordEncoder.encode(buerger.getPasswort()) // Passwort hashen
 
 
@@ -84,5 +89,9 @@ public class BuergerService {
 
         return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
 
+    }
+
+    public List<Beschwerde> getComplaintsFromBuerger(Buerger buerger) {
+        return beschwerdeRepository.findByBuerger(buerger);
     }
 }

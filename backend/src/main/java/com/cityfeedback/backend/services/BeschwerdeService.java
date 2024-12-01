@@ -1,15 +1,21 @@
 package com.cityfeedback.backend.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.repositories.BeschwerdeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BeschwerdeService {
+
+    @Autowired
     private BeschwerdeRepository beschwerdeRepository;
+
+    public Beschwerde createBeschwerde(Beschwerde beschwerde) {
+        return beschwerdeRepository.save(beschwerde);
+    }
 
     public BeschwerdeService(BeschwerdeRepository beschwerdeRepository){
         this.beschwerdeRepository = beschwerdeRepository;

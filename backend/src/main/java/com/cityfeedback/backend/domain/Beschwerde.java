@@ -1,21 +1,23 @@
 package com.cityfeedback.backend.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Beschwerde {
+
     @Id
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /* @Column(insertable=false, updatable=false)
+    private Long buerger_id; */
     private Date erstellDatum;
     private String status;
     private String beschwerdeTyp;
@@ -26,7 +28,13 @@ public class Beschwerde {
     private boolean anhang;
     private String datentypAnhang;
 
-    public Beschwerde(Date ErstellDatum,
+    @ManyToOne
+    @JoinColumn(name="buerger_id")
+    private Buerger buerger;
+
+    /* public Beschwerde(Long id,
+                      // Long buerger_id,
+                      Date ErstellDatum,
                       String Status,
                       String BeschwerdeTyp,
                       String Prioritaet,
@@ -34,13 +42,16 @@ public class Beschwerde {
                       boolean Anhang,
                       String DatentypAnhang)
     {
+        this.id = id;
+        // this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
+        // this.buerger_id = buerger_id;
         this.erstellDatum = ErstellDatum;
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;
         this.prioritaet = Prioritaet;
-
         this.textfeld = Textfeld;
         this.anhang = Anhang;
         this.datentypAnhang = DatentypAnhang;
-    }
+    } */
+
 }
