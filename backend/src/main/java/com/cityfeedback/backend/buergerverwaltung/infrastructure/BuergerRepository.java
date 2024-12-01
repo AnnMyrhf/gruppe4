@@ -11,5 +11,4 @@ public interface BuergerRepository extends JpaRepository<Buerger, Long> {
         Optional<Buerger> findByEmail(String email);
 
         Boolean existsByEmail(String email);
-
 }

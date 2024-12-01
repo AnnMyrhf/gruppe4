@@ -3,6 +3,7 @@ import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -22,9 +23,15 @@ public class MitarbeiterService {
         }
     }
 
-    public void deleteMitarbeiter(Long id){
+    public void deleteMitarbeiter(Long id) {
         Optional<Mitarbeiter> mitarbeiter = mitarbeiterRepository.findById(id);
-        mitarbeiterRepository.delete(mitarbeiter.get());
+        if (mitarbeiter.isPresent()) {
+            mitarbeiterRepository.delete(mitarbeiter.get());
+        }
+    }
+
+    public String Test() {
+        return "Ich wurde returned";
     }
 
     public static void validateInput(Mitarbeiter mitarbeiter) {
