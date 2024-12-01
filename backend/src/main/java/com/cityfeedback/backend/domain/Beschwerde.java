@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Data
@@ -41,6 +42,7 @@ public class Beschwerde {
                       String DatentypAnhang)
     {
         this.id = id;
+        // this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
         this.erstellDatum = ErstellDatum;
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;
