@@ -1,5 +1,6 @@
 package com.cityfeedback.backend;
 
+import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.repositories.BuergerRepository;
 import com.cityfeedback.backend.services.BuergerService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.lang.module.ResolutionException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,11 +23,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class BuergerTest {
 
+    // Leere Liste fuer Beschwerden
+    private final List<Beschwerde> beschwerden = new ArrayList<>();
+
     // Testobjekte
-    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", new ArrayList<>());
-    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", new ArrayList<>());
-    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", new ArrayList<>());
-    Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", new ArrayList<>());
+    Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
+    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
+    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+    Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
 
     @Autowired
     private BuergerService buergerService;

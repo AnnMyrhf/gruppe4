@@ -16,8 +16,6 @@ public class Beschwerde {
     @Getter(AccessLevel.PUBLIC)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /* @Column(insertable=false, updatable=false)
-    private Long buerger_id; */
     private Date erstellDatum;
     private String status;
     private String beschwerdeTyp;

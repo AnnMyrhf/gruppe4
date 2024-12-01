@@ -19,9 +19,9 @@ public class BeschwerdeValidierungTest {
     @Test
     public void testGueltigeBeschwerdeDaten() {
         Random random = new Random();
-        Long randomId = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
+        Long id = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
 
-        Beschwerde beschwerde = new Beschwerde(randomId, randomId, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        Beschwerde beschwerde = new Beschwerde(id, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
         assertTrue(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
@@ -29,23 +29,23 @@ public class BeschwerdeValidierungTest {
     public void testAnhangOptional() {
         // Erstellen einer Beschwerde ohne Anhang
         Random random = new Random();
-        Long randomId = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
-        assertDoesNotThrow(() -> new Beschwerde(randomId, randomId, new Date(), "OPEN", "Infrastruktur", "hoch", "Beschwerdetext", false, "pdf"));
+        Long id = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
+        assertDoesNotThrow(() -> new Beschwerde(id, new Date(), "OPEN", "Infrastruktur", "hoch", "Beschwerdetext", false, "pdf"));
     }
 
     @Test
     public void testFehlendesStatusFeld() {
         Random random = new Random();
         Long randomId = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
-        Beschwerde beschwerde = new Beschwerde(randomId, randomId, new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        Beschwerde beschwerde = new Beschwerde(randomId, new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
         assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
     @Test
     public void testUnbekanntesStatusFormat() {
         Random random = new Random();
-        Long randomId = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
-        Beschwerde beschwerde = new Beschwerde(randomId, randomId, new Date(), "UNBEKANNT", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
+        Long id = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
+        Beschwerde beschwerde = new Beschwerde(id, new Date(), "UNBEKANNT", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
         assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(beschwerde));
     }
 
@@ -65,8 +65,8 @@ public class BeschwerdeValidierungTest {
     @Test
     public void testLeeresTextfeld() {
         Random random = new Random();
-        Long randomId = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
-        Beschwerde Beschwerde = new Beschwerde(randomId, randomId, new Date(), "OPEN", "Infrastruktur", "Hoch", "", true, "application/pdf");
+        Long id = Math.abs(random.nextLong()); // Generiert eine positive Long-ID
+        Beschwerde Beschwerde = new Beschwerde(id, new Date(), "OPEN", "Infrastruktur", "Hoch", "", true, "application/pdf");
         assertFalse(beschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
     }
 }
