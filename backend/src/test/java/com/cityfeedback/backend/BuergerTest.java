@@ -1,17 +1,18 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
+import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
-import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.security.JwtResponse;
-import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,19 +37,17 @@ public class BuergerTest {
     // Leere Liste fuer Beschwerden
     private final List<Beschwerde> beschwerden = new ArrayList<>();
 
-
     // Testobjekte
     Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
     Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
     Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
     Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     private BuergerService buergerService;
     @Autowired
     private BuergerRepository buergerRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -70,7 +69,7 @@ public class BuergerTest {
         ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-       // assertTrue(buergerRepository.existsByEmail(testBuerger3.getEmail()));
+        // assertTrue(buergerRepository.existsByEmail(testBuerger3.getEmail()));
 
     }
 

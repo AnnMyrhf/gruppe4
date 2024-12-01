@@ -30,7 +30,7 @@ public class BuergerController {
         return buergerService.anmeldenBuerger(loginDaten);
     }
 
-    @DeleteMapping("/buerger-loeschen{id}")
+    @DeleteMapping("/buerger-loeschen/{id}")
     public ResponseEntity<?> loescheBuerger(@PathVariable("id") Long id) {
         return buergerService.loescheBuerger(id);
     }
