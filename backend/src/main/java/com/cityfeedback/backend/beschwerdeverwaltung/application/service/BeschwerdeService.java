@@ -1,9 +1,26 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
+import java.util.List;
 import java.util.regex.Pattern;
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class BeschwerdeService {
+
+    @Autowired
+    private BeschwerdeRepository beschwerdeRepository;
+
+    public Beschwerde createBeschwerde(Beschwerde beschwerde) {
+        return beschwerdeRepository.save(beschwerde);
+    }
+
+    public BeschwerdeService(BeschwerdeRepository beschwerdeRepository){
+        this.beschwerdeRepository = beschwerdeRepository;
+    }
 
     // Regex-Muster zur Validierung
     private static final Pattern STATUS_PATTERN = Pattern.compile("^(OPEN|IN_PROGRESS|RESOLVED|CLOSED)$");
@@ -40,5 +57,8 @@ public class BeschwerdeService {
 
         return true;
     }
-}
 
+    public List<Beschwerde> getAll(){
+        return beschwerdeRepository.findAll();
+    }
+}
