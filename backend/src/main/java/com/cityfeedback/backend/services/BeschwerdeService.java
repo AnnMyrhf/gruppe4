@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.repositories.BeschwerdeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,11 @@ public class BeschwerdeService {
 
     public List<Beschwerde> getAll(){
         return beschwerdeRepository.findAll();
+    }
+
+    public Beschwerde getComplaintById(Long id) {
+        return beschwerdeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Beschwerde nicht gefunden mit ID: " + id));
     }
 }
 

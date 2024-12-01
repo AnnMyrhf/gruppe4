@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("/beschwerde")
@@ -39,6 +40,13 @@ public class BeschwerdeController {
             throw new IllegalArgumentException("Beschwerde " + id + " nicht gefunden");
         }
         return beschwerde.get();
+    }
+
+    @PostMapping("/get")
+    public ResponseEntity<Beschwerde> getComplaintById(@RequestBody Map<String, Long> requestData) {
+        Long id = requestData.get("id");
+        Beschwerde beschwerde = beschwerdeService.getComplaintById(id);
+        return ResponseEntity.ok(beschwerde);
     }
 
 

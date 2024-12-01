@@ -9,6 +9,7 @@ import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.services.BuergerService;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -36,4 +37,5 @@ public class BuergerController {
     public List<Beschwerde> beschwerden(@PathVariable Buerger buerger) {
         return buergerService.getComplaintsFromBuerger(buerger);
     }
+
 }
