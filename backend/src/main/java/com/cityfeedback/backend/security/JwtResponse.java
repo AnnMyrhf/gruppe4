@@ -14,9 +14,9 @@ public class JwtResponse {
     private Long id;
     private String email;
 
-    public JwtResponse(String accessToken, Long benutzerId, String email) {
+    public JwtResponse(String accessToken, Long id, String email) {
         this.token = accessToken;
-        this.id = benutzerId;
+        this.id = id;
         this.email = email;
     }
 

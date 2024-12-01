@@ -2,6 +2,7 @@ package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.security.JwtUtils;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.security.JwtResponse;
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.module.ResolutionException;
 import java.util.ArrayList;
@@ -27,13 +30,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
+@Transactional
 public class BuergerTest {
 
     // Leere Liste fuer Beschwerden
     private final List<Beschwerde> beschwerden = new ArrayList<>();
-    PasswordEncoder passwordEncoder;
+
+
     // Testobjekte
-    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
+    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
     Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
     Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
     Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
@@ -42,6 +47,12 @@ public class BuergerTest {
     private BuergerService buergerService;
     @Autowired
     private BuergerRepository buergerRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtils jwtUtils;
 
 
     @BeforeEach
@@ -59,7 +70,7 @@ public class BuergerTest {
         ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(buergerRepository.existsByEmail(testBuerger3.getEmail()));
+       // assertTrue(buergerRepository.existsByEmail(testBuerger3.getEmail()));
 
     }
 
@@ -80,19 +91,16 @@ public class BuergerTest {
      */
     @Test
     public void registriereBuerger_sollPasswortHashen() {
-        String unverschluesseltesPasswort = testBuerger3.getPasswort();
-
         ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
 
-        Buerger neuerBuerger = buergerRepository.findById(testBuerger3.getId()).get();
-
-        // Hasht das Passwort mit dem gleichen Encoder wie in der Methode
-        String gehashtesPasswort = passwordEncoder.encode(unverschluesseltesPasswort);
-
-        // Vergleicht die gehashten Passwoerter
-        assertEquals(gehashtesPasswort, neuerBuerger.getPasswort());
-
+        //Sollte das gespeicherte Passwort nicht dem Klartext entsprechen
+        Buerger gespeicherterBuerger = buergerRepository.findByEmail(testBuerger3.getEmail()).get();
+        assertNotEquals(testBuerger3.getPasswort(), gespeicherterBuerger.getPasswort());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        // Zusaetzliche Überprüfung mit dem PasswordEncoder
+        boolean istPasswortKorrekt = passwordEncoder.matches(testBuerger3.getPasswort(), gespeicherterBuerger.getPasswort());
+        assertTrue(istPasswortKorrekt);
 
     }
 

@@ -87,8 +87,8 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), passwordEncoder.encode(buerger.getPasswort()), buerger.getBeschwerden());
-       // neuerBuerger.setPasswort(passwordEncoder.encode(buerger.getPasswort())); // Passwort hashen
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
+        neuerBuerger.setPasswort(passwordEncoder.encode(neuerBuerger.getPasswort()));
 
         try {
             // Bürger in der Datenbank speichern
