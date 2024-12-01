@@ -1,4 +1,4 @@
-package com.cityfeedback.backend.aspects;
+package com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.aspects;
 
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ public class MitarbeiterLoggingAspect {
 
     // Create new Mitarbeiter
     // Pointcut für create new Mitarbeiter
-    @Pointcut("execution(* com.cityfeedback.backend.services.MitarbeiterService.createNewMitarbeiter(..))")
+    @Pointcut("execution(* com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService.createNewMitarbeiter(..))")
     public void createNewMitarbeiter() {}
 
     @AfterReturning("createNewMitarbeiter()")
@@ -31,7 +31,7 @@ public class MitarbeiterLoggingAspect {
     }
 
     //Delete Mitarbeiter
-    @Pointcut("execution(* com.cityfeedback.backend.services.MitarbeiterService.deleteMitarbeiter(..))")
+    @Pointcut("execution(* com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService.deleteMitarbeiter(..))")
     public void deleteMitarbeiter() {}
 
     @AfterReturning("deleteMitarbeiter()")
@@ -41,7 +41,7 @@ public class MitarbeiterLoggingAspect {
     }
 
     // Test
-    @Pointcut("execution(* com.cityfeedback.backend.services.MitarbeiterService.Test(..))")
+    @Pointcut("execution(*  com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService.Test(..))")
     public void TestMitarbeiter() {}
 
     @AfterReturning(
