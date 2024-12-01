@@ -13,10 +13,6 @@ public class BeschwerdeService {
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
 
-    public List<Beschwerde> getComplaintsFromBuerger(Long buerger_id) {
-        return beschwerdeRepository.findByBuergerId(buerger_id);
-    }
-
     public Beschwerde createBeschwerde(Beschwerde beschwerde) {
         return beschwerdeRepository.save(beschwerde);
     }

@@ -1,7 +1,9 @@
 package com.cityfeedback.backend.services;
 
+import com.cityfeedback.backend.domain.Beschwerde;
 import com.cityfeedback.backend.domain.Buerger;
 import com.cityfeedback.backend.repositories.BuergerRepository;
+import com.cityfeedback.backend.repositories.BeschwerdeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +29,8 @@ public class BuergerService {
 
     @Autowired
     BuergerRepository buergerRepository;
+    @Autowired
+    BeschwerdeRepository beschwerdeRepository;
     //PasswordEncoder encoder;
 
     /**
@@ -86,7 +91,7 @@ public class BuergerService {
 
     }
 
-    public Buerger getComplaintsFromBuerger(Long id) {
-        return buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
+    public List<Beschwerde> getComplaintsFromBuerger(Buerger buerger) {
+        return beschwerdeRepository.findByBuerger(buerger);
     }
 }

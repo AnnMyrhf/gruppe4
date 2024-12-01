@@ -1,23 +1,23 @@
 package com.cityfeedback.backend.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Beschwerde {
-    @Getter
+
     @Id
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /* @Column(insertable=false, updatable=false)
+    private Long buerger_id; */
     private Date erstellDatum;
     private String status;
     private String beschwerdeTyp;
@@ -32,7 +32,8 @@ public class Beschwerde {
     @JoinColumn(name="buerger_id")
     private Buerger buerger;
 
-    public Beschwerde(Long id,
+    /* public Beschwerde(Long id,
+                      // Long buerger_id,
                       Date ErstellDatum,
                       String Status,
                       String BeschwerdeTyp,
@@ -43,6 +44,7 @@ public class Beschwerde {
     {
         this.id = id;
         // this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
+        // this.buerger_id = buerger_id;
         this.erstellDatum = ErstellDatum;
         this.status = Status;
         this.beschwerdeTyp = BeschwerdeTyp;
@@ -50,6 +52,6 @@ public class Beschwerde {
         this.textfeld = Textfeld;
         this.anhang = Anhang;
         this.datentypAnhang = DatentypAnhang;
-    }
+    } */
 
 }
