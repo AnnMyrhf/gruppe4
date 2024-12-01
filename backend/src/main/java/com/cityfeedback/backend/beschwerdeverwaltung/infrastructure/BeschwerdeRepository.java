@@ -1,0 +1,16 @@
+package com.cityfeedback.backend.beschwerdeverwaltung.infrastructure;
+
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface BeschwerdeRepository extends JpaRepository<Beschwerde, Long> {
+
+    Optional<Beschwerde> findByBuerger(Buerger buerger);
+    Boolean existsByBuerger(Buerger buerger);
+}
+
