@@ -14,10 +14,10 @@ function App() {
     <div className="App">
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Registrieren />}/>
+                <Route path="/buerger-registrieren" element={<Registrieren />}/>
                 <Route path="/mitarbeiter/dashboard" element={<MitarbeiterDashboard />} />
                 <Route path="/mitarbeiter/dashboard/:id" element={<BeschwerdeDetail />} />
-                <Route path="/login" element={<LoginBuerger />}/>
+                <Route path="/buerger-anmelden" element={<LoginBuerger />}/>
                 <Route path="/neuebeschwerde" element={<BeschwerdeForm />}/>
                 <Route path="/buerger/dashboard" element={<BuergerDashboard />}/>
             </Routes>

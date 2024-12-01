@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../style/registerStyle.css'
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ const RegistrationForm = () => {
     email: '',
     passwort: '',
   });
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
@@ -56,7 +59,11 @@ const RegistrationForm = () => {
       if (error) {
         formErrors[key] = error;
       }
-    });
+
+       else {
+            navigate('/buerger-anmelden');
+        } 
+      });   
     if (Object.keys(formErrors).length === 0) {
         // Form is valid, you can submit the data
         console.log('Form submitted:', formData);
@@ -76,7 +83,7 @@ const RegistrationForm = () => {
     console.log('Form submitted:', formData);
         // For demonstration purposes, we'll just show a success message
         setSubmitError('');
-        alert('Registrierung erfolgreich!');
+        alert('Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren.');
       } else {
         // Form has errors
         setErrors(formErrors);
