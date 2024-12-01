@@ -6,6 +6,7 @@ import com.cityfeedback.backend.domain.Mitarbeiter;
 import com.cityfeedback.backend.repositories.BeschwerdeRepository;
 import com.cityfeedback.backend.repositories.BuergerRepository;
 import com.cityfeedback.backend.repositories.MitarbeiterRepository;
+import com.cityfeedback.backend.services.MitarbeiterService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +30,7 @@ public class BackendApplication {
     private final List<Beschwerde> beschwerden = new ArrayList<>();
 
     @Bean
-    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository){
+    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService){
         return args -> {
             // Testobjekte
             Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
@@ -50,7 +51,11 @@ public class BackendApplication {
                     "Vielen Dank im Voraus. Ich hoffe auf eine zügige Klärung der Angelegenheit.\n" +
                     "\n" +
                     "Mit freundlichen Grüßen\n" +
+
                     "Max Mustermann", true, "application/pdf", testBuerger1));
+            mitarbeiterService.createNewMitarbeiter(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            mitarbeiterService.Test();
+
         };
     }
 }
