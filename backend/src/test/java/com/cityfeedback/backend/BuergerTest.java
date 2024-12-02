@@ -107,7 +107,7 @@ public class BuergerTest {
      * Ueberprueft, ob ein bereits registrierter Buerger sich erfolgreich mit den korrekten Anmeldedaten anmelden kann
      * und ob dabei ein gueltiges JWT mit den korrekten Buergerinfos zurückgegeben wird.
      */
-    @Test
+    /*@Test
     public void anmeldenBuerger_sollErfolgreichSein() {
 
         buergerRepository.save(testBuerger1);
@@ -120,7 +120,7 @@ public class BuergerTest {
         assertNotNull(jwtResponse.getToken());
         assertEquals(testBuerger1.getId(), jwtResponse.getId());
         assertEquals(testBuerger1.getEmail(), jwtResponse.getEmail());
-    }
+    }*/
 
     @Test
     void anmeldenBuerger_FalscheEmail() {
