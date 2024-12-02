@@ -36,7 +36,6 @@ public class BuergerTest {
 
     // Leere Liste fuer Beschwerden
     private final List<Beschwerde> beschwerden = new ArrayList<>();
-    // Test
     // Testobjekte
     Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
     Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);

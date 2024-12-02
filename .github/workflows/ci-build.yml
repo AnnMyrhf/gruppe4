@@ -35,7 +35,7 @@ jobs:
         run: mvn test
         working-directory: backend
 
-      - name: Package Project
+      - name: Package project
         run: mvn package
         working-directory: backend
 
