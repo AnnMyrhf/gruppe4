@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../style/registerStyle.css'
-import { useNavigate } from 'react-router-dom';
+import { register } from "../actions/auth-buerger";
+import {Navigate, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -12,10 +14,20 @@ const RegistrationForm = () => {
     passwort: '',
   });
 
-  const navigate = useNavigate();
-
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
+
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  const { user: currentUser } = useSelector((state) => state.auth);
+
+  if (currentUser) {
+    return <Navigate to="/buerger" />;
+  }
 
   const validateField = (name, value) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -59,31 +71,24 @@ const RegistrationForm = () => {
       if (error) {
         formErrors[key] = error;
       }
-
-       else {
-            navigate('/buerger-anmelden');
-        } 
-      });   
+    });
     if (Object.keys(formErrors).length === 0) {
         // Form is valid, you can submit the data
         console.log('Form submitted:', formData);
         // Here you would typically send the data to your backend
-        fetch('http://localhost:8081/buerger-registrieren', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Header für JSON-Inhalt
-      },
-      body: JSON.stringify(formData), // Verwende das aktualisierte Mitarbeiter-Objekt
-    })
-      .then((response) => response.text()) // Antwort als Text umwandeln
-      .then((data) => {
-        console.log('Server Response:', data);
-      })
-      .catch((error) => console.error('Error sending input:', error));
-    console.log('Form submitted:', formData);
-        // For demonstration purposes, we'll just show a success message
-        setSubmitError('');
-        alert('Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren.');
+        dispatch(register(formData.anrede,
+            formData.vorname,
+            formData.nachname,
+            formData.telefonnummer,
+            formData.email,
+            formData.passwort))
+            .then(() => {
+              alert('Registrierung erfolgreich!');
+            })
+            .catch(() => {
+
+            });
+
       } else {
         // Form has errors
         setErrors(formErrors);

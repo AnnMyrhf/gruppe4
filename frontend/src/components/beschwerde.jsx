@@ -1,3 +1,4 @@
+/*
 export default function Beschwerde(props) {
     const {beschwerde}= props
 
@@ -78,4 +79,4 @@ export default function Beschwerde(props) {
             </div>
         </div>
     );
-}
+}*/

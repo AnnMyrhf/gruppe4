@@ -45,7 +45,7 @@ public class BuergerService {
 
     public ResponseEntity<?> anmeldenBuerger(LoginDaten loginDaten) {
         try {
-            // Suche nach dem Bürger in der Datenbank
+            // Suche nach dem Buerrger in der Datenbank
             buergerRepository.findByEmail(loginDaten.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException(BUERGER_EXISTIERT_NICHT + loginDaten.getEmail()));
 

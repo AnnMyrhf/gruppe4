@@ -25,7 +25,7 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    // Erstmalige JWT-Erzeugung aus Email, Datum, Ablaufdatum und "supersecure-Geheimnis" (siehe applications propperties)
+    // Erstmalige JWT-Erzeugung aus E-Mail, Datum, Ablaufdatum und "supersecure-Geheimnis" (siehe applications propperties)
     public String generateJwtToken(Authentication authentication) {
 
         Buerger userPrincipal = (Buerger) authentication.getPrincipal();
@@ -37,7 +37,6 @@ public class JwtUtils {
     public String generateJwtTokenMitEmail(String email) {
         return Jwts.builder().setSubject(email).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
-
 
     // Email aus JWT abrufen
     public String getEmailFromJwtToken(String token) {
