@@ -42,8 +42,8 @@ jobs:
       - name: Upload target folder
         uses: actions/upload-artifact@v4
         with:
-          name: jacoco coverageReport
-          path: backend/target/site/jacoco  # Pfad zum Zielverzeichnis, das hochgeladen werden soll
+          name: target
+          path: backend/target  # Pfad zum Zielverzeichnis, das hochgeladen werden soll
 
       - name: Build with Maven
         run: mvn clean install  # Führt den Maven-Build aus
