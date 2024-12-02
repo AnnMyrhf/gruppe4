@@ -36,9 +36,13 @@ public class BackendApplication {
             Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
+            Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
+            testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
+            buergerRepository.save(testBuerger2);
             mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
-            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2));
+            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2
+            ));
             beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf", testBuerger1));
             beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf", testBuerger1));
             beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +

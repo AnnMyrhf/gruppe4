@@ -1,10 +1,11 @@
+/*
 import React, { useState, useEffect } from "react";
 
 import UserService from "../services/user.service";
-import EventBus from "../common/EventBus";
+import EventBus from "../commons/EventBus";
 
 const MitarbeiterDashBoard = () => {
-    const [content, setContent] = useState("");
+/!*    const [content, setContent] = useState("");
 
     useEffect(() => {
         UserService.getMitarbeiterBoard().then(
@@ -34,7 +35,8 @@ const MitarbeiterDashBoard = () => {
                 <h3>{content}</h3>
             </header>
         </div>
-    );
+    );*!/
 };
 
 export default MitarbeiterDashBoard;
+*/

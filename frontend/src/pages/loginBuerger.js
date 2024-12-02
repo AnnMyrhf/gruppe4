@@ -1,36 +1,29 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import '../style/registerStyle.css'
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate  } from 'react-router-dom';
+import { login } from "../actions/auth-buerger";
+
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     email: '',
     passwort: '',
   });
 
+
+
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const [errors, setErrors] = useState({});
-  const [submitError, setSubmitError] = useState('');
+  const { user: currentUser } = useSelector((state) => state.auth);
 
-  const validateField = (name, value) => {
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const telefonnummerRegex = /^\d+$/;
-    const passwortRegEx = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    switch (name) {
-      case 'email':
-        return emailRegex.test(value) ? '' : 'Ungültige E-Mail-Adresse';
-      case 'telefonnummer':
-        return telefonnummerRegex.test(value) ? '' : 'Telefonnummer darf nur Zahlen enthalten';
-      case 'passwort':
-        return passwortRegEx.test(value) ? '' : 'Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten';
-      case 'confirmPassword':
-        return value === formData.passwort ? '' : 'Passwörter stimmen nicht überein';
-      default:
-        return '';
-    }
-};
+  if (currentUser) {
+    return <Navigate to="/buerger" />;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,49 +31,21 @@ const LoginForm = () => {
       ...prevState,
       [name]: value
     }));
-
-    const error = validateField(name, value);
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [name]: error
-    }));
     console.log(formData)
   };
 
   const handleSubmit = (e) => {
-
-    if (true) {
-        navigate('/buerger/dashboard', { replace: true });
-    } 
-
-    // e.preventDefault();
-    // const formErrors = {};
-    // Object.keys(formData).forEach(key => {
-    //   const error = validateField(key, formData[key]);
-    //   if (error) {
-    //     formErrors[key] = error;
-    //   }
-    // });
-    // if (Object.keys(formErrors).length === 0) {
-    //     // Form is valid, you can submit the data
-    //     console.log('Form submitted:', formData);
-    //     // Here you would typically send the data to your backend
-    //     fetch('http://localhost:8081/buerger-anmelden', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json', // Header für JSON-Inhalt
-    //   },
-    //   body: JSON.stringify(formData), // Verwende das aktualisierte Mitarbeiter-Objekt
-    // })
-    //   .then((response) => response.text()) // Antwort als Text umwandeln
-    //   .then((data) => {
-    //     console.log('Server Response:', data);
-    //     if (true) {
-    //         navigate('/neue-seite');
-    //     } 
-    //   })
-    //   } 
-     };  
+    e.preventDefault();
+    console.log("handleSubmit")
+    dispatch(login(formData.email, formData.passwort))
+    .then(() => {
+        navigate("/buerger");
+        window.location.reload();
+      })
+    .catch(() => {
+      setLoading(false);
+    });
+  };
 
   return (
     <div className="registration-container">
@@ -113,7 +78,6 @@ const LoginForm = () => {
         </div>
 
         <button type="submit">Einloggen</button>
-        {submitError && <div className="error submit-error">{submitError}</div>}
       </form>
     </div>
   );

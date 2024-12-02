@@ -1,12 +1,39 @@
-import React from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import { Navigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import UserService from "../services/user.service"
+import { logout } from "../actions/auth-buerger";
 
 const Profile = () => {
+
+    const [beschwerden, setBeschwerden] = useState([]);
+    const dispatch = useDispatch();
     const { user: currentUser } = useSelector((state) => state.auth);
 
+    useEffect(() => {
+        UserService.getBuergerDashBoard().then(
+            (response) => {
+                setBeschwerden(response.data);
+            },
+            (error) => {
+                const _content =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                setBeschwerden(_content);
+                console.log(_content)
+            }
+        );
+    }, []);
+
+    const logOut = useCallback(() => {
+        dispatch(logout());
+    }, [dispatch]);
+
     if (!currentUser) {
-        return <Navigate to="/buerger-anmelden" />;
+        return <Navigate to="/" />;
     }
 
     return (
@@ -31,6 +58,9 @@ const Profile = () => {
                 {currentUser.roles &&
                     currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
             </ul>
+            <a href="/" className="nav-link" onClick={logOut}>
+                LogOut
+            </a>
         </div>
     );
 };

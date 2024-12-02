@@ -9,6 +9,7 @@ import { isEmail } from "validator";
 import { register } from "../actions/auth-buerger";
 import message from "../reducers/message";
 
+
 const required = (value) => {
     if (!value) {
         return (
@@ -83,6 +84,7 @@ const Register = () => {
         setSuccessful(false);
 
         form.current.validateAll();
+        const dispatch = useDispatch();
 
         if (checkBtn.current.context._errors.length === 0) {
             dispatch(register( anrede,

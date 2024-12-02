@@ -5,18 +5,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./pages/loginBuerger";
+//import Register from "./components/Register";
 
 import Profile from "./components/Profile";
-
 
 import { logout } from "./actions/auth-buerger";
 import { clearMessage } from "./actions/message";
 import BuergerDashBoard from "./components/BuergerDashBoard";
 import MitarbeiterDashBoard from "./components/MitarbeiterDashBoard";
 
-const App = () => {
+export default function App(){
     const [setShowBuergerDashBoard, setShowModeratorBoard] = useState(false);
     const [setShowMitarbeiterDashBoard, setShowAdminBoard] = useState(false);
 
@@ -37,17 +36,17 @@ const App = () => {
 
     useEffect(() => {
         if (currentUser) {
-            setShowBuergerDashBoard(currentUser.roles.includes("BUERGER"));
-            setShowMitarbeiterDashBoard(currentUser.roles.includes("MITARBEITER"));
+            //setShowBuergerDashBoard(currentUser.roles.includes("BUERGER"));
+            //setShowMitarbeiterDashBoard(currentUser.roles.includes("MITARBEITER"));
         } else {
-            setShowBuergerDashBoard(false);
-            setShowMitarbeiterDashBoard(false);
+            //setShowBuergerDashBoard(false);
+            //setShowMitarbeiterDashBoard(false);
         }
     }, [currentUser]);
 
     return (
         <div>
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
+            {/*<nav className="navbar navbar-expand navbar-dark bg-dark">
                 <Link to={"/"} className="navbar-brand">
                     bezKoder
                 </Link>
@@ -94,22 +93,19 @@ const App = () => {
                             </Link>
                         </li>
                     </div>
-              </nav>
+              </nav>*/}
 
             <div className="container mt-3">
                 <Routes>
-                    <Route path="/buerger-anmelden" element={<Login />} />
-                    <Route path="/buerger-registrieren" element={<Register />} />
-                    <Route path="/buerger" element={<Profile />} />
-                    <Route path="/buerger/dashboard" element={<BuergerDashBoard />} />
-                    <Route path="/mitarbeiter/dashboard" element={<MitarbeiterDashBoard />} />
-
+                    <Route path="/" element={<Login />}/>
+                    <Route path="/buerger-anmelden" element={<h1>Anmelde</h1>} />
+                    <Route path="/buerger-registrieren" element={<h1>Anmelde</h1>}/>
+                    <Route path="/buerger" element={<Profile />}/>
+                    <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
                 </Routes>
             </div>
 
         </div>
     );
 };
-
-export default App;
 
