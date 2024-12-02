@@ -4,30 +4,14 @@ import Beschwerde from "../components/beschwerde";
 import { useNavigate } from 'react-router-dom';
 
 export default function BuergerDashboard() {
+    const [beschwerden, setBeschwerden] = useState([]);
+
     const navigate = useNavigate();
-
-    const [beschwerden, setBeschwerden, setAnzahlBeschwerden] = useState([]);
-
-    useEffect(() => {
-        fetch("http://localhost:8081/buerger/dashboard/{buerger}")
-            .then((response) => response.json())
-            .then((data) => {
-              //  setAnzahlBeschwerden(response.data);
-                console.log(data);
-            });
-    }, []);
 
     const handleClick = (e) => {
 
         if (true) {
             navigate('/neuebeschwerde', { replace: true });
-        } 
-    } 
-
-    const handleClick2 = (e) => {
-
-        if (true) {
-            navigate('/buerger/dashboard', { replace: true });
         } 
     } 
 
@@ -78,8 +62,7 @@ export default function BuergerDashboard() {
     return (
         <main style={mainStyle}>
             {beschwerden.length === 0 ? (
-                // Anzahl Beschwerden einfügen
-                <p>Beschwerden vorhanden</p>
+                <p>Keine Beschwerden vorhanden</p>
             ) : (
                 beschwerden.map((beschwerde) => (
                     <Link
@@ -94,7 +77,6 @@ export default function BuergerDashboard() {
             )}
 
 <button type="button" onClick={handleClick}>Neue Beschwerde anlegen</button>
-<button type="button" onClick={handleClick2}>Beschwerde Übersicht anzeigen</button>
         </main>
     );
 }
