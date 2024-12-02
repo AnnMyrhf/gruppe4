@@ -1,18 +1,21 @@
 package com.cityfeedback.backend;
 
-import com.cityfeedback.backend.domain.Beschwerde;
-import com.cityfeedback.backend.domain.Buerger;
-import com.cityfeedback.backend.domain.Mitarbeiter;
-import com.cityfeedback.backend.repositories.BeschwerdeRepository;
-import com.cityfeedback.backend.repositories.BuergerRepository;
-import com.cityfeedback.backend.repositories.MitarbeiterRepository;
-import com.cityfeedback.backend.services.MitarbeiterService;
+import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
+import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Hauptklasse, welche die Anwendung ausfuehrt
@@ -25,14 +28,24 @@ public class BackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService){
+    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService, PasswordEncoder passwordEncoder){
         return args -> {
-            buergerRepository.save(new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW1?"));
-            mitarbeiterRepository.save(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf"));
-            beschwerdeRepository.save(new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +
+            // Leere Liste fuer Beschwerden
+            final List<Beschwerde> beschwerden = new ArrayList<>();
+            // Testobjekte
+            Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
+            testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
+            buergerRepository.save(testBuerger1);
+            Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
+            testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
+            buergerRepository.save(testBuerger2);
+            mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2));
+            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2
+            ));
+            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf", testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf", testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +
                     "\n" +
                     "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
                     "\n" +
@@ -43,9 +56,12 @@ public class BackendApplication {
                     "Vielen Dank im Voraus. Ich hoffe auf eine zügige Klärung der Angelegenheit.\n" +
                     "\n" +
                     "Mit freundlichen Grüßen\n" +
-                    "Max Mustermann", true, "application/pdf"));
-            mitarbeiterService.createNewMitarbeiter(new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+
+                    "Max Mustermann", true, "application/pdf", testBuerger1));
+            mitarbeiterService.createNewMitarbeiter(new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
             mitarbeiterService.Test();
+
         };
     }
+
 }

@@ -63,7 +63,7 @@ const RegistrationForm = () => {
         // Form is valid, you can submit the data
         console.log('Form submitted:', formData);
         // Here you would typically send the data to your backend
-        fetch('http://localhost:8081/mitarbeiter/create', {
+        fetch('http://localhost:8081/mitarbeiter-registrieren', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Header für JSON-Inhalt
