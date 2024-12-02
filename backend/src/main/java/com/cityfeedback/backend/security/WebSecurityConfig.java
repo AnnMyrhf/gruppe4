@@ -61,16 +61,39 @@ public class WebSecurityConfig {
     /* Konfiguration von Cross Origin Resource Sharing, Cross-Site-Request-Forgery,
      * Sitzungsverwaltung, Regeln für geschützte Ressourcen und Rollen-Konzept
      */
+    /* Konfiguration von Cross Origin Resource Sharing, Cross-Site-Request-Forgery,
+     * Sitzungsverwaltung, Regeln fuer geschuetzte Ressourcen und Rollen-Konzept
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        // Deaktiviert CSRF-Schutz
         http.csrf(csrf -> csrf.disable());
-        http.exceptionHandling((exception) -> exception.authenticationEntryPoint(unauthorizedHandler));
-        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll());// TODO, muss noch umgebaut werden fuer geschuetzte Ressourcen
-        http.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)); // fuer h2-Konsole
 
+        // Legt einen Handler fest, der bei fehlgeschlagener Authentifizierung aufgerufen wird
+        http.exceptionHandling((exception) -> exception.authenticationEntryPoint(unauthorizedHandler));
+
+        // Definiert Autorisierungsregeln
+        http.authorizeHttpRequests(requests -> requests
+                // Öffentliche Endpunkte (keine Authentifizierung erforderlich)
+                .requestMatchers("/buerger-anmelden/**", "/buerger-registrieren").permitAll()
+
+                // Endpunkte, die die Rolle "BUERGER" erfordern
+                .requestMatchers("/beschwerden/**", "/buerger-loeschen/**").hasRole("BUERGER")
+
+                // Endpunkte, die die Rolle "MITARBEITER" erfordern
+                .requestMatchers("/mitarbeiter-registrieren/**", "/mitarbeiter-loeschen/**", "/mitarbeiter-anmelden/**").hasRole("MITARBEITER")
+
+                // Alle anderen Anfragen erfordern eine Authentifizierung (beliebige Rolle)
+                .anyRequest().authenticated());
+
+        // Ermöglicht iframes für die h2-Konsole
+        http.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+
+        // Benutzerdefinierten Authentifizierungs-Provider
         http.authenticationProvider(authenticationProvider());
 
+        // Fügt einen benutzerdefinierten JWT-Authentifizierungsfilter vor dem UsernamePasswordAuthenticationFilter hinzu
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

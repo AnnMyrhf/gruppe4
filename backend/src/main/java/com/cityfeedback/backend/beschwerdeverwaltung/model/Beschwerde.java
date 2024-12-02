@@ -28,29 +28,8 @@ public class Beschwerde {
     private String datentypAnhang;
 
     @ManyToOne
-    @JoinColumn(name="buerger_id")
+    @JoinColumn(name = "buerger_id")
     private Buerger buerger;
 
-    /* public Beschwerde(Long id,
-                      // Long buerger_id,
-                      Date ErstellDatum,
-                      String Status,
-                      String BeschwerdeTyp,
-                      String Prioritaet,
-                      String Textfeld,
-                      boolean Anhang,
-                      String DatentypAnhang)
-    {
-        this.id = id;
-        // this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
-        // this.buerger_id = buerger_id;
-        this.erstellDatum = ErstellDatum;
-        this.status = Status;
-        this.beschwerdeTyp = BeschwerdeTyp;
-        this.prioritaet = Prioritaet;
-        this.textfeld = Textfeld;
-        this.anhang = Anhang;
-        this.datentypAnhang = DatentypAnhang;
-    } */
 
 }
