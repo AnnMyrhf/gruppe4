@@ -33,7 +33,7 @@ const Profile = () => {
     }, [dispatch]);
 
     if (!currentUser) {
-        return <Navigate to="/" />;
+        return <Navigate to="/buerger-anmelden" />;
     }
 
     return (
@@ -58,7 +58,7 @@ const Profile = () => {
                 {currentUser.roles &&
                     currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
             </ul>
-            <a href="/" className="nav-link" onClick={logOut}>
+            <a href="/buerger-anmelden" className="nav-link" onClick={logOut}>
                 LogOut
             </a>
         </div>

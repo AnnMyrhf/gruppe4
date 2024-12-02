@@ -6,10 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 
 import Login from "./pages/loginBuerger";
-//import Register from "./components/Register";
+import RegisterBuerger from "./pages/registrierenBuerger";
 
 import Profile from "./components/Profile";
-
 import { logout } from "./actions/auth-buerger";
 import { clearMessage } from "./actions/message";
 import BuergerDashBoard from "./components/BuergerDashBoard";
@@ -97,9 +96,8 @@ export default function App(){
 
             <div className="container mt-3">
                 <Routes>
-                    <Route path="/" element={<Login />}/>
-                    <Route path="/buerger-anmelden" element={<h1>Anmelde</h1>} />
-                    <Route path="/buerger-registrieren" element={<h1>Anmelde</h1>}/>
+                    <Route path="/buerger-anmelden" element={<Login />} />
+                    <Route path="/buerger-registrieren" element={<RegisterBuerger/>}/>
                     <Route path="/buerger" element={<Profile />}/>
                     <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
                 </Routes>
