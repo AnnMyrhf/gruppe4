@@ -23,12 +23,6 @@ public class BeschwerdeController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getAll")
-    List<Beschwerde> getAll(){
-        return beschwerdeService.getAll();
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     Beschwerde getById(@PathVariable long id){
         Optional<Beschwerde> beschwerde =  beschwerdeRepository.findById(id);

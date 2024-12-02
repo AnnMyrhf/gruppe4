@@ -1,15 +1,23 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
+import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BeschwerdeService {
+
+    public static final String BUERGER_EXISTIERT_NICHT = "Buerger existiert nicht:";
+
+    @Autowired
+    private BuergerRepository buergerRepository;
 
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
@@ -58,7 +66,8 @@ public class BeschwerdeService {
         return true;
     }
 
-    public List<Beschwerde> getAll(){
-        return beschwerdeRepository.findAll();
+    public int getAnzahlBeschwerden(Buerger buerger) {
+        List<Beschwerde> alleBeschwerden = beschwerdeRepository.findByBuerger(buerger);
+        return alleBeschwerden.size();
     }
 }
