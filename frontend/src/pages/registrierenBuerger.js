@@ -84,6 +84,8 @@ const RegistrationForm = () => {
             formData.passwort))
             .then(() => {
               alert('Registrierung erfolgreich!');
+              navigate("/buerger-anmelden");
+              window.location.reload();
             })
             .catch(() => {
 
