@@ -1,11 +1,10 @@
-import './App.css';
-import './style/styles.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+import './styles/App.css';
+import './styles/globalStyles.css';
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 
-import Login from "./pages/loginBuerger";
+import Login from "./pages/login";
 import RegisterBuerger from "./pages/registrierenBuerger";
 
 import Profile from "./components/Profile";
@@ -44,66 +43,21 @@ export default function App(){
     }, [currentUser]);
 
     return (
-        <div>
-            {/*<nav className="navbar navbar-expand navbar-dark bg-dark">
-                <Link to={"/"} className="navbar-brand">
-                    bezKoder
-                </Link>
-                <div className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link to={"/home"} className="nav-link">
-                            Home
-                        </Link>
-                    </li>
-
-                    {setShowBuergerDashBoard && (
-                        <li className="nav-item">
-                            <Link to={"/buerger/dashboard"} className="nav-link">
-                                Bürger-Dashboard
-                            </Link>
-                        </li>
-                    )}
-
-                    {setShowMitarbeiterDashBoard && (
-                        <li className="nav-item">
-                            <Link to={"/mitarbeiter/dashboard"} className="nav-link">
-                                Mitarbeiter-Dashboard
-                            </Link>
-                        </li>
-                    )}
-
-                        <li className="nav-item">
-                            <a href="/buerger-anmelden" className="nav-link" onClick={logOut}>
-                                LogOut
-                            </a>
-                        </li>
-                    </div>
-                ) : (
-                    <div className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link to={"/buerger-anmelden"} className="nav-link">
-                                Login für Bürger
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link to={"/buerger-registrieren"} className="nav-link">
-                                Registrierung für Bürger
-                            </Link>
-                        </li>
-                    </div>
-              </nav>*/}
-
-            <div className="container mt-3">
-                <Routes>
-                    <Route path="/buerger-anmelden" element={<Login />} />
-                    <Route path="/buerger-registrieren" element={<RegisterBuerger/>}/>
-                    <Route path="/buerger" element={<Profile />}/>
-                    <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
-                </Routes>
-            </div>
-
+        <div className="app" style={{
+            width: "100%",
+            height: "100%"
+        }}
+        >
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/buerger-anmelden" element={<Login />} />
+                <Route path="/buerger-registrieren" element={<RegisterBuerger/>}/>
+                <Route path="/buerger" element={<Profile />}/>
+                <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
+            </Routes>
         </div>
+
+
     );
 };
 

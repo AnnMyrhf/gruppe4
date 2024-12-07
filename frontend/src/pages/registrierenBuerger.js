@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../style/registerStyle.css'
+import '../styles/registerStyle.css'
 import { register } from "../actions/auth-buerger";
 import {Navigate, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

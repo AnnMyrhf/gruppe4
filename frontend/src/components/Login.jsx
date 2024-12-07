@@ -8,7 +8,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import { login } from "../actions/auth-buerger";
+import { buergerLogin } from "../actions/auth-buerger";
 
 const required = (value) => {
     if (!value) {
@@ -60,7 +60,7 @@ const handleLogin = (e) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-        dispatch(login(email, passwort))
+        dispatch(buergerLogin(email, passwort))
             .then(() => {
                 navigate("/buerger/dashboard");
                 window.location.reload();
