@@ -43,6 +43,7 @@ public class BuergerService {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> anmeldenBuerger(LoginDaten loginDaten) {
         try {
             // Suche nach dem Buerrger in der Datenbank

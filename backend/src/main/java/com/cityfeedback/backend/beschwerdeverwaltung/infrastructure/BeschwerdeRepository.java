@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface BeschwerdeRepository extends JpaRepository<Beschwerde, Long> {
-    List<Beschwerde> findByBuerger(Buerger buerger);
+    List<Beschwerde> findByBuerger(Optional<Buerger> buerger);
     // Boolean existsByBuerger(Buerger buerger);
 }
 

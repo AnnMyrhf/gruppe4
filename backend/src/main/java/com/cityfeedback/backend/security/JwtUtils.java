@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.security;
 
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,14 +25,43 @@ public class JwtUtils {
 
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
-
+/*
     // Erstmalige JWT-Erzeugung aus E-Mail, Datum, Ablaufdatum und "supersecure-Geheimnis" (siehe applications propperties)
     public String generateJwtToken(Authentication authentication) {
 
-        Buerger userPrincipal = (Buerger) authentication.getPrincipal();
+        Mitarbeiter userPrincipal = (Mitarbeiter) authentication.getPrincipal();
 
         return Jwts.builder().setSubject(userPrincipal.getUsername()).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+    }*/
+
+    // Erstmalige JWT-Erzeugung aus E-Mail, Datum, Ablaufdatum und "supersecure-Geheimnis" (siehe applications propperties)
+    public String generateJwtToken(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
+
+        // Bestimmt den Benutzertyp (Buerger oder Mitarbeiter) basierend auf dem Principal
+        if (principal instanceof Buerger) {
+            Buerger buerger = (Buerger) principal;
+            return Jwts.builder()
+                    .setSubject(buerger.getEmail())
+                    .claim("role", "BUERGER") // Fuegt einen Claim für die Rolle hinzu
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        } else if (principal instanceof Mitarbeiter) {
+            Mitarbeiter mitarbeiter = (Mitarbeiter) principal;
+            return Jwts.builder()
+                    .setSubject(mitarbeiter.getEmail())
+                    .claim("role", "MITARBEITER")
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        } else {
+            throw new IllegalArgumentException("Unsupported principal type");
+        }
     }
+
 
     // Manuelle JWT-Generierung (wenn Benutzerdaten geändert werden)
     public String generateJwtTokenMitEmail(String email) {

@@ -31,5 +31,4 @@ public class Beschwerde {
     @JoinColumn(name = "buerger_id")
     private Buerger buerger;
 
-
 }

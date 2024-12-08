@@ -27,24 +27,46 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
-    private BuergerDetailsService buergerDetailsService;
+    private BenutzerDetailsService benutzerDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String jwt = parseJwt(request);// JWT aus dem Authorization-Header holen (Bearer-Präfix entfernen)
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) { // wenn Anfrage JWT hat, wird sie validiert und die E-Mail=Username daraus geparst
-                String email = jwtUtils.getEmailFromJwtToken(jwt);
-                System.out.println(email);
-                System.out.println(jwt);
 
-                UserDetails userDetails = buergerDetailsService.loadUserByUsername(email);
+        try {
+            String jwt = parseJwt(request);
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+                String email = jwtUtils.getEmailFromJwtToken(jwt);
+
+                UserDetails userDetails = benutzerDetailsService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // neues Authentifizierungsobjekt erstellen
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                /*String requestURI = request.getRequestURI();
+                if (requestURI.equals("/buerger-anmelden")) {
+                    UserDetails userDetails = buergerDetailsService.loadUserByUsername(email);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // neues Authentifizierungsobjekt erstellen
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else if (requestURI.equals("/mitarbeiter-anmelden")) {
+                    UserDetails userDetails = mitarbeiterDetailsService.loadUserByUsername(email);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // neues Authentifizierungsobjekt erstellen
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    // Handle invalid request: Log an error and send an appropriate response
+                    logger.error("Invalid request URI: {}", requestURI);
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request");
+                    return; // Stop the filter chain
+                }*/
             }
+
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
@@ -62,3 +84,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         return null;
     }
 }
+

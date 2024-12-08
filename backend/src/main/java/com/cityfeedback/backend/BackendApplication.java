@@ -36,10 +36,15 @@ public class BackendApplication {
             Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
+
             Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
-            mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+
+            Mitarbeiter testMitarbeiter = new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+            testMitarbeiter.setPasswort(passwordEncoder.encode(testMitarbeiter.getPasswort()));
+            mitarbeiterRepository.save(testMitarbeiter);
+
             beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2));
             beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2
             ));
@@ -58,7 +63,7 @@ public class BackendApplication {
                     "Mit freundlichen Grüßen\n" +
 
                     "Max Mustermann", true, "application/pdf", testBuerger1));
-            mitarbeiterService.createNewMitarbeiter(new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            mitarbeiterService.registriereMitarbeiter(new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
             mitarbeiterService.Test();
 
         };
