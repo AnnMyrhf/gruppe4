@@ -44,27 +44,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                /*String requestURI = request.getRequestURI();
-                if (requestURI.equals("/buerger-anmelden")) {
-                    UserDetails userDetails = buergerDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // neues Authentifizierungsobjekt erstellen
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else if (requestURI.equals("/mitarbeiter-anmelden")) {
-                    UserDetails userDetails = mitarbeiterDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // neues Authentifizierungsobjekt erstellen
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    // Handle invalid request: Log an error and send an appropriate response
-                    logger.error("Invalid request URI: {}", requestURI);
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request");
-                    return; // Stop the filter chain
-                }*/
             }
 
         } catch (Exception e) {

@@ -48,10 +48,6 @@ public class BuergerTest {
     private BuergerService buergerService;
     @Autowired
     private BuergerRepository buergerRepository;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtUtils jwtUtils;
 
 
     @BeforeEach
@@ -119,6 +115,7 @@ public class BuergerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JwtResponse jwtResponse = (JwtResponse) response.getBody();
         assertNotNull(jwtResponse.getToken());
+        assertEquals(7, jwtResponse.getId()); // 3, weil in der main-Methode bereits zwei Testbuerger angelegt werden
         assertEquals(testBuerger4.getEmail(), jwtResponse.getEmail());
     }
 
