@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Beschwerde from "../components/beschwerde";
 import { useNavigate } from 'react-router-dom';
 
-export default function BuergerDashboard() {
+export default function Dashboard() {
     const [beschwerden, setBeschwerden] = useState([]);
 
     const navigate = useNavigate();

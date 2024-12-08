@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import '../styles/loginStyle.css'
-import { Navigate, useNavigate  } from 'react-router-dom';
+import {Link, Navigate, useNavigate} from 'react-router-dom';
 import { buergerLogin } from "../actions/auth-buerger";
 import { mitarbeiterLogin } from "../actions/auth-mitarbeiter";
 import buergerIcon from "../assests/people-group-solid.svg";
@@ -69,75 +69,75 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-decoration">
-        <img src={decorationIMG} alt="We want your Feedback"/>
-      </div>
-      <div className="loginForm-container">
-        <div className="loginForm-Header">
-          <h1>Anmelden</h1>
-          <p className="subinfo">Melden Sie sich an, um eine Beschwerde abzuschicken.</p>
+      <div className="login-container">
+        <div className="login-decoration">
+          <img src={decorationIMG} alt="We want your Feedback"/>
         </div>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="lvg">
-            <label htmlFor="rolle">Rolle</label>
-            <div id="rolle" style={{display: "flex", gap: "8px"}}>
-              <div onClick={() => handleRoleChange("Bürger")}
-                   className={selectedRole === "Bürger" ? "segmentBtn-active" : "segmentBtn"}
-                   tabindex={selectedRole === "Mitarbeiter" ? "0" : "-1"}
-                   onKeyDown={(event) => handleKeyDown(event, "Bürger")}
-              >
-                <img src={buergerIcon} alt="Icon" width="auto" height="16"/>
-                Bürger
-              </div>
-              <div onClick={() => handleRoleChange("Mitarbeiter")}
-                   className={selectedRole === "Mitarbeiter" ? "segmentBtn-active" : "segmentBtn"}
-                   tabindex={selectedRole === "Bürger" ? "0" : "-1"}
-                   onKeyDown={(event) => handleKeyDown(event, "Mitarbeiter")}
-              >
-                <img src={mitarbeiterIcon} alt="Icon" width="auto" height="16"/>
-                Mitarbeiter
+        <div className="loginForm-container">
+          <div className="loginForm-Header">
+            <h1>Anmelden</h1>
+            <p className="subinfo">Melden Sie sich an, um eine Beschwerde abzuschicken.</p>
+          </div>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="lvg">
+              <label htmlFor="rolle">Rolle</label>
+              <div id="rolle" style={{display: "flex", gap: "8px"}}>
+                <div onClick={() => handleRoleChange("Bürger")}
+                     className={selectedRole === "Bürger" ? "segmentBtn-active" : "segmentBtn"}
+                     tabIndex={selectedRole === "Mitarbeiter" ? "0" : "-1"}
+                     onKeyDown={(event) => handleKeyDown(event, "Bürger")}
+                >
+                  <img src={buergerIcon} alt="Icon" width="auto" height="16"/>
+                  Bürger
+                </div>
+                <div onClick={() => handleRoleChange("Mitarbeiter")}
+                     className={selectedRole === "Mitarbeiter" ? "segmentBtn-active" : "segmentBtn"}
+                     tabIndex={selectedRole === "Bürger" ? "0" : "-1"}
+                     onKeyDown={(event) => handleKeyDown(event, "Mitarbeiter")}
+                >
+                  <img src={mitarbeiterIcon} alt="Icon" width="auto" height="16"/>
+                  Mitarbeiter
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="lvg">
-            <label htmlFor="email">E-Mail Adresse<span className="required">*</span></label>
-            <input
-                type="text"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-            />
-          </div>
+            <div className="lvg">
+              <label htmlFor="email">E-Mail Adresse<span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
 
-          <div className="lvg">
-            <label htmlFor="passwort">Passwort<span className="required">*</span></label>
-            <input
-                type="password"
-                id="passwort"
-                name="passwort"
-                value={formData.passwort}
-                onChange={handleChange}
-                required
-            />
-          </div>
+            <div className="lvg">
+              <label htmlFor="passwort">Passwort<span className="required">*</span></label>
+              <input
+                  type="password"
+                  id="passwort"
+                  name="passwort"
+                  value={formData.passwort}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
 
 
-          <button type="submit">Als {selectedRole} anmelden</button>
-          <p style={{
-            width: "100%",
-            textAlign: "center",
-            margin: "-8px",
-            color: "#808080",
-            fontSize: "14px"
-          }}> Sie haben noch keinen Account? <a href="#register">Registrieren</a></p>
-        </form>
+            <button className="loginSubmit" type="submit">Als {selectedRole} anmelden</button>
+            <p style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "-8px",
+              color: "#808080",
+              fontSize: "14px"
+            }}> Sie haben noch keinen Account? <Link to="/registrieren">Registrieren</Link></p>
+          </form>
+        </div>
+
       </div>
-
-    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback} from "react";
 import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import UserService from "../services/user.service"
-import { logout } from "../actions/auth-buerger";
+import { buergerLogout } from "../actions/auth-buerger";
 
 const Profile = () => {
 
@@ -29,7 +29,7 @@ const Profile = () => {
     }, []);
 
     const logOut = useCallback(() => {
-        dispatch(logout());
+        dispatch(buergerLogout());
     }, [dispatch]);
 
     if (!currentUser) {
@@ -38,11 +38,11 @@ const Profile = () => {
 
     return (
         <div className="container">
-            <header className="jumbotron">
+
                 <h3>
                     <strong>{currentUser.vorname} {currentUser.nachname}</strong> Profile
                 </h3>
-            </header>
+
             <p>
                 <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
                 {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
@@ -53,12 +53,8 @@ const Profile = () => {
             <p>
                 <strong>Email:</strong> {currentUser.email}
             </p>
-            <strong>Authorities:</strong>
-            <ul>
-                {currentUser.roles &&
-                    currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-            </ul>
-            <a href="/buerger-anmelden" className="nav-link" onClick={logOut}>
+            <strong>Authorities:</strong> {currentUser.role} <br/>
+           <a href="/buerger-anmelden" className="nav-link" onClick={logOut}>
                 LogOut
             </a>
         </div>

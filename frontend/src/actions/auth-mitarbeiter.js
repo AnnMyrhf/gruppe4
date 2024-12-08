@@ -87,7 +87,7 @@ export const mitarbeiterLogin = (email, passwort) => (dispatch) => {
     );
 };
 
-export const logout = () => (dispatch) => {
+export const mitarbeiterLogout = () => (dispatch) => {
     AuthService.logout();
 
     dispatch({

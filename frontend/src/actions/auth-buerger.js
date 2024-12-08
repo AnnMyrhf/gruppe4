@@ -87,7 +87,7 @@ export const buergerLogin = (email, passwort) => (dispatch) => {
     );
 };
 
-export const logout = () => (dispatch) => {
+export const buergerLogout = () => (dispatch) => {
     AuthService.logout();
 
     dispatch({

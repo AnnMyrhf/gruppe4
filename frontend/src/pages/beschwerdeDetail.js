@@ -34,7 +34,6 @@ export default function BeschwerdeDetail() {
             <p>Datum: {beschwerde.erstellDatum}</p>
             <p>Status: {beschwerde.status}</p>
             <p>Priorität: {beschwerde.prioritaet}</p>
-            {/* Weitere Details je nach Bedarf */}
         </div>
     );
 }

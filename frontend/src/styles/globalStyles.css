@@ -24,6 +24,29 @@ p{
     margin: 0;
 }
 
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    background-color: #202020;
+    padding: 0 16px;
+
+    nav{
+        display: flex;
+        gap: 16px;
+        color: white;
+    }
+}
+
+.navItem{
+    color: white;
+}
+
+.navItem:hover{
+    color: #E6E6E6;
+}
+
 .lvg{
     display: flex;
     flex-direction: column;
