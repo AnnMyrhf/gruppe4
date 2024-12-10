@@ -30,14 +30,12 @@ public class BackendApplication {
     @Bean
     CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService, PasswordEncoder passwordEncoder){
         return args -> {
-            // Leere Liste fuer Beschwerden
-            final List<Beschwerde> beschwerden = new ArrayList<>();
             // Testobjekte
-            Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?");
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
 
-            Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?");
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 

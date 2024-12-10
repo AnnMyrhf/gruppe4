@@ -29,7 +29,7 @@ public class BeschwerdeService {
         return beschwerdeRepository.save(beschwerde);
     }
 
-    public BeschwerdeService(){
+    public BeschwerdeService() {
         this.beschwerdeRepository = beschwerdeRepository;
     }
 
@@ -69,9 +69,11 @@ public class BeschwerdeService {
         return true;
     }
 
-   /* public int getAnzahlBeschwerden(Long id) {
-        Optional<Buerger> buerger = buergerRepository.findById(id);
-        List<Beschwerde> alleBeschwerden = beschwerdeRepository.findByBuerger(buerger);
-        return alleBeschwerden.size();
-    }*/
+    public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
+        List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
+        if (beschwerden.isEmpty()) {
+            throw new IllegalArgumentException("Keine Beschwerden für Buerger-ID " + buergerId + " gefunden");
+        }
+        return beschwerden;
+    }
 }

@@ -34,14 +34,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class BuergerTest {
 
-    // Leere Liste fuer Beschwerden
-    private final List<Beschwerde> beschwerden = new ArrayList<>();
-
     // Testobjekte
-    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
-    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
-    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
-    Buerger testBuerger4 = new Buerger(1L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
+    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?");
+    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?");
+    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!");
+    Buerger testBuerger4 = new Buerger(1L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!");
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired

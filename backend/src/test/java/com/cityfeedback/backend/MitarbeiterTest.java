@@ -148,8 +148,11 @@ public class MitarbeiterTest {
     @Test
     public void testValidation_VornameZuLang() {
         testMitarbeiter1.setVorname("Anna".repeat(31)); // 31 Zeichen
-        ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter1);
-       assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        EXCEPTION_TYPE thrown = assertThrows(EXCEPTION_TYPE.class, () -> {
+        mitarbeiterService.registriereMitarbeiter(testMitarbeiter1);
+    });
+
+    assertEquals(expected, actual);
     }
 
     @Test

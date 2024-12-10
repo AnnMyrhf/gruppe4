@@ -1,5 +1,6 @@
 package com.cityfeedback.backend.buergerverwaltung.application.service;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
@@ -26,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -88,7 +90,7 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort());
         neuerBuerger.setPasswort(passwordEncoder.encode(neuerBuerger.getPasswort()));
 
         try {
@@ -124,4 +126,6 @@ public class BuergerService {
         return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
 
     }
+
+
 }

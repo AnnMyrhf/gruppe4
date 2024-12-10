@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface BeschwerdeRepository extends JpaRepository<Beschwerde, Long> {
     List<Beschwerde> findByBuerger(Optional<Buerger> buerger);
+    List<Beschwerde> findByBuerger_Id(Long buergerId);
     // Boolean existsByBuerger(Buerger buerger);
 }
 
