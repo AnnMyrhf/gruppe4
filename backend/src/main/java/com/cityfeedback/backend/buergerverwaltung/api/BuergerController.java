@@ -24,8 +24,6 @@ public class BuergerController {
 
     BuergerService buergerService;
 
-    BeschwerdeService beschwerdeService;
-
     @PostMapping("/buerger-registrieren")
     public ResponseEntity<?> registriereBuerger(@Valid @RequestBody Buerger buerger) {
         return buergerService.registriereBuerger(buerger);
@@ -34,11 +32,6 @@ public class BuergerController {
     @PostMapping("/buerger-anmelden")
     public ResponseEntity<?> anmeldenBuerger(@RequestBody LoginDaten loginDaten) {
         return buergerService.anmeldenBuerger(loginDaten);
-    }
-
-    @GetMapping("/buerger/dashboard/{buerger}")
-    public int getAnzahlBeschwerden(@PathVariable("buerger") Buerger buerger){
-        return beschwerdeService.getAnzahlBeschwerden(buerger);
     }
 
     @DeleteMapping("/buerger-loeschen/{id}")

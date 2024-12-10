@@ -1,11 +1,12 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.api.BuergerController;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,14 @@ public class BeschwerdeService {
 
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
+    @Autowired
+    private BuergerController buergerController;
 
     public Beschwerde createBeschwerde(Beschwerde beschwerde) {
         return beschwerdeRepository.save(beschwerde);
     }
 
-    public BeschwerdeService(BeschwerdeRepository beschwerdeRepository){
+    public BeschwerdeService() {
         this.beschwerdeRepository = beschwerdeRepository;
     }
 
@@ -66,8 +69,11 @@ public class BeschwerdeService {
         return true;
     }
 
-    public int getAnzahlBeschwerden(Buerger buerger) {
-        List<Beschwerde> alleBeschwerden = beschwerdeRepository.findByBuerger(buerger);
-        return alleBeschwerden.size();
+    public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
+        List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
+        if (beschwerden.isEmpty()) {
+            throw new IllegalArgumentException("Keine Beschwerden für Buerger-ID " + buergerId + " gefunden");
+        }
+        return beschwerden;
     }
 }

@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     @Autowired
-    BuergerDetailsService buergerDetailsService;
+    BenutzerDetailsService benutzerDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -35,16 +35,17 @@ public class WebSecurityConfig {
         return new AuthTokenFilter();
     }
 
-    //  Wird benötigt, um Email und Passwort zu authentifizieren
+    //  Wird benoetigt, um E-Mail und Passwort eines Benutzers zu authentifizieren
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(buergerDetailsService);
+        authProvider.setUserDetailsService(benutzerDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
     }
+
 
     // Koordiniert Authentifizierungsanfragen und leitet an richtigen Provider weiter
     @Bean
@@ -76,13 +77,13 @@ public class WebSecurityConfig {
         // Definiert Autorisierungsregeln
         http.authorizeHttpRequests(requests -> requests
                 // Öffentliche Endpunkte (keine Authentifizierung erforderlich)
-                .requestMatchers("/buerger-anmelden/**", "/buerger-registrieren/**", "/h2/**").permitAll()
+                .requestMatchers("/buerger/dashboard/**", "/buerger-anmelden/**", "/buerger-registrieren/**", "/mitarbeiter-registrieren/**", "/mitarbeiter-anmelden/**", "/h2/**").permitAll()
 
                 // Endpunkte, die die Rolle "BUERGER" erfordern
                 .requestMatchers("/beschwerde/**", "/buerger-loeschen/**").hasRole("BUERGER")
 
                 // Endpunkte, die die Rolle "MITARBEITER" erfordern
-                .requestMatchers("/mitarbeiter-registrieren/**", "/mitarbeiter-loeschen/**", "/mitarbeiter-anmelden/**").hasRole("MITARBEITER")
+                .requestMatchers("/mitarbeiter-loeschen/**").hasRole("MITARBEITER")
 
                 // Alle anderen Anfragen erfordern eine Authentifizierung (beliebige Rolle)
                 .anyRequest().authenticated());
@@ -90,7 +91,7 @@ public class WebSecurityConfig {
         // Ermöglicht iframes für die h2-Konsole
         http.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
-        // Benutzerdefinierten Authentifizierungs-Provider
+        // Benutzerdefinierter Authentifizierungs-Provider
         http.authenticationProvider(authenticationProvider());
 
         // Fügt einen benutzerdefinierten JWT-Authentifizierungsfilter vor dem UsernamePasswordAuthenticationFilter hinzu

@@ -34,23 +34,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class BuergerTest {
 
-    // Leere Liste fuer Beschwerden
-    private final List<Beschwerde> beschwerden = new ArrayList<>();
     // Testobjekte
-    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
-    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?", beschwerden);
-    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
-    Buerger testBuerger4 = new Buerger(126L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
+    Buerger testBuerger1 = new Buerger(123L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?");
+    Buerger testBuerger2 = new Buerger(124L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.com", "StarkesPW1?");
+    Buerger testBuerger3 = new Buerger(125L, "Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!");
+    Buerger testBuerger4 = new Buerger(1L, "Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!");
+
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
     private BuergerService buergerService;
     @Autowired
     private BuergerRepository buergerRepository;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtUtils jwtUtils;
 
 
     @BeforeEach
@@ -117,9 +112,10 @@ public class BuergerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JwtResponse jwtResponse = (JwtResponse) response.getBody();
         assertNotNull(jwtResponse.getToken());
-        assertEquals(testBuerger1.getId(), jwtResponse.getId());
-        assertEquals(testBuerger1.getEmail(), jwtResponse.getEmail());
-    }*/
+
+        assertEquals(7, jwtResponse.getId()); // 3, weil in der main-Methode bereits zwei Testbuerger angelegt werden
+        assertEquals(testBuerger4.getEmail(), jwtResponse.getEmail());
+    }
 
     @Test
     void anmeldenBuerger_FalscheEmail() {

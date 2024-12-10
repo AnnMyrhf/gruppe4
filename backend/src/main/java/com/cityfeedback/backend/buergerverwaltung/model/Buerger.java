@@ -52,9 +52,6 @@ public class Buerger implements UserDetails {
     //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Das Passwort min. 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten!")
     private String passwort;
 
-    @OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
-    private List<Beschwerde> beschwerden = new ArrayList<>();
-
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
      *
