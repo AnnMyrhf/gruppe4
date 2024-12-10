@@ -60,9 +60,9 @@ public class MitarbeiterService {
             // Holt den authentifizierten Mitarbeiter aus dem Authentication-Objekt
             Mitarbeiter authenticatedUser = (Mitarbeiter) authentication.getPrincipal();
 
-            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail()));
+            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), "MITARBEITER"));
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.badRequest().body("mitarbeiter-Daten konnten nicht gefunden");
+            return ResponseEntity.badRequest().body("Mitarbeiter-Daten konnten nicht gefunden");
         } catch (BadCredentialsException e) {
             return ResponseEntity.badRequest().body("Ungültige Anmeldedaten: E-Mail oder Passwort falsch!"); // aus Sicherheitsgründen kein eindeutiger Hinweis
         }

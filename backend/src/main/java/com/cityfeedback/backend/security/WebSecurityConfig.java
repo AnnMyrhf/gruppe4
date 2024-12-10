@@ -62,9 +62,6 @@ public class WebSecurityConfig {
     /* Konfiguration von Cross Origin Resource Sharing, Cross-Site-Request-Forgery,
      * Sitzungsverwaltung, Regeln für geschützte Ressourcen und Rollen-Konzept
      */
-    /* Konfiguration von Cross Origin Resource Sharing, Cross-Site-Request-Forgery,
-     * Sitzungsverwaltung, Regeln fuer geschuetzte Ressourcen und Rollen-Konzept
-     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
