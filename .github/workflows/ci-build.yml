@@ -35,10 +35,14 @@ jobs:
         run: mvn test
         working-directory: backend
 
+      - name: Package project
+        run: mvn package
+        working-directory: backend
+
       - name: Upload target folder
         uses: actions/upload-artifact@v4
         with:
-          name: target-folder
+          name: target
           path: backend/target  # Pfad zum Zielverzeichnis, das hochgeladen werden soll
 
       - name: Build with Maven

@@ -7,7 +7,7 @@ import {
     SET_MESSAGE,
 } from "./types";
 
-import AuthService from "../services/auth-buerger-service";
+import AuthService from "../services/auth-mitarbeiter-service";
 
 export const register = (anrede,
                           vorname,
@@ -55,7 +55,7 @@ export const register = (anrede,
     );
 };
 
-export const buergerLogin = (email, passwort) => (dispatch) => {
+export const mitarbeiterLogin = (email, passwort) => (dispatch) => {
     return AuthService.login(email, passwort).then(
         (data) => {
             dispatch({
@@ -87,7 +87,7 @@ export const buergerLogin = (email, passwort) => (dispatch) => {
     );
 };
 
-export const buergerLogout = () => (dispatch) => {
+export const mitarbeiterLogout = () => (dispatch) => {
     AuthService.logout();
 
     dispatch({
