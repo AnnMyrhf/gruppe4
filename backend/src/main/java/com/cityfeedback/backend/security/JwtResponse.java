@@ -13,11 +13,13 @@ public class JwtResponse {
     private String type = "Bearer"; // Inhaber-Token, Client schickt dann bei jeder Anfrage Token im HTTP-Autorisierungsheader mit
     private Long id;
     private String email;
+    private String role;
 
-    public JwtResponse(String accessToken, Long id, String email) {
+    public JwtResponse(String accessToken, Long id, String email, String role) {
         this.token = accessToken;
         this.id = id;
         this.email = email;
+        this.role = role;
     }
 
     public String getAccessToken() {

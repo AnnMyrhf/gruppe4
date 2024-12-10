@@ -1,0 +1,123 @@
+label{
+    font-size: 14px;
+    color: #4D4D4D;
+    font-weight: normal;
+}
+
+.subinfo{
+    font-size: 14px;
+    color: #808080;
+    font-weight: normal;
+}
+
+.required {
+    color: red;
+}
+
+h1{
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+p{
+    margin: 0;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    background-color: #202020;
+    padding: 0 16px;
+
+    nav{
+        display: flex;
+        gap: 16px;
+        color: white;
+    }
+}
+
+.navItem{
+    color: white;
+}
+
+.navItem:hover{
+    color: #E6E6E6;
+}
+
+.lvg{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.segmentBtn{
+    height: 44px;
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    padding: 0 16px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #B3B3B3;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.segmentBtn:hover{
+    background-color: #EFF6FA;
+}
+
+.segmentBtn-active{
+    height: 44px;
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    padding: 0 16px;
+    background-color: #EFF6FA;
+    border-radius: 8px;
+    border: 1px solid #1080BF;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: 2px solid #1080BF;
+    outline-offset: -1px;
+}
+
+input{
+    height: 44px;
+    width: 100%;
+    padding: 0 8px;
+    border: 1px solid #B3B3B3;
+    border-radius: 8px;
+}
+
+input:hover{
+    background-color: #EFF6FA;
+}
+
+input:focus-visible{
+    outline-color: #1080BF;
+}
+
+button[type="submit"] {
+    height: 44px;
+    border-radius: 8px;
+    background-color: #202020;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #3B3B3B;
+}
+
+button[type="submit"]:focus-visible {
+    outline: 2px solid #FFAD02;
+    outline-offset: -1px;
+}

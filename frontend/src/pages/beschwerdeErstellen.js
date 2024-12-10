@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../style/registerStyle.css'
+import '../styles/registerStyle.css'
 import { useNavigate } from 'react-router-dom';
 
 const BeschwerdeForm = () => {

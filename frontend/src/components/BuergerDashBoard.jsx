@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import UserService from "../services/user.service";
 import EventBus from "../commons/EventBus";
 
-const BuergerDashboard = () => {
+const Dashboard = () => {
     const [content, setContent] = useState("");
 
     useEffect(() => {
@@ -38,4 +38,4 @@ const BuergerDashboard = () => {
     );
 };
 
-export default BuergerDashboard;*/
+export default Dashboard;*/
