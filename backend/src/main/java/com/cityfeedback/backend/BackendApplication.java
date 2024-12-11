@@ -1,7 +1,7 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
@@ -40,12 +40,12 @@ public class BackendApplication {
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
             mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
-            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2));
-            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf", testBuerger2
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", true, "application/pdf", testBuerger2));
+            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext" , true, "application/pdf", testBuerger2
             ));
-            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Infrastruktur", "Hoch", "A", true, "application/pdf", testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Infrastruktur", "Hoch", "B", true, "application/pdf", testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Infrastruktur", "Hoch", "Sehr geehrte Damen und Herren,\n" +
+            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "A", true, "application/pdf", testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "B", true, "application/pdf", testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Hoch","Infrastruktur", "Beschwerdetitel", "Sehr geehrte Damen und Herren,\n" +
                     "\n" +
                     "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
                     "\n" +

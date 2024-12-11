@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.buergerverwaltung.application.service;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
@@ -27,7 +26,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
-import java.util.List;
 
 @Service
 @AllArgsConstructor

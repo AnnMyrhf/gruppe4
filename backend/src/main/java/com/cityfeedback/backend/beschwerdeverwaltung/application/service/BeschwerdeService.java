@@ -1,14 +1,12 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.api.BuergerController;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,14 +38,14 @@ public class BeschwerdeService {
 
     // Liste unerlaubter Zeichen
     private String[] UNERLAUBTE_ZEICHEN = {"<", ">", ";"};
-
+/*
     public boolean isBeschwerdeDatenGueltig(Beschwerde beschwerde) {
         if (beschwerde.getErstellDatum() == null ||
                 beschwerde.getStatus() == null || beschwerde.getStatus().isEmpty() ||
                 beschwerde.getBeschwerdeTyp() == null || beschwerde.getBeschwerdeTyp().isEmpty() ||
                 beschwerde.getPrioritaet() == null || beschwerde.getPrioritaet().isEmpty() ||
                 beschwerde.getTextfeld() == null || beschwerde.getTextfeld().isEmpty() || beschwerde.getTextfeld().length() > 1000 ||
-                beschwerde.getDatentypAnhang() == null || beschwerde.getDatentypAnhang().isEmpty()) {
+                beschwerde.getAnhang()nhang() == null || beschwerde.getAnhang().isEmpty()) {
             return false;
         }
 
@@ -57,7 +55,7 @@ public class BeschwerdeService {
         }
 
         // Validierung des Datentyps des Anhangs
-        if (!DATENTYP_ANHANG_PATTERN.matcher(beschwerde.getDatentypAnhang()).matches()) {
+        if (!DATENTYP_ANHANG_PATTERN.matcher(beschwerde.getAnhang()).matches()) {
             return false;
         }
 
@@ -67,7 +65,7 @@ public class BeschwerdeService {
         }
 
         return true;
-    }
+    }*/
 
     public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
         List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
