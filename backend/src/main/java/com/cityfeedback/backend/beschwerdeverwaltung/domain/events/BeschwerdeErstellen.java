@@ -18,7 +18,7 @@ public class BeschwerdeErstellen extends DomainEvent {
         this.beschwerde = Objects.requireNonNull(beschwerde, "Beschwerde darf nicht null sein");
     }
 }*/
-
+/*
 @Entity
 @Data
 @NoArgsConstructor
@@ -34,4 +34,4 @@ public class BeschwerdeErstellen extends DomainEvent {
     private Anhang anhang;
 
 
-}
+}*/

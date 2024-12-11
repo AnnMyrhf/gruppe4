@@ -1,5 +1,6 @@
 package com.cityfeedback.backend;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
@@ -12,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,19 +34,24 @@ public class BackendApplication {
         return args -> {
             // Leere Liste fuer Beschwerden
             final List<Beschwerde> beschwerden = new ArrayList<>();
+            BindingResult bindingResult;
+
             // Testobjekte
             Buerger testBuerger1 = new Buerger(1L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
+
             Buerger testBuerger2 = new Buerger(2L, "Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
+
             mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
-            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", true, "application/pdf", testBuerger2));
-            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext" , true, "application/pdf", testBuerger2
-            ));
-            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "A", true, "application/pdf", testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "B", true, "application/pdf", testBuerger1));
+
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("beschwerde.pdf", "application/pdf", 12345L, "Bytes"), testBuerger2));
+            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("foto.jpg", "application/jpg", 12346L, "Bytes"), testBuerger1));
+
+            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "A", new Anhang("info.pdf", "application/pdf", 12348L, "Bytes"), testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "B", new Anhang("foto2.jpg", "application/jpg", 12348L, "Bytes"), testBuerger1));
             beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Hoch","Infrastruktur", "Beschwerdetitel", "Sehr geehrte Damen und Herren,\n" +
                     "\n" +
                     "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
@@ -57,8 +64,9 @@ public class BackendApplication {
                     "\n" +
                     "Mit freundlichen Grüßen\n" +
 
-                    "Max Mustermann", true, "application/pdf", testBuerger1));
-            mitarbeiterService.registriereMitarbeiter(new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+                    "Max Mustermann", new Anhang("beschwerde.jpg", "application/jpg", 12378L, "Bytes"), testBuerger1));
+            Mitarbeiter testMitarbeiter2 = new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+            mitarbeiterService.registriereMitarbeiter(testMitarbeiter2);
             mitarbeiterService.Test();
 
         };

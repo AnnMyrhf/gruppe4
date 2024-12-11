@@ -4,12 +4,11 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
+@Embeddable
 @Data
-@Embeddable// automatisch Getter, Setter, toString() usw
+@NoArgsConstructor// automatisch Getter, Setter, toString() usw
 @AllArgsConstructor
-@NoArgsConstructor
 public class Anhang {
          String dateiName;
          String datenTyp;
