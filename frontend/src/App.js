@@ -6,7 +6,7 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/registrieren";
 
-import Profile from "./components/Profile";
+import Dashboard from "./pages/dashboard";
 import { buergerLogout } from "./actions/auth-buerger";
 import { clearMessage } from "./actions/message";
 import Header from "./components/Header";
@@ -19,16 +19,6 @@ export default function App(){
     const dispatch = useDispatch();
 
     let location = useLocation();
-
-    useEffect(() => {
-        if (["/buerger-anmelden", "/buerger-registrieren"].includes(location.pathname)) {
-            dispatch(clearMessage()); // clear message when changing location
-        }
-    }, [dispatch, location]);
-
-    const logOut = useCallback(() => {
-        dispatch(buergerLogout());
-    }, [dispatch]);
 
     useEffect(() => {
         console.log(currentUser)
@@ -44,6 +34,8 @@ export default function App(){
 
     return (
         <div className="app" style={{
+            display: "flex",
+            flexDirection: "column",
             width: "100%",
             height: "100%"
         }}
@@ -51,9 +43,9 @@ export default function App(){
             {currentUser && <Header />}
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route path="/buerger-anmelden" element={<Login />} />
+                <Route path="/anmelden" element={<Login />} />
                 <Route path="/registrieren" element={<Register/>}/>
-                <Route path="/buerger" element={<Profile />}/>
+                <Route path="/dashboard" element={<Dashboard />}/>
                 <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
             </Routes>
         </div>

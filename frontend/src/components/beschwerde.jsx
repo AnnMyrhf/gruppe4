@@ -1,82 +1,41 @@
-/*
+import "../styles/beschwerde.css";
+import Tag from './Tag';
+
 export default function Beschwerde(props) {
-    const {beschwerde}= props
+    const {beschwerde} = props
 
-    //Styles
-    const cardStyle = {
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: "32px",
-    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString); // Umwandlung des ISO 8601-Strings in ein Date-Objekt
+        const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
 
-    const headerStyle = {
-        display: "flex",
-        gap: "32px",
-        justifyContent: "start"
-    };
-
-    const headerElementStyle = {
-        display: "flex",
-        gap: "4px",
-        flexDirection: "column",
-    };
-
-    const headerItemStyle = {
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px"
-    };
-
-    const descriptionStyle = {
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "start",
-        gap: "4px"
+        // Formatierung mit Intl.DateTimeFormat
+        return new Intl.DateTimeFormat('de-DE', options).format(date);
     };
 
     return (
-        <div style={cardStyle}>
-            <div style={headerStyle}>
-                <div style={headerItemStyle}>
-                    <p className="Label">ID</p>
-                    <p>{beschwerde.id}</p>
+        <div className="beschwerde">
+            <div className="beschwerde-head">
+                <div className="beschwerde-title-container">
+                    <h3 className="beschwerde-title">Beschwerdetitel</h3>
+                    <Tag text={beschwerde.prioritaet} status="kritisch" />
                 </div>
-
-                <div style={headerItemStyle}>
-                    <p className="Label">Datum</p>
-                    <p>Datum</p>
-                </div>
-
-                <div style={headerItemStyle}>
-                    <p className="Label">Status</p>
-                    <p>{beschwerde.status}</p>
-                </div>
-
-                <div style={headerItemStyle}>
-                    <p className="Label">Priorität</p>
-                    <p>{beschwerde.prioritaet}</p>
-                </div>
-
-                <div style={headerItemStyle}>
-                    <p className="Label">Anhang</p>
-                    <p>{beschwerde.anhang}</p>
+                <div className="beschwerde-subinfo">
+                    <p>{formatDate(beschwerde.erstellDatum)}</p>
+                    <div className="subinfo-divider"></div>
+                    <p>{beschwerde.beschwerdeTyp}</p>
+                    {beschwerde.anhang && (
+                        <>
+                            <div className="subinfo-divider"></div>
+                            <p>{beschwerde.anhang}</p>
+                        </>
+                    )}
                 </div>
             </div>
-            <div style={descriptionStyle}>
-                <p className="Label">Beschreibung:</p>
-                <p style={{
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical', // Präfix für -webkit-box-orient
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    WebkitLineClamp: 5, // Präfix für -webkit-line-clamp
-                    lineHeight: '1.5em', // Optional: Zeilenhöhe für Berechnung
-                    maxHeight: 'calc(1.5em * 5)', // Maximale Höhe basierend auf 5 Zeilen
-                }}>{beschwerde.textfeld}</p>
-            </div>
+            <p className="beschwerde-text">{beschwerde.textfeld}</p>
         </div>
     );
-}*/
+}

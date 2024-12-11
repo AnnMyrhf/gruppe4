@@ -28,9 +28,8 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 64px;
     background-color: #202020;
-    padding: 0 16px;
+    padding: 16px 16px;
 
     nav{
         display: flex;
@@ -103,7 +102,7 @@ input:focus-visible{
     outline-color: #1080BF;
 }
 
-button[type="submit"] {
+button[type="submit"], .primary-btn {
     height: 44px;
     border-radius: 8px;
     background-color: #202020;
@@ -113,11 +112,11 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover, .primary-btn:hover {
     background-color: #3B3B3B;
 }
 
-button[type="submit"]:focus-visible {
+button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     outline: 2px solid #FFAD02;
     outline-offset: -1px;
 }

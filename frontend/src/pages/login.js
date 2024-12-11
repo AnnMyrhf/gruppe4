@@ -35,11 +35,10 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handleSubmit")
     if (selectedRole === "Bürger"){
       dispatch(buergerLogin(formData.email, formData.passwort))
           .then(() => {
-            navigate("/buerger");
+            navigate("/dashboard");
             window.location.reload();
           })
           .catch(() => {
@@ -48,7 +47,7 @@ const LoginForm = () => {
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterLogin(formData.email, formData.passwort))
           .then(() => {
-            navigate("/mitarbeiter");
+            navigate("/dashboard");
             window.location.reload();
           })
           .catch(() => {
