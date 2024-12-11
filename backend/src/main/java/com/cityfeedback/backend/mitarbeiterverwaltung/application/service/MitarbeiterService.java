@@ -60,7 +60,7 @@ public class MitarbeiterService {
             // Holt den authentifizierten Mitarbeiter aus dem Authentication-Objekt
             Mitarbeiter authenticatedUser = (Mitarbeiter) authentication.getPrincipal();
 
-            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), "MITARBEITER"));
+            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities().toArray()));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().body("Mitarbeiter-Daten konnten nicht gefunden");
         } catch (BadCredentialsException e) {
@@ -106,7 +106,7 @@ public class MitarbeiterService {
     }
 
     public String Test() {
-        return "Ich wurde returned";
+        return "yippie, das backend läuft!";
     }
 
 }

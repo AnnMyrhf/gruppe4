@@ -63,7 +63,7 @@ public class BuergerService {
             // Holt den authentifizierten Buerger aus dem Authentication-Objekt
             Buerger authenticatedUser = (Buerger) authentication.getPrincipal();
 
-            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), "BUERGER"));
+            return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities().toArray()));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().body("Buerger-Daten konnten nicht gefunden");
         } catch (BadCredentialsException e) {

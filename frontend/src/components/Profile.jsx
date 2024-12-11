@@ -53,7 +53,7 @@ const Profile = () => {
             <p>
                 <strong>Email:</strong> {currentUser.email}
             </p>
-            <strong>Authorities:</strong> {currentUser.role} <br/>
+            <strong>Authorities:</strong> {currentUser.role[0].authority} <br/>
            <a href="/buerger-anmelden" className="nav-link" onClick={logOut}>
                 LogOut
             </a>
