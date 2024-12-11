@@ -9,18 +9,23 @@ import {
 
 import AuthService from "../services/auth-mitarbeiter-service";
 
-export const register = (anrede,
-                          vorname,
-                          nachname,
-                          telefonnummer,
-                          email,
-                          passwort) => (dispatch) => {
+export const mitarbeiterRegister = (anrede,
+                                    vorname,
+                                    nachname,
+                                    telefonnummer,
+                                    email,
+                                    passwort,
+                                    abteilung,
+                                    position
+) => (dispatch) => {
     return AuthService.register( anrede,
         vorname,
         nachname,
         telefonnummer,
         email,
-        passwort).then(
+        passwort,
+        abteilung,
+        position).then(
         (response) => {
             dispatch({
                 type: REGISTER_SUCCESS,

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import '../styles/registerStyle.css'
-import { register } from "../actions/auth-buerger";
-import {Navigate, useNavigate} from "react-router-dom";
+import {buergerRegister} from "../actions/auth-buerger";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import decorationIMG from "../assests/FeedbackIMG.png";
+import buergerIcon from "../assests/people-group-solid.svg";
+import mitarbeiterIcon from "../assests/user-tie-solid.svg";
+import {mitarbeiterRegister} from "../actions/auth-mitarbeiter";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -12,41 +15,21 @@ const RegistrationForm = () => {
     telefonnummer: '',
     email: '',
     passwort: '',
+    abteilung: '',
+    position: ''
   });
 
-  const [errors, setErrors] = useState({});
-  const [submitError, setSubmitError] = useState('');
 
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector(state => state.auth);
-  const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("Bürger");
+
 
   const { user: currentUser } = useSelector((state) => state.auth);
 
   if (currentUser) {
-    return <Navigate to="/buerger" />;
+    return <Navigate to="/dashboard" />;
   }
-
-  const validateField = (name, value) => {
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const telefonnummerRegex = /^\d+$/;
-    const passwortRegEx = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    switch (name) {
-      case 'email':
-        return emailRegex.test(value) ? '' : 'Ungültige E-Mail-Adresse';
-      case 'telefonnummer':
-        return telefonnummerRegex.test(value) ? '' : 'Telefonnummer darf nur Zahlen enthalten';
-      case 'passwort':
-        return passwortRegEx.test(value) ? '' : 'Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten';
-      case 'confirmPassword':
-        return value === formData.passwort ? '' : 'Passwörter stimmen nicht überein';
-      default:
-        return '';
-    }
-};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,148 +37,203 @@ const RegistrationForm = () => {
       ...prevState,
       [name]: value
     }));
-
-    const error = validateField(name, value);
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [name]: error
-    }));
-    console.log(formData)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formErrors = {};
-    Object.keys(formData).forEach(key => {
-      const error = validateField(key, formData[key]);
-      if (error) {
-        formErrors[key] = error;
-      }
-    });
-    if (Object.keys(formErrors).length === 0) {
-        // Form is valid, you can submit the data
-        console.log('Form submitted:', formData);
-        // Here you would typically send the data to your backend
-        dispatch(register(formData.anrede,
-            formData.vorname,
-            formData.nachname,
-            formData.telefonnummer,
-            formData.email,
-            formData.passwort))
-            .then(() => {
-              alert('Registrierung erfolgreich!');
-              navigate("/buerger-anmelden");
-              window.location.reload();
-            })
-            .catch(() => {
+    if (selectedRole === "Bürger"){
+      dispatch(buergerRegister(formData.anrede,
+          formData.vorname,
+          formData.nachname,
+          formData.telefonnummer,
+          formData.email,
+          formData.passwort))
+          .then(() => {
+            alert('Bürger Registrierung erfolgreich!');
+            navigate("/");
+            window.location.reload();
+          })
+          .catch(() => {
 
-            });
+          });
+    } else if (selectedRole === "Mitarbeiter"){
+      dispatch(mitarbeiterRegister(formData.anrede,
+          formData.vorname,
+          formData.nachname,
+          formData.telefonnummer,
+          formData.email,
+          formData.passwort,
+          formData.abteilung,
+          formData.position
+          ))
+          .then(() => {
+            alert('Mitarbeiter Registrierung erfolgreich!');
+            navigate("/");
+            window.location.reload();
+          })
+          .catch(() => {
 
-      } else {
-        // Form has errors
-        setErrors(formErrors);
-        setSubmitError('Bitte korrigieren Sie die Fehler im Formular.');
-      }
-    };  
+          });
+    }
+  };
+
+  const handleRoleChange = (role) => {
+    setSelectedRole(role);
+  };
+
+  const handleKeyDown = (event, role) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault(); // Verhindert Scrollen bei Leertaste
+      handleRoleChange(role);
+    }
+  };
 
   return (
-    <div className="registration-container">
-      <form onSubmit={handleSubmit} className="registration-form">
-        <h2>Registrieren</h2>
-        <h4>Erstellen Sie ein Konto, um Zugang zu weiteren Funktionen zu erhalten.</h4>
-        
-        <div className="form-group">
-          <label htmlFor="anrede">Anrede <span className="required">*</span></label>
-          <input 
-            type="text" 
-            id="anrede" 
-            name="anrede" 
-            value={formData.anrede}
-            onChange={handleChange}
-            required 
-          />
+      <div className="login-container">
+        <div className="login-decoration">
+          <img src={decorationIMG} alt="We want your Feedback"/>
+        </div>
+        <div className="loginForm-container">
+          <div className="loginForm-Header">
+            <h1>Registrieren</h1>
+            <p className="subinfo">Erstellen Sie ein Konto, um Beschwerden einzureichen.</p>
+          </div>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="lvg">
+              <label htmlFor="rolle">Rolle</label>
+              <div id="rolle" style={{display: "flex", gap: "8px"}}>
+                <div onClick={() => handleRoleChange("Bürger")}
+                     className={selectedRole === "Bürger" ? "segmentBtn-active" : "segmentBtn"}
+                     tabIndex={selectedRole === "Mitarbeiter" ? "0" : "-1"}
+                     onKeyDown={(event) => handleKeyDown(event, "Bürger")}
+                >
+                  <img src={buergerIcon} alt="Icon" width="auto" height="16"/>
+                  Bürger
+                </div>
+                <div onClick={() => handleRoleChange("Mitarbeiter")}
+                     className={selectedRole === "Mitarbeiter" ? "segmentBtn-active" : "segmentBtn"}
+                     tabIndex={selectedRole === "Bürger" ? "0" : "-1"}
+                     onKeyDown={(event) => handleKeyDown(event, "Mitarbeiter")}
+                >
+                  <img src={mitarbeiterIcon} alt="Icon" width="auto" height="16"/>
+                  Mitarbeiter
+                </div>
+              </div>
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="anrede">Anrede <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="anrede"
+                  name="anrede"
+                  value={formData.anrede}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="vorname">Vorname <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="vorname"
+                  name="vorname"
+                  value={formData.vorname}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="nachname">Nachname <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="nachname"
+                  name="nachname"
+                  value={formData.nachname}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="telefonnummer">Telefonnummer <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="telefonnummer"
+                  name="telefonnummer"
+                  value={formData.telefon}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            {selectedRole === "Mitarbeiter" && (<div className="lvg">
+              <label htmlFor="abteilung">Abteilung <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="abteilung"
+                  name="abteilung"
+                  value={formData.abteilung}
+                  onChange={handleChange}
+                  required
+              />
+            </div>)}
+
+            {selectedRole === "Mitarbeiter" && (<div className="lvg">
+              <label htmlFor="position">Position <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="position"
+                  name="position"
+                  value={formData.position}
+                  onChange={handleChange}
+                  required
+              />
+            </div>)}
+
+            <div className="lvg">
+              <label htmlFor="email">E-Mail-Adresse <span className="required">*</span></label>
+              <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="passwort">Passwort <span className="required">*</span></label>
+              <input
+                  type="password"
+                  id="passwort"
+                  name="passwort"
+                  value={formData.passwort}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <div className="lvg">
+              <label htmlFor="confirmPassword">Passwort bestätigen <span className="required">*</span></label>
+              <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+              />
+            </div>
+
+            <button type="submit">{selectedRole} Konto erstellen</button>
+          </form>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="vorname">Vorname <span className="required">*</span></label>
-          <input 
-            type="text" 
-            id="vorname" 
-            name="vorname" 
-            value={formData.vorname}
-            onChange={handleChange}
-            required 
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="nachname">Nachname <span className="required">*</span></label>
-          <input 
-            type="text" 
-            id="nachname" 
-            name="nachname" 
-            value={formData.nachname}
-            onChange={handleChange}
-            required 
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="telefonnummer">Telefonnummer <span className="required">*</span></label>
-          <input 
-            type="text" 
-            id="telefonnummer" 
-            name="telefonnummer" 
-            value={formData.telefon}
-            onChange={handleChange}
-            required 
-          />
-          {errors.telefonnummer && <span className="error">{errors.telefonnummer}</span>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="email">E-Mail-Adresse <span className="required">*</span></label>
-          <input 
-            type="text" 
-            id="email" 
-            name="email" 
-            value={formData.email}
-            onChange={handleChange}
-            required 
-          />
-           {errors.email && <span className="error">{errors.email}</span>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="passwort">Passwort <span className="required">*</span></label>
-          <input 
-            type="password" 
-            id="passwort" 
-            name="passwort" 
-            value={formData.passwort}
-            onChange={handleChange}
-            required 
-          />
-           {errors.passwort && <span className="error">{errors.passwort}</span>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Passwort bestätigen <span className="required">*</span></label>
-          <input 
-            type="password" 
-            id="confirmPassword" 
-            name="confirmPassword" 
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required 
-          />
-          {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
-        </div>
-
-        <button type="submit">Registrieren</button>
-        {submitError && <div className="error submit-error">{submitError}</div>}
-      </form>
-    </div>
+      </div>
   );
 };
 

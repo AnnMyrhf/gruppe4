@@ -6,7 +6,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-import { register } from "../actions/auth-buerger";
+import { buergerRegister } from "../actions/auth-buerger";
 import message from "../reducers/message";
 
 
@@ -87,7 +87,7 @@ const Register = () => {
         const dispatch = useDispatch();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(register( anrede,
+            dispatch(buergerRegister( anrede,
                 vorname,
                 name,
                 telefonnummer,

@@ -9,12 +9,12 @@ import {
 
 import AuthService from "../services/auth-buerger-service";
 
-export const register = (anrede,
-                          vorname,
-                          nachname,
-                          telefonnummer,
-                          email,
-                          passwort) => (dispatch) => {
+export const buergerRegister = (anrede,
+                                vorname,
+                                nachname,
+                                telefonnummer,
+                                email,
+                                passwort) => (dispatch) => {
     return AuthService.register( anrede,
         vorname,
         nachname,
