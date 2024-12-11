@@ -64,9 +64,11 @@ public class BackendApplication {
                     "\n" +
                     "Mit freundlichen Grüßen\n" +
 
+
                     "Max Mustermann", new Anhang("beschwerde.jpg", "application/jpg", 12378L, "Bytes"), testBuerger1));
             Mitarbeiter testMitarbeiter2 = new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
             mitarbeiterService.registriereMitarbeiter(testMitarbeiter2);
+
             mitarbeiterService.Test();
 
         };

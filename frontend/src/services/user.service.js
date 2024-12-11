@@ -7,8 +7,8 @@ const API_URL = "http://localhost:8081/";
     return axios.get(API_URL + "start");
 };*/
 
-const getBuergerDashBoard = () => {
-    return axios.get(API_URL + "buerger/getBeschwerden", { headers: authHeader() });
+const getBuergerDashBoard = (id) => {
+    return axios.get(API_URL + "buerger/dashboard/" + id, { headers: authHeader() });
 };
 
 const getMitarbeiterBoard = () => {
