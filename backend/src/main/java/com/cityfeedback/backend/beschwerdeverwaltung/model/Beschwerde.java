@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.model;
 
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +28,13 @@ public class Beschwerde {
     private boolean anhang;
     private String datentypAnhang;
 
+    /*@ManyToOne
+    @JoinColumn(name = "buerger_id")
+    private Buerger buerger;*/
+
     @ManyToOne
     @JoinColumn(name = "buerger_id")
+    @JsonBackReference // Verhindert Endlosschleifen, da diese Seite der Beziehung nicht in JSON aufgenommen wird
     private Buerger buerger;
 
 }

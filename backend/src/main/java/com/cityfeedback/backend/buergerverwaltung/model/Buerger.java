@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.buergerverwaltung.model;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -51,6 +52,14 @@ public class Buerger implements UserDetails {
 
     //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Das Passwort min. 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten!")
     private String passwort;
+
+   /*@OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
+   private List<Beschwerde> beschwerden = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden
+    private List<Beschwerde> beschwerden;
 
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
