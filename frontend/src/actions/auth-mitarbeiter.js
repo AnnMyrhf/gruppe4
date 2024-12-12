@@ -55,7 +55,10 @@ export const mitarbeiterRegister = (anrede,
                 payload: message,
             });
 
-            return Promise.reject();
+            return Promise.reject({
+                messsage: message,
+                errors: error.response.data.errors
+            });
         }
     );
 };
@@ -87,7 +90,10 @@ export const mitarbeiterLogin = (email, passwort) => (dispatch) => {
                 payload: message,
             });
 
-            return Promise.reject();
+            return Promise.reject({
+                messsage: message,
+                errors: error.response.data
+            });
         }
     );
 };

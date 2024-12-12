@@ -38,19 +38,19 @@ const LoginForm = () => {
       dispatch(buergerLogin(formData.email, formData.passwort))
           .then(() => {
             navigate("/dashboard");
-            window.location.reload();
           })
-          .catch(() => {
-
+          .catch((error) => {
+            console.log(error)
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterLogin(formData.email, formData.passwort))
           .then(() => {
+            console.log("Mitarbeiter Erfolgreich")
             navigate("/dashboard");
-            window.location.reload();
           })
-          .catch(() => {
-
+          .catch((error) => {
+            console.log("Mitarbeiter nicht erfolgreich")
+            console.log(error)
           });
     }
   };

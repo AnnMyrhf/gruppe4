@@ -74,4 +74,14 @@ public class BeschwerdeService {
         }
         return beschwerden;
     }
+
+    public List<Beschwerde> getAllBeschwerden() {
+        List<Beschwerde> beschwerden = beschwerdeRepository.findAll();
+        if (beschwerden.isEmpty()) {
+            throw new IllegalArgumentException("Keine Beschwerden vorhanden ");
+        }
+        return beschwerden;
+    }
+
+
 }

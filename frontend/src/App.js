@@ -24,7 +24,6 @@ export default function App(){
             {currentUser && <Header />}
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route path="/anmelden" element={<Login />} />
                 <Route path="/registrieren" element={<Register/>}/>
                 <Route path="/dashboard" element={<Dashboard />}/>
                 <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>

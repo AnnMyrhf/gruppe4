@@ -6,6 +6,7 @@ import decorationIMG from "../assests/FeedbackIMG.png";
 import buergerIcon from "../assests/people-group-solid.svg";
 import mitarbeiterIcon from "../assests/user-tie-solid.svg";
 import {mitarbeiterRegister} from "../actions/auth-mitarbeiter";
+import Toaster from "../components/Toaster";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,8 @@ const RegistrationForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("Bürger");
-
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -49,12 +51,12 @@ const RegistrationForm = () => {
           formData.email,
           formData.passwort))
           .then(() => {
-            alert('Bürger Registrierung erfolgreich!');
-            navigate("/");
-            window.location.reload();
+            handleShowToast("Registrierung erfolgreich!");
+            setTimeout(() => navigate("/"), 5000);
           })
-          .catch(() => {
+          .catch((error) => {
 
+            handleShowToast("Registrierung fehlgeschlagen!");
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterRegister(formData.anrede,
@@ -67,14 +69,24 @@ const RegistrationForm = () => {
           formData.position
           ))
           .then(() => {
-            alert('Mitarbeiter Registrierung erfolgreich!');
-            navigate("/");
-            window.location.reload();
+            handleShowToast("Registrierung erfolgreich!");
+            setTimeout(() => navigate("/"), 3500);
           })
-          .catch(() => {
+          .catch((errorMessage) => {
+            handleShowToast("Registrierung fehlgeschlagen!");
 
           });
     }
+  };
+
+
+
+  const handleShowToast = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+    // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
+    // angezeigt werden kann.
+    setTimeout(() => setShowToast(false), 3500);
   };
 
   const handleRoleChange = (role) => {
@@ -230,9 +242,16 @@ const RegistrationForm = () => {
             </div>
 
             <button type="submit">{selectedRole} Konto erstellen</button>
+            <p style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "-8px",
+              color: "#808080",
+              fontSize: "14px"
+            }}> Sie haben noch keinen Account? <Link to="/">Anmelden</Link></p>
           </form>
         </div>
-
+        <Toaster text={toastMessage} visible={showToast}/>
       </div>
   );
 };

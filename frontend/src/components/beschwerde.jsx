@@ -27,12 +27,12 @@ export default function Beschwerde(props) {
                     <p>{formatDate(beschwerde.erstellDatum)}</p>
                     <div className="subinfo-divider"></div>
                     <p>{beschwerde.beschwerdeTyp}</p>
-                    {beschwerde.anhang && (
+                    {/*{beschwerde.anhang && (
                         <>
                             <div className="subinfo-divider"></div>
                             <p>{beschwerde.anhang}</p>
                         </>
-                    )}
+                    )}*/}
                 </div>
             </div>
             <p className="beschwerde-text">{beschwerde.textfeld}</p>

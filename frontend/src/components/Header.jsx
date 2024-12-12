@@ -26,7 +26,7 @@ const Header = () => {
             </div>
             <nav>
                 <p>{currentUser.email}</p>
-                <Link className="navItem" to="/anmelden" onClick={logOut}>Logout</Link>
+                <Link className="navItem" to="/" onClick={logOut}>Logout</Link>
             </nav>
         </header>
     );
