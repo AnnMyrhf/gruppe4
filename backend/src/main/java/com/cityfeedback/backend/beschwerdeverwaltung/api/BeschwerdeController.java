@@ -1,7 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.api;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

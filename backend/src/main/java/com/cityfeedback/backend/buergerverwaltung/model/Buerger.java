@@ -1,9 +1,8 @@
 package com.cityfeedback.backend.buergerverwaltung.model;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

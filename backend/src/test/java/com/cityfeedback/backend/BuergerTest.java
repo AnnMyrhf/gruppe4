@@ -1,19 +1,15 @@
 package com.cityfeedback.backend;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
-import com.cityfeedback.backend.security.JwtResponse;
-import com.cityfeedback.backend.security.JwtUtils;
-import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 

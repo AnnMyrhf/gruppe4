@@ -9,10 +9,12 @@ import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,6 +24,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.lang.module.ResolutionException;
@@ -70,7 +74,6 @@ public class MitarbeiterService {
 
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> registriereMitarbeiter(@Valid Mitarbeiter mitarbeiter) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
-
         // Ueberprüfen, ob die E-Mail-Adresse bereits existiert
         if (mitarbeiterRepository.existsByEmail(mitarbeiter.getEmail())) {
             return ResponseEntity.badRequest().body("Fehler: E-Mail-Adresse existiert bereits!");
@@ -84,6 +87,55 @@ public class MitarbeiterService {
             // Bürger in der Datenbank speichern
             mitarbeiterRepository.save(neuerMitarbeiter);
         } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
+                return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten: " + cve.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+        }
+        return ResponseEntity.ok("Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren." + neuerMitarbeiter);
+
+    }
+    /*
+    @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
+    public ResponseEntity<?> registriereMitarbeiter(@Valid Mitarbeiter mitarbeiter, BindingResult bindingResult) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+        if (bindingResult.hasErrors()) {
+            // Validation errors
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        // Ueberprüfen, ob die E-Mail-Adresse bereits existiert
+        if (mitarbeiterRepository.existsByEmail(mitarbeiter.getEmail())) {
+            return ResponseEntity.badRequest().body("Fehler: E-Mail-Adresse existiert bereits!");
+        }
+
+        // Neuen Mitarbeiter erstellen
+        Mitarbeiter neuerMitarbeiter = new Mitarbeiter(mitarbeiter.getId(), mitarbeiter.getAnrede(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getTelefonnummer(), mitarbeiter.getEmail(), mitarbeiter.getPasswort(), mitarbeiter.getAbteilung(), mitarbeiter.getPosition());
+        neuerMitarbeiter.setPasswort(passwordEncoder.encode(neuerMitarbeiter.getPasswort()));
+
+        try {
+            // Bürger in der Datenbank speichern
+            mitarbeiterRepository.save(neuerMitarbeiter);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
+                return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten: " + cve.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+        }
+        return ResponseEntity.ok("Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren." + neuerMitarbeiter);
+
+    }*/
+
+        /*try {
+            // Bürger in der Datenbank speichern
+            mitarbeiterRepository.save(neuerMitarbeiter);
+        } catch (DataIntegrityViolationException e) {
             // Abfangen von Datenbank-Integritaetsverletzungen (z. B. unique constraints)
             return ResponseEntity.badRequest().body("Fehler bei der Speicherung des Bürgers: " + e.getMessage());
         } catch (Exception e) {
@@ -93,7 +145,9 @@ public class MitarbeiterService {
         }
 
         return ResponseEntity.ok("Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren." + neuerMitarbeiter);
-    }
+    }*/
+
+
 
     @Transactional
     public ResponseEntity<?> loescheMitarbeiter(Long id) {
