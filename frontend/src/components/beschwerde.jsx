@@ -21,18 +21,18 @@ export default function Beschwerde(props) {
             <div className="beschwerde-head">
                 <div className="beschwerde-title-container">
                     <h3 className="beschwerde-title">Beschwerdetitel</h3>
-                    <Tag text={beschwerde.prioritaet} status="kritisch" />
+                    <Tag text={beschwerde.status}/>
                 </div>
                 <div className="beschwerde-subinfo">
                     <p>{formatDate(beschwerde.erstellDatum)}</p>
                     <div className="subinfo-divider"></div>
                     <p>{beschwerde.beschwerdeTyp}</p>
-                    {beschwerde.anhang && (
+                    {/*{beschwerde.anhang && (
                         <>
                             <div className="subinfo-divider"></div>
                             <p>{beschwerde.anhang}</p>
                         </>
-                    )}
+                    )}*/}
                 </div>
             </div>
             <p className="beschwerde-text">{beschwerde.textfeld}</p>

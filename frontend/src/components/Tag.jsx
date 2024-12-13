@@ -1,24 +1,22 @@
 import React from 'react';
 
 // Definiere eine Funktion, um die Farbe basierend auf dem Status auszuwählen
-const getTagColor = (status) => {
-    switch (status) {
-        case 'kritisch':
-            return '#FE9929';         // Kritisch - Rot
-        case 'wichtig':
-            return '#FFC800';      // Wichtig - Orange
-        case 'marginal':
-            return '#BEBEBE';      // Marginal - Gelb
-        case 'abgeschlossen':
+const getTagColor = (text) => {
+    switch (text) {
+        case 'Eingegangen':
+            return '#9ce1ff';         // Kritisch - Rot
+        case 'In Bearbeitung':
+            return '#fee229';      // Marginal - Gelb
+        case 'Erledigt':
             return '#65C728';       // Abgeschlossen - Grün
         default:
-            return 'gray';        // Default - Grau (für nicht definierte Status)
+            return '#E5E3E3';        // Default - Grau (für nicht definierte Status)
     }
 };
 
 const Tag = ({ text, status }) => {
     // Bestimme die Farbe basierend auf dem Status
-    const tagColor = getTagColor(status);
+    const tagColor = getTagColor(text);
 
     return (
         <span

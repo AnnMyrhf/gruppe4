@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8081/";
 
-const register = (anrede, vorname, nachname, telefonnummer, email, passwort) => {
+const register = (anrede, vorname, nachname, telefonnummer, email, passwort, abteilung, position) => {
     return axios.post(API_URL + "mitarbeiter-registrieren", {
         anrede,
         vorname,
@@ -10,9 +10,9 @@ const register = (anrede, vorname, nachname, telefonnummer, email, passwort) => 
         telefonnummer,
         email,
         passwort,
-    }).catch((error) => {
-        console.error("Fehler bei der Anfrage:", error.response?.data || error.message);
-    });
+        abteilung,
+        position
+    })
 };
 
 const login = (email, passwort) => {
@@ -33,9 +33,6 @@ const login = (email, passwort) => {
             console.log(response.data)
             return response.data;
         })
-        .catch((error) => {
-            console.error("Fehler bei der Anfrage:", error.response?.data || error.message);
-        });
 };
 
 const logout = () => {

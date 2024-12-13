@@ -21,7 +21,7 @@ const LoginForm = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
 
   if (currentUser) {
-    return <Navigate to="/buerger" />;
+    return <Navigate to="/dashboard" />;
   }
 
   const handleChange = (e) => {
@@ -30,7 +30,6 @@ const LoginForm = () => {
       ...prevState,
       [name]: value
     }));
-    console.log(formData)
   };
 
   const handleSubmit = (e) => {
@@ -39,19 +38,19 @@ const LoginForm = () => {
       dispatch(buergerLogin(formData.email, formData.passwort))
           .then(() => {
             navigate("/dashboard");
-            window.location.reload();
           })
-          .catch(() => {
-
+          .catch((error) => {
+            console.log(error)
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterLogin(formData.email, formData.passwort))
           .then(() => {
+            console.log("Mitarbeiter Erfolgreich")
             navigate("/dashboard");
-            window.location.reload();
           })
-          .catch(() => {
-
+          .catch((error) => {
+            console.log("Mitarbeiter nicht erfolgreich")
+            console.log(error)
           });
     }
   };

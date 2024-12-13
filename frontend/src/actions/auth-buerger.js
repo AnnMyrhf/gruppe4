@@ -9,12 +9,12 @@ import {
 
 import AuthService from "../services/auth-buerger-service";
 
-export const register = (anrede,
-                          vorname,
-                          nachname,
-                          telefonnummer,
-                          email,
-                          passwort) => (dispatch) => {
+export const buergerRegister = (anrede,
+                                vorname,
+                                nachname,
+                                telefonnummer,
+                                email,
+                                passwort) => (dispatch) => {
     return AuthService.register( anrede,
         vorname,
         nachname,
@@ -50,7 +50,10 @@ export const register = (anrede,
                 payload: message,
             });
 
-            return Promise.reject();
+            return Promise.reject({
+                messsage: message,
+                errors: error.response.data.errors
+            });
         }
     );
 };
@@ -82,7 +85,10 @@ export const buergerLogin = (email, passwort) => (dispatch) => {
                 payload: message,
             });
 
-            return Promise.reject();
+            return Promise.reject({
+                messsage: message,
+                errors: error.response.data
+            });
         }
     );
 };

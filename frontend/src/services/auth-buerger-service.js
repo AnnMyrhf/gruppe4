@@ -10,9 +10,7 @@ const register = (anrede, vorname, nachname, telefonnummer, email, passwort) => 
         telefonnummer,
         email,
         passwort,
-    }).catch((error) => {
-        console.error("Fehler bei der Anfrage:", error.response?.data || error.message);
-    });
+    })
 };
 
 const login = (email, passwort) => {
@@ -33,9 +31,6 @@ const login = (email, passwort) => {
             console.log(response.data)
             return response.data;
         })
-        .catch((error) => {
-            console.error("Fehler bei der Anfrage:", error.response?.data || error.message);
-        });
 };
 
 const logout = () => {

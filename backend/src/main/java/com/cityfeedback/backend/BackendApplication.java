@@ -47,12 +47,12 @@ public class BackendApplication {
 
             mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
 
-            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("beschwerde.pdf", "application/pdf", 12345L, "Bytes"), testBuerger2));
-            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("foto.jpg", "application/jpg", 12346L, "Bytes"), testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "Eingegangen", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("beschwerde.pdf", "application/pdf", 12345L, "Bytes"), testBuerger2));
+            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "In Bearbeitung", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("foto.jpg", "application/jpg", 12346L, "Bytes"), testBuerger1));
 
-            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "A", new Anhang("info.pdf", "application/pdf", 12348L, "Bytes"), testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "B", new Anhang("foto2.jpg", "application/jpg", 12348L, "Bytes"), testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Hoch","Infrastruktur", "Beschwerdetitel", "Sehr geehrte Damen und Herren,\n" +
+            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "Erledigt", "Hoch", "Infrastruktur", "Titel", "A", new Anhang("info.pdf", "application/pdf", 12348L, "Bytes"), testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "Eingegangen", "Hoch", "Infrastruktur", "Titel", "B", new Anhang("foto2.jpg", "application/jpg", 12348L, "Bytes"), testBuerger1));
+            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "Eingegangen", "Hoch","Infrastruktur", "Beschwerdetitel", "Sehr geehrte Damen und Herren,\n" +
                     "\n" +
                     "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
                     "\n" +
@@ -67,7 +67,9 @@ public class BackendApplication {
 
                     "Max Mustermann", new Anhang("beschwerde.jpg", "application/jpg", 12378L, "Bytes"), testBuerger1));
             Mitarbeiter testMitarbeiter2 = new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
-            mitarbeiterService.registriereMitarbeiter(testMitarbeiter2);
+            testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
+            mitarbeiterRepository.save(testMitarbeiter2);
+            //mitarbeiterService.registriereMitarbeiter(testMitarbeiter2);
 
             mitarbeiterService.Test();
 

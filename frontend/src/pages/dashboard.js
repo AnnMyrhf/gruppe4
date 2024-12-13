@@ -15,9 +15,24 @@ const Dashboard = () => {
     useEffect(() => {
         if (currentUser.role.some(item => item.authority === 'BUERGER')) {
             console.log("BUERGER ist vorhanden!");
-
             UserService.getBuergerDashBoard(currentUser.id).then(
                 (response) => {
+                    setBeschwerden(response.data);
+                },
+                (error) => {
+                    const _content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    setBeschwerden(_content);
+                }
+            );
+        } else if (currentUser.role.some(item => item.authority === 'MITARBEITER')){
+            UserService.getMitarbeiterBoard().then(
+                (response) => {
+                    console.log(response)
                     setBeschwerden(response.data);
                 },
                 (error) => {
@@ -35,19 +50,9 @@ const Dashboard = () => {
 
     }, []);
 
-    const handleClick = (e) => {
-        if (true) {
-            navigate('/neuebeschwerde', { replace: true });
-        }
+    const handleClick = () => {
+        navigate('/neuebeschwerde');
     }
-
-    const mainStyle = {
-        width: "100%",
-        maxWidth: "1000px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "32px",
-    };
 
     return (
         <div style={{
@@ -59,14 +64,14 @@ const Dashboard = () => {
             flexDirection: "column",
             flexGrow: "1"
         }}>
-            <main style={mainStyle}>
+            <main className="main">
                 <div>
                     <div style={{
                         display: "flex",
                         justifyContent: "space-between"
                     }}>
                         <h1>ABC Dashboard</h1>
-                        <button className="primary-btn" onClick={handleClick}>Neue Beschwerde</button>
+                        {currentUser && currentUser.role.some(item => item.authority === 'BUERGER') && <button className="primary-btn" onClick={handleClick}>Neue Beschwerde</button>}
                     </div>
                     <div>
 

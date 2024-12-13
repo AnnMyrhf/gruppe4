@@ -19,4 +19,15 @@ public class BeschwerdeController {
     public List<Beschwerde> getBeschwerdenByBuergerId(@PathVariable("id") Long id){
         return beschwerdeService.getBeschwerdenByBuergerId(id);
     }
+
+    @GetMapping("/mitarbeiter/dashboard")
+    public List<Beschwerde> getAllBeschwerden(){
+        return beschwerdeService.getAllBeschwerden();
+    }
+
+    @GetMapping("/beschwerde/{id}")
+    public Beschwerde getBeschwerde(@PathVariable("id") Long id){
+        return beschwerdeService.getBeschwerde(id);
+    }
+
 }

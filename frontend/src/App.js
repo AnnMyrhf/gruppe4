@@ -5,32 +5,14 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 
 import Login from "./pages/login";
 import Register from "./pages/registrieren";
-
 import Dashboard from "./pages/dashboard";
-import { buergerLogout } from "./actions/auth-buerger";
-import { clearMessage } from "./actions/message";
 import Header from "./components/Header";
+import BeschwerdeDetail from "./pages/beschwerdeDetail";
+import NeueBeschwerde from "./pages/neueBeschwerde";
 
 export default function App(){
-    const [setShowBuergerDashBoard, setShowModeratorBoard] = useState(false);
-    const [setShowMitarbeiterDashBoard, setShowAdminBoard] = useState(false);
 
     const { user: currentUser } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
-
-    let location = useLocation();
-
-    useEffect(() => {
-        console.log(currentUser)
-        if (currentUser) {
-            console.log(currentUser.roles)
-            //setShowBuergerDashBoard(currentUser.roles.includes("BUERGER"));
-            //setShowMitarbeiterDashBoard(currentUser.roles.includes("MITARBEITER"));
-        } else {
-            //setShowBuergerDashBoard(false);
-            //setShowMitarbeiterDashBoard(false);
-        }
-    }, [currentUser]);
 
     return (
         <div className="app" style={{
@@ -43,13 +25,12 @@ export default function App(){
             {currentUser && <Header />}
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route path="/anmelden" element={<Login />} />
                 <Route path="/registrieren" element={<Register/>}/>
                 <Route path="/dashboard" element={<Dashboard />}/>
-                <Route path="/mitarbeiter/dashboard" element={<h1>Anmelde</h1>}/>
+                <Route path="/dashboard/:id" element={<BeschwerdeDetail />} />
+                <Route path="/neuebeschwerde" element={<NeueBeschwerde />} />
             </Routes>
         </div>
-
 
     );
 };
