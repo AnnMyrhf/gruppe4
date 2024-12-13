@@ -21,7 +21,7 @@ export default function Beschwerde(props) {
             <div className="beschwerde-head">
                 <div className="beschwerde-title-container">
                     <h3 className="beschwerde-title">Beschwerdetitel</h3>
-                    <Tag text={beschwerde.prioritaet} status="kritisch" />
+                    <Tag text={beschwerde.status}/>
                 </div>
                 <div className="beschwerde-subinfo">
                     <p>{formatDate(beschwerde.erstellDatum)}</p>
