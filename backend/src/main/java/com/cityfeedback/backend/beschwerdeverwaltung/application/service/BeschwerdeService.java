@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
@@ -82,6 +83,16 @@ public class BeschwerdeService {
         }
         return beschwerden;
     }
+
+    public Beschwerde getBeschwerde(Long id){
+        Optional<Beschwerde> beschwerde = beschwerdeRepository.findById(id);
+        if (beschwerde.isEmpty()){
+            throw new IllegalArgumentException("Beschwerde nicht gefunden ");
+        }
+        return beschwerde.orElse(null);
+    }
+
+
 
 
 }

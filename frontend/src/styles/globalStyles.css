@@ -50,6 +50,7 @@ header{
     display: flex;
     flex-direction: column;
     gap: 4px;
+    max-width: 400px;
 }
 
 .segmentBtn{
@@ -119,4 +120,20 @@ button[type="submit"]:hover, .primary-btn:hover {
 button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     outline: 2px solid #FFAD02;
     outline-offset: -1px;
+}
+
+.main {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    gap: 16px;
 }

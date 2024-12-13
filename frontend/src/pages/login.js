@@ -21,7 +21,7 @@ const LoginForm = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
 
   if (currentUser) {
-    return <Navigate to="/buerger" />;
+    return <Navigate to="/dashboard" />;
   }
 
   const handleChange = (e) => {

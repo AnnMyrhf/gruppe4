@@ -50,19 +50,9 @@ const Dashboard = () => {
 
     }, []);
 
-    const handleClick = (e) => {
-        if (true) {
-            navigate('/neuebeschwerde', { replace: true });
-        }
+    const handleClick = () => {
+        navigate('/neuebeschwerde');
     }
-
-    const mainStyle = {
-        width: "100%",
-        maxWidth: "1000px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "32px",
-    };
 
     return (
         <div style={{
@@ -74,7 +64,7 @@ const Dashboard = () => {
             flexDirection: "column",
             flexGrow: "1"
         }}>
-            <main style={mainStyle}>
+            <main className="main">
                 <div>
                     <div style={{
                         display: "flex",
