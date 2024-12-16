@@ -103,6 +103,65 @@ input:focus-visible{
     outline-color: #1080BF;
 }
 
+input[type="file"] {
+    border: none;
+    padding: 0;
+}
+
+input::file-selector-button{
+    height: 44px;
+    padding: 0 16px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #B3B3B3;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+input::file-selector-button:hover {
+    background-color: #EFF6FA;
+}
+
+input::file-selector-button:focus-visible, input::file-selector-button:focus {
+    outline-color: #1080BF;
+}
+
+select {
+    height: 44px;
+    width: 100%;
+    padding: 0 8px;
+    border: 1px solid #B3B3B3;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+}
+
+select:focus {
+    outline-color: #1080BF;
+}
+
+textarea {
+    resize: vertical;
+    overflow: auto;
+    min-height: 60px;
+    width: 100%;
+    padding: 8px 8px;
+    border: 1px solid #B3B3B3;
+    border-radius: 8px;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+textarea:focus {
+    outline-color: #1080BF;
+}
+
+
 button[type="submit"], .primary-btn {
     height: 44px;
     border-radius: 8px;
