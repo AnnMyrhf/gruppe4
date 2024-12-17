@@ -371,7 +371,7 @@ public class BuergerTest {
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für eine ungültige E-Mail auftreten.");
-        assertEquals("muss eine korrekt formatierte E-Mail-Adresse sein", violations.iterator().next().getMessage());
+        assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
     }
 
     @Test
