@@ -49,6 +49,7 @@ public class Buerger implements UserDetails {
     private String email;
 
     //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Das Passwort min. 8 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und ein Sonderzeichen enthalten!")
+    @NotBlank(message = "Passwort darf nicht leer sein!")
     private String passwort;
 
    /*@OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
