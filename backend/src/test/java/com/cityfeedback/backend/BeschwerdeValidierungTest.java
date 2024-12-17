@@ -9,8 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BeschwerdeTest {
 
@@ -41,9 +44,6 @@ class BeschwerdeTest {
         assertThat(toStringResult).contains("beschwerdeTyp=Infrastruktur");
         assertThat(toStringResult).contains("textfeld=Das ist ein Beispieltext für das Textfeld.");
     }
-}
-
-    class BeschwerdeValidationTest {
 
         private Validator validator;
 
@@ -103,6 +103,20 @@ class BeschwerdeTest {
             assertThat(violations).hasSize(1);
             assertThat(violations.iterator().next().getMessage()).isEqualTo("Das Texfeld darf nicht leer sein!");
         }
+
+        @Test
+        void testAnhangFormatValid() {
+            String validAnhangPdf = "dokument.pdf";
+            String validAnhangJpg = "bild.jpg";
+            String invalidAnhang = "datei.doc";
+
+            Pattern pattern = Pattern.compile("^.*\\.(pdf|jpg|png)$");
+
+            assertTrue(pattern.matcher(validAnhangPdf).matches());
+            assertTrue(pattern.matcher(validAnhangJpg).matches());
+            assertFalse(pattern.matcher(invalidAnhang).matches());
+        }
+
 }
 
 
