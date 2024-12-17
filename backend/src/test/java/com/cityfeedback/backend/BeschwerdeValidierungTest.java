@@ -1,6 +1,8 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -8,6 +10,7 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -23,7 +26,6 @@ class BeschwerdeTest {
         beschwerde.setTitel("Testtitel");
         beschwerde.setBeschwerdeTyp("Infrastruktur");
         beschwerde.setTextfeld("Das ist ein Beispieltext für das Textfeld.");
-        beschwerde.setPrioritaet("Hoch");
 
         assertThat(beschwerde.getTitel()).isEqualTo("Testtitel");
         assertThat(beschwerde.getBeschwerdeTyp()).isEqualTo("Infrastruktur");

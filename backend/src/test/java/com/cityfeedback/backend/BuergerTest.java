@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.module.ResolutionException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -162,5 +165,129 @@ public class BuergerTest {
 
         assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
     }
+
+    /**
+     * Überprüft, ob der Getter für die Anrede den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Anrede() {
+        assertEquals("Frau", testBuerger1.getAnrede());
+    }
+
+    /**
+     * Überprüft, ob der Getter für den Vornamen den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Vorname() {
+        assertEquals("Maxi", testBuerger1.getVorname());
+    }
+
+    /**
+     * Überprüft, ob der Getter für den Nachnamen den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Nachname() {
+        assertEquals("Musterfrau", testBuerger1.getNachname());
+    }
+
+    /**
+     * Überprüft, ob der Getter für die Telefonnummer den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Telefonnummer() {
+        assertEquals("987654321", testBuerger1.getTelefonnummer());
+    }
+
+    /**
+     * Überprüft, ob der Getter für die E-Mail-Adresse den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Email() {
+        assertEquals("maxi.musterfau@example.com", testBuerger1.getEmail());
+    }
+
+    /**
+     * Überprüft, ob der Getter für das Passwort den korrekten Wert zurückgibt.
+     */
+    @Test
+    public void testGetter_Passwort() {
+        assertEquals("StarkesPW11?", testBuerger1.getPasswort());
+    }
+
+    /**
+     * Überprüft, ob der Setter die Anrede korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Anrede() {
+        testBuerger1.setAnrede("Person");
+        assertEquals("Person", testBuerger1.getAnrede());
+    }
+
+    /**
+     * Überprüft, ob der Setter den Vornamen korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Vorname() {
+        testBuerger1.setVorname("Anna");
+        assertEquals("Anna", testBuerger1.getVorname());
+    }
+
+    /**
+     * Überprüft, ob der Setter den Nachnamen korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Nachname() {
+        testBuerger1.setNachname("Schmidt");
+        assertEquals("Schmidt", testBuerger1.getNachname());
+    }
+
+    /**
+     * Überprüft, ob der Setter die Telefonnummer korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Telefonnummer() {
+        testBuerger1.setTelefonnummer("123456789");
+        assertEquals("123456789", testBuerger1.getTelefonnummer());
+    }
+
+    /**
+     * Überprüft, ob der Setter die E-Mail-Adresse korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Email() {
+        testBuerger1.setEmail("test@example.com");
+        assertEquals("test@example.com", testBuerger1.getEmail());
+    }
+
+    /**
+     * Überprüft, ob der Setter das Passwort korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
+     */
+    @Test
+    public void testSetter_Passwort() {
+        testBuerger1.setPasswort("NochStaerker11!");
+        assertEquals("NochStaerker11!", testBuerger1.getPasswort());
+    }
+
+    /**
+     * Überprüft, ob der Bürger die korrekte Authority besitzt und ob genau eine Authority vorhanden ist.
+     */
+    @Test
+    public void testGetAuthorities() {
+        Collection<? extends GrantedAuthority> authorities = testBuerger1.getAuthorities();
+
+        assertTrue(authorities.contains(new SimpleGrantedAuthority("BUERGER")));
+        assertEquals(1, authorities.size());
+    }
+
+    /**
+     * Überprüft, ob die toString-Methode den korrekten String zurückgibt.
+     */
+    @Test
+    void testToString() {
+        String toStringOutput = testBuerger1.toString();
+        String expectedString = "Buerger(id=123, anrede=Frau, vorname=Maxi, nachname=Musterfrau, telefonnummer=987654321, email=maxi.musterfau@example.com, passwort=StarkesPW11?, beschwerden=[])";
+        assertEquals(expectedString, toStringOutput);
+    }
+
 }
 
