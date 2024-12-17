@@ -4,6 +4,8 @@ import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Date;
@@ -26,10 +28,17 @@ public class Beschwerde {
     private String prioritaet;
 
     // Attribute, die der Buerger uebergibt
+    @NotBlank(message = "Bitte wählen Sie eine Kategorie aus!")//  darf nicht null oder leer sein
     private String beschwerdeTyp;
+
+    @NotBlank(message = "Der Titel darf nicht leer sein!")//  darf nicht null oder leer sein
+    @Size(max = 100, message = "Der Titel darf nur 100 Zeichen enthalten.")
     private String titel;
+
     @Column(length = 2000)
+    @NotBlank(message = "Das Texfeld darf nicht leer sein!")//  darf nicht null oder leer sein
     private String textfeld;
+
     @Embedded
     private Anhang anhang;
 
