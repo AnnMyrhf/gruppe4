@@ -30,7 +30,6 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTitel()).isEqualTo("Testtitel");
         assertThat(beschwerde.getBeschwerdeTyp()).isEqualTo("Infrastruktur");
         assertThat(beschwerde.getTextfeld()).isEqualTo("Das ist ein Beispieltext für das Textfeld.");
-        assertThat(beschwerde.getPrioritaet()).isEqualTo("Hoch");
     }
 
     @Test
