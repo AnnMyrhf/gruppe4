@@ -53,6 +53,16 @@ public class Mitarbeiter implements UserDetails {
     @NotBlank(message = "Position darf nicht leer sein!")
     private String position;
 
+    public Mitarbeiter(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, String abteilung, String position) {
+        this.anrede = anrede;
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.telefonnummer = telefonnummer;
+        this.email = email;
+        this.passwort = passwort;
+        this.abteilung = abteilung;
+        this.position = position;
+    }
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
      *
@@ -91,4 +101,19 @@ public class Mitarbeiter implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Mitarbeiter(" +
+                "anrede='"+ anrede + '\'' +
+                ", vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", telefonnummer='" + telefonnummer + '\'' +
+                ", email='" + email + '\'' +
+                ", passwort='" + passwort + '\'' +
+                ", abteilung='" + abteilung + '\'' +
+                ", position='" + position + '\'' +
+                ')';
+    }
 }
+

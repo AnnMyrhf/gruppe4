@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -60,6 +61,16 @@ public class Buerger implements UserDetails {
     // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden
     private List<Beschwerde> beschwerden;
 
+    public Buerger(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, List<Beschwerde> beschwerden) {
+        this.anrede = anrede;
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.telefonnummer = telefonnummer;
+        this.email = email;
+        this.passwort = passwort;
+        this.beschwerden = new ArrayList<>(); // Initialisiere die Liste der Beschwerden
+    }
+
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
      *
@@ -97,6 +108,19 @@ public class Buerger implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Buerger(" +
+                "anrede='" + anrede + '\'' +
+                ", vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", telefonnummer='" + telefonnummer + '\'' +
+                ", email='" + email + '\'' +
+                ", passwort='" + passwort + '\'' +
+                ", beschwerden=" + beschwerden +
+                ')';
     }
 }
 

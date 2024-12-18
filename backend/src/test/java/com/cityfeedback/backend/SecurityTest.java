@@ -50,10 +50,10 @@ public class SecurityTest {
     final List<Beschwerde> beschwerden = new ArrayList<>();
 
     // Testobjekte
-    Mitarbeiter testMitarbeiter1 = new Mitarbeiter(2L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
-    Mitarbeiter testMitarbeiter2 = new Mitarbeiter(4L, "Herr", "Max", "Mustermann", "123456", "Hallo@web.de", "StarkesPW11!", "Verwaltung", "Assistenz");
-    Buerger testBuerger1 = new Buerger(3L, "Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
-    Buerger testBuerger2 = new Buerger(4L, "Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.de", "StarkesPW1?", beschwerden);
+    Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+    Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Herr", "Max", "Mustermann", "123456", "Hallo@web.de", "StarkesPW11!", "Verwaltung", "Assistenz");
+    Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
+    Buerger testBuerger2 = new Buerger("Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.de", "StarkesPW1?", beschwerden);
     JwtResponse jwtResponseBuerger = new JwtResponse("eyJhbGciOiJIUzI1NiIsInR5...", 1L,  "test@example.com",new String[]{"BUERGER"} );
     JwtResponse jwtResponseMitarbeiter = new JwtResponse("eyJhbGciOiJIUzI1NiIsInR6...", 1L,  "test@test.com",new String[]{"MITARBEITER"} );
 
