@@ -325,20 +325,30 @@ bindingResult.addError(error);
      * Ueberprueft, ob der Setter die Position korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Position() {
+    void testSetter_Position() {
         testMitarbeiter1.setPosition("Teamleitung");
         assertEquals("Teamleitung", testMitarbeiter1.getPosition());
     }
 
     /**
-     * Ueberprueft, der Mitarbeiter die korrekte Authority besitzt und ob, ob genau eine Authority vorhanden ist
+     * Ueberprueft, ob der Mitarbeiter die korrekte Authority besitzt und ob, ob genau eine Authority vorhanden ist
      */
     @Test
-    public void testGetAuthorities() {
+    void testGetAuthorities() {
         Collection<? extends GrantedAuthority> authorities = testMitarbeiter1.getAuthorities();
 
         assertTrue(authorities.contains(new SimpleGrantedAuthority("MITARBEITER")));
         assertEquals(1, authorities.size());
+    }
+
+    /**
+     * Ueberprueft, ob die Methode korrekt ueberschrieben wurde und die E-Mail-Adresse eines Mitarbeiters als erwarteten Benutzernamen zurueckgibt.
+     */
+    @Test
+    void testGetUsername() {
+        String expectedEmail = "Hallo@web.com";
+        String actualUsername = testMitarbeiter1.getUsername();
+        assertEquals(expectedEmail, actualUsername);
     }
 
     @Test
@@ -366,6 +376,18 @@ bindingResult.addError(error);
 
         // Vergleiche die Hashcodes
         assertNotEquals(hashCode1, hashCode2, "Die Hashcodes müssen unterschiedlich sein.");
+    }
+
+    /**
+     * Testet die `equals()`-Methode auf Korrektheit, einschließlich Symmetrie, Transitivitaet und Reflexivitaet.
+     */
+    @Test
+    public void testEquals() {
+        assertEquals(testMitarbeiter2.getVorname(), testMitarbeiter3.getVorname());
+        assertEquals(testMitarbeiter2.getNachname(), testMitarbeiter3.getNachname());
+
+        assertTrue(testMitarbeiter2.equals(testMitarbeiter3));
+        assertTrue(testMitarbeiter3.equals(testMitarbeiter2));
     }
 
 }
