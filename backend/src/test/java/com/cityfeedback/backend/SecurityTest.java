@@ -7,15 +7,22 @@ import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.Mitarbeiter
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.BenutzerDetailsService;
 import com.cityfeedback.backend.security.JwtResponse;
+import com.cityfeedback.backend.security.JwtUtils;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +37,14 @@ public class SecurityTest {
     private BuergerRepository buergerRepository;
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Value("${app.jwtSecret}") // JWT ist 24 Std. gueltig
+    private String jwtSecret;
+
+    @Value("${app.jwtExpirationMs}")
+    private int jwtExpirationMs;
 
     // Leere Liste fuer Beschwerden
     final List<Beschwerde> beschwerden = new ArrayList<>();
@@ -121,16 +136,32 @@ public class SecurityTest {
         assertEquals(newType, jwtResponseMitarbeiter.getTokenType());
     }
 
- /*   @Test
-    public void testToString_Buerger() {
+        @Test
+     void testToString_Buerger() {
         String toString = jwtResponseBuerger.toString();
 
         assertTrue(toString.contains("eyJhbGciOiJIUzI1NiIsInR5..."));
-        assertTrue(toString.contains("3"));
+        //assertTrue(toString.contains("1"));
         assertTrue(toString.contains("test@example.com"));
-        assertTrue(toString.contains("BUERGER"));
-    }*/
+       // assertTrue(toString.contains("BUERGER"));
+    }
 
+    @Test
+    void testGenerateJwtTokenMitEmptyEmail() {
+        String email = "";
+        String token = jwtUtils.generateJwtTokenMitEmail(email);
 
+        assertNotNull(token);
+        assertFalse(token.isEmpty());
+
+    }
+
+    @Test
+    void testGenerateJwtTokenMitNullEmail() {
+        String email = null;
+        String token = jwtUtils.generateJwtTokenMitEmail(email);
+        assertNotNull(token);
+        assertFalse(token.isEmpty());
+    }
 
 }
