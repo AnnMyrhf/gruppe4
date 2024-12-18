@@ -109,13 +109,15 @@ const BeschwerdeForm = () => {
 
               <div className="lvg">
                 <label htmlFor="textarea">Ihr Anliegen <span className="required">*</span></label>
-                <input
+                <textarea
                     type="textarea"
                     id="text"
                     name="text"
                     value={formData.text}
                     onChange={handleChange}
                     required
+                    rows={5}
+                    cols={50}
                 />
               </div>
 
@@ -127,6 +129,7 @@ const BeschwerdeForm = () => {
                     name="file"
                     onChange={handleFileChange}
                     accept=".pdf,image/*"
+                    className="custom-file-input"
                 />
               </div>
 
