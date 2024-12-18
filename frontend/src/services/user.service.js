@@ -15,8 +15,13 @@ const getMitarbeiterBoard = () => {
     return axios.get(API_URL + "mitarbeiter/dashboard", { headers: authHeader() });
 };
 
+const getBeschwerde = (id) => {
+    return axios.get(API_URL + "/beschwerde"+id, {headers: authHeader()})
+}
+
 export default {
     //getPublicContent,
     getBuergerDashBoard,
-    getMitarbeiterBoard
+    getMitarbeiterBoard,
+    getBeschwerde
 };

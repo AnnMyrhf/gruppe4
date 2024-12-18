@@ -20,7 +20,7 @@ export default function Beschwerde(props) {
         <div className="beschwerde">
             <div className="beschwerde-head">
                 <div className="beschwerde-title-container">
-                    <h3 className="beschwerde-title">Beschwerdetitel</h3>
+                    <h3 className="beschwerde-title">{beschwerde.titel}</h3>
                     <Tag text={beschwerde.status}/>
                 </div>
                 <div className="beschwerde-subinfo">

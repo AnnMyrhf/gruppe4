@@ -7,8 +7,16 @@ import java.util.regex.Pattern;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.api.BuergerController;
+import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import jakarta.validation.Valid;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,11 +30,7 @@ public class BeschwerdeService {
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
     @Autowired
-    private BuergerController buergerController;
-
-    public Beschwerde createBeschwerde(Beschwerde beschwerde) {
-        return beschwerdeRepository.save(beschwerde);
-    }
+    private BuergerService buergerService;
 
     public BeschwerdeService() {
         this.beschwerdeRepository = beschwerdeRepository;
@@ -92,7 +96,31 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
+    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+        Optional<Buerger> ersteller = buergerService.getBuergerById(id);
+        Buerger buerger = null;
+        if (ersteller.isPresent()){
+            buerger = ersteller.get();
+        }
+        // Neue Beschwerde erstellen
+        Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(),  buerger);
 
 
 
+
+        try {
+            // Bürger in der Datenbank speichern
+            beschwerdeRepository.save(newBeschwerde);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
+                return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten: " + cve.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+        }
+        return ResponseEntity.ok("Beschwerde erfolgreich erstellt!");
+    }
 }

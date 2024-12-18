@@ -1,6 +1,8 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.model;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -24,8 +26,10 @@ public class Beschwerde {
     // Systemseitig generierte Attribute einer Beschwerde
     private Long id;
     private Date erstellDatum;
-    private String status;
-    private String prioritaet;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @Enumerated(EnumType.STRING)
+    private Prioritaet prioritaet;
 
     // Attribute, die der Buerger uebergibt
     @NotBlank(message = "Bitte wählen Sie eine Kategorie aus!")//  darf nicht null oder leer sein
@@ -48,10 +52,19 @@ public class Beschwerde {
     @JsonBackReference // Verhindert Endlosschleifen, da diese Seite der Beziehung nicht in JSON aufgenommen wird
     private Buerger buerger;
 
-    //private List<DomainEvent> domainEvents = new ArrayList<>();
+    public Beschwerde(String titel, String beschwerdeTyp, String textfeld, Anhang anhang, Buerger buerger){
+        this.titel = titel;
+        this.beschwerdeTyp = beschwerdeTyp;
+        this.textfeld = textfeld;
+        this.anhang = anhang;
+        this.erstellDatum = new Date();
+        this.status = Status.OFFEN;
+        this.prioritaet = randomEnum(Prioritaet.class);
+        this.buerger = buerger;
+    }
 
-/*public void erstelleBeschwerde(Date erstellDatum, String status, String prioritaet, String beschwerdeTyp, String titel, String textfeld, Anhang anhang) {
-        BeschwerdeErstellen event = new BeschwerdeErstellen(erstellDatum, status, prioritaet, beschwerdeTyp, titel, textfeld, anhang);
-        domainEvents.add(event);
-    }*/
+    private <T extends Enum<?>> T randomEnum(Class<T> enumClass) {
+        T[] values = enumClass.getEnumConstants();
+        return values[(int) (Math.random() * values.length)];
+    }
 }
