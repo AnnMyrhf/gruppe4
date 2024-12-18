@@ -16,7 +16,7 @@ const getMitarbeiterBoard = () => {
 };
 
 const getBeschwerde = (id) => {
-    return axios.get(API_URL + "/beschwerde"+id, {headers: authHeader()})
+    return axios.get(API_URL + "beschwerde/"+id, {headers: authHeader()})
 }
 
 export default {

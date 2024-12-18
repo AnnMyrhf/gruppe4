@@ -58,7 +58,7 @@ public class Beschwerde {
         this.textfeld = textfeld;
         this.anhang = anhang;
         this.erstellDatum = new Date();
-        this.status = Status.OFFEN;
+        this.status = Status.EINGEGANGEN;
         this.prioritaet = randomEnum(Prioritaet.class);
         this.buerger = buerger;
     }

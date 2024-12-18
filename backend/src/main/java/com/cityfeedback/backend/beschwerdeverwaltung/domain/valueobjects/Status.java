@@ -1,8 +1,8 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects;
 
 public enum Status {
-    OFFEN,
+    EINGEGANGEN,
     IN_BEARBEITUNG,
-    ABGESCHLOSSEN
+    ERLEDIGT
 }
 
