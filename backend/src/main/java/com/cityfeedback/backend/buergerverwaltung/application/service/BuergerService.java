@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -124,5 +125,11 @@ public class BuergerService {
         return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
 
     }
+
+    public Optional<Buerger> getBuergerById(Long id){
+        return buergerRepository.findById(id);
+    }
+
+
 
 }

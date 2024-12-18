@@ -40,7 +40,7 @@ const BeschwerdeForm = () => {
         .then((response) => response.text()) // Antwort als Text umwandeln
         .then((data) => {
           console.log('Server Response:', data);
-          handleDashboard();
+
         })
     };  
 

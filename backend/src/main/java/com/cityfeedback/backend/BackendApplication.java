@@ -47,25 +47,19 @@ public class BackendApplication {
 
             mitarbeiterRepository.save(new Mitarbeiter(1L,"Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
 
-            beschwerdeRepository.save(new Beschwerde(1L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("beschwerde.pdf", "application/pdf", 12345L, "Bytes"), testBuerger2));
-            beschwerdeRepository.save(new Beschwerde(2L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "Beschwerdetext", new Anhang("foto.jpg", "application/jpg", 12346L, "Bytes"), testBuerger1));
+            // Testobjekte
 
-            beschwerdeRepository.save(new Beschwerde(3L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "A", new Anhang("info.pdf", "application/pdf", 12348L, "Bytes"), testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(4L, new Date(), "OPEN", "Hoch", "Infrastruktur", "Titel", "B", new Anhang("foto2.jpg", "application/jpg", 12348L, "Bytes"), testBuerger1));
-            beschwerdeRepository.save(new Beschwerde(5L, new Date(), "OPEN", "Hoch","Infrastruktur", "Beschwerdetitel", "Sehr geehrte Damen und Herren,\n" +
-                    "\n" +
-                    "ich wende mich an Sie, um meine Unzufriedenheit über die Bearbeitung meines Anliegens vom 15. Oktober 2024 auszudrücken. Trotz wiederholter Kontaktaufnahme und der Vorlage aller notwendigen Unterlagen wurde mein Anliegen bisher nicht abschließend bearbeitet.\n" +
-                    "\n" +
-                    "Besonders ärgerlich finde ich, dass ich seit sechs Wochen keine Rückmeldung erhalten habe, obwohl mir telefonisch zugesichert wurde, dass die Bearbeitung innerhalb von 14 Tagen abgeschlossen sei. Dies bringt für mich erhebliche Nachteile mit sich, da ich aufgrund der Verzögerung nicht wie geplant meine Bauarbeiten fortsetzen kann, was zu finanziellen Mehrkosten führt.\n" +
-                    "\n" +
-                    "Ich bitte Sie daher, die Bearbeitung meines Anliegens zu priorisieren und mich zeitnah über den aktuellen Stand zu informieren. Sollte es Hindernisse geben, teilen Sie mir diese bitte schriftlich mit.\n" +
-                    "\n" +
-                    "Vielen Dank im Voraus. Ich hoffe auf eine zügige Klärung der Angelegenheit.\n" +
-                    "\n" +
-                    "Mit freundlichen Grüßen\n" +
+            beschwerdeRepository.save(new Beschwerde("Straßenbau", "Schlaglöcher auf Hauptstraße", "Auf der Hauptstraße befinden sich mehrere tiefe Schlaglöcher, die eine Gefahr für den Straßenverkehr darstellen. Besonders Radfahrer sind gefährdet.", new Anhang("schlagloch.jpg", "image/jpeg", 20480L, "Bytes"), testBuerger1));
+
+            beschwerdeRepository.save(new Beschwerde("Müllentsorgung", "Überfüllte Mülltonnen", "Die Mülltonnen vor unserem Wohnblock werden seit drei Wochen nicht geleert. Es stinkt und zieht Ungeziefer an.", new Anhang("muell.jpg", "image/jpeg", 15360L, "Bytes"), testBuerger1));
+
+            beschwerdeRepository.save(new Beschwerde("Lärmbelästigung", "Nächtlicher Baulärm", "Seit zwei Wochen finden nachts Bauarbeiten auf der Baustelle in der Mustergasse statt. Es ist unmöglich zu schlafen.", new Anhang("baulaerm.pdf", "application/pdf", 10240L, "Bytes"), testBuerger1));
+
+            beschwerdeRepository.save(new Beschwerde("Straßenbeleuchtung", "Defekte Straßenlaternen", "In unserer Straße funktionieren drei Straßenlaternen nicht mehr. Es ist nachts sehr dunkel und unsicher.", new Anhang("strassenlaterne.jpg", "image/jpeg", 11264L, "Bytes"), testBuerger2));
+
+            beschwerdeRepository.save(new Beschwerde("Parkprobleme", "Falschparker auf Gehwegen", "Vor unserem Haus parken regelmäßig Autos auf dem Gehweg, was besonders für Kinder und ältere Menschen problematisch ist.", new Anhang("falschparker.jpg", "image/jpeg", 8192L, "Bytes"), testBuerger2));
 
 
-                    "Max Mustermann", new Anhang("beschwerde.jpg", "application/jpg", 12378L, "Bytes"), testBuerger1));
             Mitarbeiter testMitarbeiter2 = new Mitarbeiter(1L, "Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);

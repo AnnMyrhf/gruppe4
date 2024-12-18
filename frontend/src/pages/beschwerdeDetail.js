@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import UserService from "../services/user.service"
+
 
 export default function BeschwerdeDetail() {
     const { id } = useParams(); // ID aus der URL holen
@@ -8,6 +10,22 @@ export default function BeschwerdeDetail() {
 
 
     useEffect(() => {
+
+        UserService.getBeschwerde(id).then(
+            (response) => {
+                setBeschwerde(response.data);
+            },
+            (error) => {
+                const _content =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                console.log(error)
+            }
+        );
+
         fetch(`http://localhost:8081/beschwerde/${id}`) // Hol die spezifische Beschwerde über die ID
             .then((response) => response.json())
             .then((data) => {
