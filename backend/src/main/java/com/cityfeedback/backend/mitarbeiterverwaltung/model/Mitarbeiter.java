@@ -45,6 +45,7 @@ public class Mitarbeiter implements UserDetails {
     @NotBlank(message = "E-Mail darf nicht leer sein!")
     private String email;
 
+    @NotBlank(message = "Passwort darf nicht leer sein!")
     private String passwort;
 
     @NotBlank(message = "Abteilung darf nicht leer sein!")
