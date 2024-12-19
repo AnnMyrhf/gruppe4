@@ -6,9 +6,10 @@ const BeschwerdeForm = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    text: '',
-    erstellerId: '',
-    beschwerdetyp: '',
+    buergerId: 1,
+    textfeld: '',
+    beschwerdeTyp: '',
+    titel: ""
   });
 
   const handleChange = (e) => {
@@ -30,7 +31,8 @@ const BeschwerdeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8081/beschwerde-erstellen', {
+
+    fetch('http://localhost:8081/beschwerde/erstellen', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Header für JSON-Inhalt
@@ -75,23 +77,23 @@ const BeschwerdeForm = () => {
             <form onSubmit={handleSubmit} className="form">
 
               <div className="lvg">
-                <label htmlFor="title">Titel<span className="required">*</span></label>
+                <label htmlFor="titel">Titel<span className="required">*</span></label>
                 <input
                     type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
+                    id="titel"
+                    name="titel"
+                    value={formData.titel}
                     onChange={handleChange}
                     required
                 />
               </div>
 
               <div className="lvg">
-                <label htmlFor="beschwerdetyp">Kategorie <span className="required">*</span></label>
+                <label htmlFor="beschwerdeTyp">Kategorie <span className="required">*</span></label>
                 <select
-                    id="beschwerdetyp"
-                    name="beschwerdetyp"
-                    value={formData.beschwerdetyp} // Der Wert des Dropdowns
+                    id="beschwerdeTyp"
+                    name="beschwerdeTyp"
+                    value={formData.beschwerdeTyp} // Der Wert des Dropdowns
                     onChange={handleChange}
                     required
                 >
@@ -108,12 +110,12 @@ const BeschwerdeForm = () => {
               </div>
 
               <div className="lvg">
-                <label htmlFor="textarea">Ihr Anliegen <span className="required">*</span></label>
+                <label htmlFor="textfeld">Ihr Anliegen <span className="required">*</span></label>
                 <textarea
                     type="textarea"
-                    id="text"
-                    name="text"
-                    value={formData.text}
+                    id="textfeld"
+                    name="textfeld"
+                    value={formData.textfeld}
                     onChange={handleChange}
                     required
                     rows={5}

@@ -98,10 +98,7 @@ public class BeschwerdeService {
 
     public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
         Optional<Buerger> ersteller = buergerService.getBuergerById(id);
-        Buerger buerger = null;
-        if (ersteller.isPresent()){
-            buerger = ersteller.get();
-        }
+        Buerger buerger = ersteller.orElse(null);
         // Neue Beschwerde erstellen
         Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(),  buerger);
 
@@ -116,7 +113,7 @@ public class BeschwerdeService {
                 ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
                 return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten: " + cve.getMessage());
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetretengg.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");

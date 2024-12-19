@@ -56,7 +56,7 @@ public class Beschwerde {
         this.titel = titel;
         this.beschwerdeTyp = beschwerdeTyp;
         this.textfeld = textfeld;
-        this.anhang = anhang;
+        this.anhang = anhang != null ? anhang : null;
         this.erstellDatum = new Date();
         this.status = Status.EINGEGANGEN;
         this.prioritaet = randomEnum(Prioritaet.class);
