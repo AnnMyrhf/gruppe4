@@ -96,28 +96,33 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
-    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
-        Optional<Buerger> ersteller = buergerService.getBuergerById(id);
-        Buerger buerger = ersteller.orElse(null);
-        // Neue Beschwerde erstellen
-        Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(),  buerger);
-
-
-
-
+    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) {
         try {
-            // Bürger in der Datenbank speichern
-            beschwerdeRepository.save(newBeschwerde);
-        } catch (DataIntegrityViolationException e) {
-            if (e.getCause() instanceof ConstraintViolationException) {
-                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-                return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten: " + cve.getMessage());
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetretengg.");
+            // Überprüfen, ob der Bürger existiert
+            Optional<Buerger> ersteller = buergerService.getBuergerById(id);
+            if (ersteller.isEmpty()) {
+                throw new IllegalArgumentException("Kein Bürger mit ID: " + id + " gefunden");
             }
+            Buerger buerger = ersteller.orElse(null);
+
+            // Neue Beschwerde erstellen
+            Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(), buerger);
+
+            // Beschwerde in der Datenbank speichern
+            beschwerdeRepository.save(newBeschwerde);
+
+            // Erfolgreiche Antwort zurückgeben
+            return ResponseEntity.ok("Beschwerde erfolgreich erstellt!");
+
+        } catch (IllegalArgumentException e) {
+            // Fehler für ungültige Bürger-ID
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            // Datenbankbezogene Fehler
+            return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten");
         } catch (Exception e) {
+            // Generische Fehlerbehandlung
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
         }
-        return ResponseEntity.ok("Beschwerde erfolgreich erstellt!");
     }
 }

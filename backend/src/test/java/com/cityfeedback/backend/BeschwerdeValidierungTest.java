@@ -2,6 +2,8 @@ package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -15,8 +17,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BeschwerdeTest {
 
@@ -118,71 +119,192 @@ class BeschwerdeTest {
             assertFalse(pattern.matcher(invalidAnhang).matches());
         }
 
+    @Test
+    void testEquals_SameObject() {
+        Beschwerde beschwerde = new Beschwerde();
+        beschwerde.setTitel("Titel");
+        beschwerde.setTextfeld("Textfeld");
+
+        assertEquals(beschwerde, beschwerde); // Das gleiche Objekt
+    }
+
+    @Test
+    void testEquals_DifferentObjectsSameValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel");
+        beschwerde1.setTextfeld("Textfeld");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel");
+        beschwerde2.setTextfeld("Textfeld");
+
+        assertEquals(beschwerde1, beschwerde2); // Verschiedene Objekte, gleiche Werte
+    }
+
+    @Test
+    void testEquals_DifferentValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel 2");
+
+        assertNotEquals(beschwerde1, beschwerde2); // Verschiedene Werte
+    }
+
+    @Test
+    void testEquals_Null() {
+        Beschwerde beschwerde = new Beschwerde();
+        beschwerde.setTitel("Titel");
+
+        assertNotEquals(beschwerde, null); // Vergleich mit null
+    }
+
+    @Test
+    void testEquals_DifferentType() {
+        Beschwerde beschwerde = new Beschwerde();
+        beschwerde.setTitel("Titel");
+
+        assertNotEquals(beschwerde, "String"); // Vergleich mit anderem Typ
+    }
+
+    @Test
+    void testHashCode_SameValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel");
+        beschwerde1.setTextfeld("Textfeld");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel");
+        beschwerde2.setTextfeld("Textfeld");
+
+        assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode()); // Gleiche Werte, gleicher Hash-Code
+    }
+
+    @Test
+    void testHashCode_DifferentValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel 2");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode()); // Unterschiedliche Werte, unterschiedlicher Hash-Code
+    }
+
+    @Test
+    void testConstructorWithParameters() {
+        Date date = new Date();
+        Beschwerde beschwerde = new Beschwerde(1L, date, Status.EINGEGANGEN, Prioritaet.HOCH, "Titel", "Typ", "Text", null, null);
+
+        assertThat(beschwerde.getId()).isEqualTo(1L);
+        assertThat(beschwerde.getErstellDatum()).isEqualTo(date);
+        assertThat(beschwerde.getStatus()).isEqualTo(Status.EINGEGANGEN);
+        assertThat(beschwerde.getPrioritaet()).isEqualTo(Prioritaet.HOCH);
+        assertThat(beschwerde.getTitel()).isEqualTo("Titel");
+        assertThat(beschwerde.getTextfeld()).isEqualTo("Text");
+        assertThat(beschwerde.getBeschwerdeTyp()).isEqualTo("Typ");
+        assertThat(beschwerde.getAnhang()).isNull();
+        assertThat(beschwerde.getBuerger()).isNull();
+    }
+
+    @Test
+    void testConstructorWithInvalidParameters() {
+        // Test mit null-Werten und prüfen, ob Fehler auftreten
+        Date date = new Date();
+        Beschwerde beschwerde = new Beschwerde(null, null, null, null, null, null, null, null, null);
+
+        assertThat(beschwerde.getId()).isNull();
+        assertThat(beschwerde.getErstellDatum()).isNull();
+        assertThat(beschwerde.getStatus()).isNull();
+        assertThat(beschwerde.getPrioritaet()).isNull();
+        assertThat(beschwerde.getTitel()).isNull();
+        assertThat(beschwerde.getTextfeld()).isNull();
+        assertThat(beschwerde.getBeschwerdeTyp()).isNull();
+        assertThat(beschwerde.getAnhang()).isNull();
+        assertThat(beschwerde.getBuerger()).isNull();
+    }
+
+    @Test
+    void testSetErstellDatum() {
+        Beschwerde beschwerde = new Beschwerde();
+        Date date = new Date();
+        beschwerde.setErstellDatum(date);
+
+        assertThat(beschwerde.getErstellDatum()).isEqualTo(date);
+    }
+
+    @Test
+    void testSetStatus() {
+        Beschwerde beschwerde = new Beschwerde();
+        Status status = Status.EINGEGANGEN;
+        beschwerde.setStatus(status);
+
+        assertThat(beschwerde.getStatus()).isEqualTo(status);
+    }
+
+    @Test
+    void testSetPrioritaet() {
+        Beschwerde beschwerde = new Beschwerde();
+        Prioritaet prioritaet = Prioritaet.HOCH;
+        beschwerde.setPrioritaet(prioritaet);
+
+        assertThat(beschwerde.getPrioritaet()).isEqualTo(prioritaet);
+    }
+
+    @Test
+    void testSetAnhang() {
+        Beschwerde beschwerde = new Beschwerde();
+        Anhang anhang = new Anhang();
+        beschwerde.setAnhang(anhang);
+
+        assertThat(beschwerde.getAnhang()).isEqualTo(anhang);
+    }
+
+    @Test
+    void testSetBuerger() {
+        Beschwerde beschwerde = new Beschwerde();
+        Buerger buerger = new Buerger();
+        beschwerde.setBuerger(buerger);
+
+        assertThat(beschwerde.getBuerger()).isEqualTo(buerger);
+    }
+
+    @Test
+    void testSetId() {
+        Beschwerde beschwerde = new Beschwerde();
+        Long id = 123L;
+        beschwerde.setId(id);
+
+        assertThat(beschwerde.getId()).isEqualTo(id);
+    }
+
+    @Test
+    void testSetTitel() {
+        Beschwerde beschwerde = new Beschwerde();
+        String titel = "Testtitel";
+        beschwerde.setTitel(titel);
+
+        assertThat(beschwerde.getTitel()).isEqualTo(titel);
+    }
+
+    @Test
+    void testSetBeschwerdeTyp() {
+        Beschwerde beschwerde = new Beschwerde();
+        String typ = "Technik";
+        beschwerde.setBeschwerdeTyp(typ);
+
+        assertThat(beschwerde.getBeschwerdeTyp()).isEqualTo(typ);
+    }
+
+    @Test
+    void testSetTextfeld() {
+        Beschwerde beschwerde = new Beschwerde();
+        String textfeld = "Dies ist ein Beispieltext.";
+        beschwerde.setTextfeld(textfeld);
+
+        assertThat(beschwerde.getTextfeld()).isEqualTo(textfeld);
+    }
+
 }
 
-
-
-/*
-package com.cityfeedback.backend;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.util.Date;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.regex.Pattern;
-import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
-import com.cityfeedback.backend.beschwerdeverwaltung.model.Beschwerde;
-
-public class BeschwerdeValidierungTest {
-    private BeschwerdeService BeschwerdeService;
-
-    @BeforeEach
-    public void setup() {
-        BeschwerdeService = new BeschwerdeService();
-    }
-
-    @Test
-    public void testGueltigeBeschwerdeDaten() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertTrue(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
-    }
-
-    @Test
-    public void testAnhangOptional() {
-        // Erstellen einer Beschwerde ohne Anhang
-        assertDoesNotThrow(() -> new Beschwerde(new Date(), "OPEN", "Infrastruktur", "hoch", "Beschwerdetext", false, "pdf"));
-    }
-
-    @Test
-    public void testFehlendesStatusFeld() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
-    }
-
-    @Test
-    public void testUnbekanntesStatusFormat() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "UNBEKANNT", "Infrastruktur", "Hoch", "Beschwerdetext", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
-    }
-
-    @Test
-    void testAnhangFormatValid() {
-        String validAnhangPdf = "dokument.pdf";
-        String validAnhangJpg = "bild.jpg";
-        String invalidAnhang = "datei.doc";
-
-        Pattern pattern = Pattern.compile("^.*\\.(pdf|jpg|png)$");
-
-        assertTrue(pattern.matcher(validAnhangPdf).matches());
-        assertTrue(pattern.matcher(validAnhangJpg).matches());
-        assertFalse(pattern.matcher(invalidAnhang).matches());
-    }
-
-    @Test
-    public void testLeeresTextfeld() {
-        Beschwerde Beschwerde = new Beschwerde(new Date(), "OPEN", "Infrastruktur", "Hoch", "", true, "application/pdf");
-        assertFalse(BeschwerdeService.isBeschwerdeDatenGueltig(Beschwerde));
-    }
-}
-
-*/
