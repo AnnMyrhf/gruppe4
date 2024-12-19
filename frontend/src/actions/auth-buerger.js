@@ -52,7 +52,7 @@ export const buergerRegister = (anrede,
 
             return Promise.reject({
                 messsage: message,
-                errors: error.response.data.errors
+                errors: error.response.data
             });
         }
     );

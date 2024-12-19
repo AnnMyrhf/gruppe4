@@ -24,8 +24,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.lang.module.ResolutionException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -81,7 +84,17 @@ public class BuergerService {
      * @author Ann-Kathrin Meyerhof
      */
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
-    public ResponseEntity<?> registriereBuerger(@Valid Buerger buerger) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+    public ResponseEntity<?> registriereBuerger(@Valid Buerger buerger, BindingResult bindingResult) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+
+        if (bindingResult.hasErrors()) {
+            // Validierungsfehler sammeln und zurückgeben
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                System.out.println(error.getDefaultMessage());
+                errors.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
 
         // Ueberprüfen, ob die E-Mail-Adresse bereits existiert
         if (buergerRepository.existsByEmail(buerger.getEmail())) {

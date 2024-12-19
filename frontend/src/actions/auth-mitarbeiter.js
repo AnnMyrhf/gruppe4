@@ -15,17 +15,13 @@ export const mitarbeiterRegister = (anrede,
                                     telefonnummer,
                                     email,
                                     passwort,
-                                    abteilung,
-                                    position
 ) => (dispatch) => {
     return AuthService.register( anrede,
         vorname,
         nachname,
         telefonnummer,
         email,
-        passwort,
-        abteilung,
-        position).then(
+        passwort,).then(
         (response) => {
             dispatch({
                 type: REGISTER_SUCCESS,
@@ -57,7 +53,7 @@ export const mitarbeiterRegister = (anrede,
 
             return Promise.reject({
                 messsage: message,
-                errors: error.response.data.errors
+                errors: error.response.data
             });
         }
     );

@@ -1,4 +1,4 @@
-package com.cityfeedback.backend;
+package com.cityfeedback.backend.beschwerde;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;

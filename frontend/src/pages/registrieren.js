@@ -15,10 +15,10 @@ const RegistrationForm = () => {
     nachname: '',
     telefonnummer: '',
     email: '',
-    passwort: '',
-    abteilung: '',
-    position: ''
+    passwort: ''
   });
+
+  const [confirmPasswort, setConfirmPasswort] = useState("")
 
 
   const navigate = useNavigate();
@@ -41,6 +41,10 @@ const RegistrationForm = () => {
     }));
   };
 
+  const handleConfirmChange = (e) =>{
+    setConfirmPasswort(e.target.value);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedRole === "Bürger"){
@@ -55,7 +59,7 @@ const RegistrationForm = () => {
             setTimeout(() => navigate("/"), 5000);
           })
           .catch((error) => {
-
+            console.log(error)
             handleShowToast("Registrierung fehlgeschlagen!");
           });
     } else if (selectedRole === "Mitarbeiter"){
@@ -72,7 +76,8 @@ const RegistrationForm = () => {
             handleShowToast("Registrierung erfolgreich!");
             setTimeout(() => navigate("/"), 3500);
           })
-          .catch((errorMessage) => {
+          .catch((error) => {
+            console.log(error)
             handleShowToast("Registrierung fehlgeschlagen!");
 
           });
@@ -230,13 +235,13 @@ const RegistrationForm = () => {
             </div>
 
             <div className="lvg">
-              <label htmlFor="confirmPassword">Passwort bestätigen <span className="required">*</span></label>
+              <label htmlFor="confirmPasswort">Passwort bestätigen <span className="required">*</span></label>
               <input
                   type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
+                  id="confirmPasswort"
+                  name="confirmPasswort"
+                  value={confirmPasswort}
+                  onChange={handleConfirmChange}
                   required
               />
             </div>

@@ -200,19 +200,4 @@ class BeschwerdeServiceTest {
         verify(buergerService, times(1)).getBuergerById(buergerId);
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
-
-//    @Test
-//    void testCreateBeschwerde_BuergerNotFound() {
-//        // Mocking
-//        Long buergerId = 999L;
-//        Beschwerde beschwerde = new Beschwerde();
-//        beschwerde.setTitel("Test Titel");
-//
-//        when(buergerService.getBuergerById(buergerId)).thenReturn(Optional.empty());
-//
-//        // Test & Verify
-//        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.createBeschwerde(beschwerde, buergerId));
-//        verify(buergerService, times(1)).getBuergerById(buergerId);
-//        verify(beschwerdeRepository, never()).save(any(Beschwerde.class));
-//    }
 }
