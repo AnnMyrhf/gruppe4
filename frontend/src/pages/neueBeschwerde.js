@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import Beschwerde from "../components/beschwerde";
+import UserService from "../services/user.service"
+import Toaster from "../components/Toaster";
+import {useDispatch, useSelector} from "react-redux";
+import backIcon from "../assests/arrow-left-solid.svg";
+
 
 const BeschwerdeForm = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const { user: currentUser } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
-    buergerId: 1,
+    buergerId: currentUser.id,
     textfeld: '',
     beschwerdeTyp: '',
     titel: ""
   });
+
+  const handleShowToast = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3500);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,26 +38,31 @@ const BeschwerdeForm = () => {
     setFile(e.target.files[0]);
   };
 
- function handleDashboard(){
-        navigate('/buerger/dashboard', { replace: true });
+ function goToDashboard(){
+        navigate('/dashboard', { replace: true });
 } 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8081/beschwerde/erstellen', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Header für JSON-Inhalt
+    UserService.postBeschwerde(formData.buergerId, formData.titel, formData.beschwerdeTyp, formData.textfeld).then(
+        (response) => {
+          handleShowToast("Beschwerde erfolgreich eingereicht");
+          setTimeout(() => goToDashboard(), 1500);
         },
-        body: JSON.stringify(formData), // Verwende das aktualisierte Mitarbeiter-Objekt
-      })
-        .then((response) => response.text()) // Antwort als Text umwandeln
-        .then((data) => {
-          console.log('Server Response:', data);
+        (error) => {
+          const _content =
+              (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+              error.message ||
+              error.toString();
 
-        })
-    };  
+          //Todo Error Handling
+        }
+    );
+
+ };
 
   return (
       <div style={{
@@ -57,15 +75,19 @@ const BeschwerdeForm = () => {
         flexGrow: "1"
       }}>
         <main className="main">
-          <div>
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between"
-            }}>
-              <h1>Neue Beschwerde einreichen</h1>
-            </div>
-            <div>
-            </div>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            alignItems: "flex-start"
+          }}>
+            <button className="tertiaryBtn"
+            onClick={goToDashboard}
+            >
+              <img src={backIcon} alt="Icon" width="auto" height="16"/>
+              Zurück zum Dashboard
+            </button>
+            <h1>Neue Beschwerde einreichen</h1>
           </div>
 
           <div style={{
@@ -138,6 +160,7 @@ const BeschwerdeForm = () => {
               <button type="submit">Abschicken</button>
             </form>
           </div>
+          <Toaster text={toastMessage} visible={showToast}/>
         </main>
       </div>
   );

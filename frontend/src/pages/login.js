@@ -100,7 +100,7 @@ const [validation, setValidation] = useState(null)
             <h1>Anmelden</h1>
             <p className="subinfo">Melden Sie sich an, um eine Beschwerde abzuschicken.</p>
           </div>
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="lvg">
               <label htmlFor="rolle">Rolle</label>
               <div id="rolle" style={{display: "flex", gap: "8px"}}>

@@ -181,6 +181,26 @@ button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     outline-offset: -1px;
 }
 
+.tertiaryBtn{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    background-color: transparent;
+    color: #1a1a1a;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.tertiaryBtn:hover{
+    text-decoration: underline; /* Unterstreicht den Text beim Hover */
+    text-underline-offset: 6px; /* Abstand des Unterstrichs vom Text */
+
+}
+
 .main {
     width: 100%;
     max-width: 1000px;

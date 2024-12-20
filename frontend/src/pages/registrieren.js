@@ -127,7 +127,7 @@ const RegistrationForm = () => {
             <h1>Registrieren</h1>
             <p className="subinfo">Erstellen Sie ein Konto, um Beschwerden einzureichen.</p>
           </div>
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="lvg">
               <label htmlFor="rolle">Rolle</label>
               <div id="rolle" style={{display: "flex", gap: "8px"}}>

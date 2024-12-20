@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import UserService from "../services/user.service"
+import backIcon from "../assests/arrow-left-solid.svg";
 
 
 export default function BeschwerdeDetail() {
@@ -53,13 +54,14 @@ export default function BeschwerdeDetail() {
         gap: "16px"
     };
 
-    const handleClick = ()=> {
-        navigate('/dashboard');
-    }
-
     return (
         <div style={mainStyle}>
-            <button onClick={handleClick}>Zurück zum Dashboard</button>
+            <button className="tertiaryBtn"
+                    onClick={()=>navigate('/dashboard')}
+            >
+                <img src={backIcon} alt="Icon" width="auto" height="16"/>
+                Zurück zum Dashboard
+            </button>
             <h1>{beschwerde.titel}</h1>
             <p>ID: {beschwerde.id}</p>
             <p>Datum: {beschwerde.erstellDatum}</p>
@@ -97,7 +99,7 @@ export default function BeschwerdeDetail() {
                         </select>
                     </div>
 
-                    <button className="primary-btn" onClick={handleClick}>Kommentar abschicken</button>
+                    <button className="primary-btn" onClick={()=>{}}>Kommentar abschicken</button>
                 </form>
             }
         </div>
