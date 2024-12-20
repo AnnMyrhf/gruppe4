@@ -2,3 +2,22 @@
     border: 1px solid red;
 }
 
+.validation-flyout {
+    height: 26px;
+    position: absolute;
+    font-size: 14px;
+    color: red;
+    padding: 4px 0px;
+    width: 100%;
+    left: 0px;
+    bottom: -25px;
+    white-space: nowrap; /* Kein Zeilenumbruch */
+    overflow: hidden; /* Verhindert Überlauf des Inhalts */
+    text-overflow: ellipsis; /* Zeigt "..." an, wenn der Text abgeschnitten wird */
+}
+
+
+.input-wrapper{
+    position: relative;
+}
+

@@ -188,11 +188,3 @@ button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     flex-direction: column;
     gap: 32px;
 }
-
-.form{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-    gap: 16px;
-}

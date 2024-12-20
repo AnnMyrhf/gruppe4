@@ -152,117 +152,124 @@ const RegistrationForm = () => {
 
             <div className="lvg">
               <label htmlFor="anrede">Anrede <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="anrede"
-                  name="anrede"
-                  value={formData.anrede}
-                  onChange={handleChange}
-                  required
-                  className={validation.anrede ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="anrede"
+                    name="anrede"
+                    value={formData.anrede}
+                    onChange={handleChange}
+                    required
+                    className={validation.anrede ? "validation" : ""}
+                />
+                {validation.anrede && (
+                    <p className="validation-flyout">{validation.anrede}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="vorname">Vorname <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="vorname"
-                  name="vorname"
-                  value={formData.vorname}
-                  onChange={handleChange}
-                  required
-                  className={validation.vorname ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="vorname"
+                    name="vorname"
+                    value={formData.vorname}
+                    onChange={handleChange}
+                    required
+                    className={validation.vorname ? "validation" : ""}
+                />
+                {validation.vorname && (
+                    <p className="validation-flyout">{validation.vorname}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="nachname">Nachname <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="nachname"
-                  name="nachname"
-                  value={formData.nachname}
-                  onChange={handleChange}
-                  required
-                  className={validation.nachname ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="nachname"
+                    name="nachname"
+                    value={formData.nachname}
+                    onChange={handleChange}
+                    required
+                    className={validation.nachname ? "validation" : ""}
+                />
+                {validation.nachname && (
+                    <p className="validation-flyout">{validation.nachname}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="telefonnummer">Telefonnummer <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="telefonnummer"
-                  name="telefonnummer"
-                  value={formData.telefon}
-                  onChange={handleChange}
-                  required
-                  className={validation.telefonnummer ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="telefonnummer"
+                    name="telefonnummer"
+                    value={formData.telefon}
+                    onChange={handleChange}
+                    required
+                    className={validation.telefonnummer ? "validation" : ""}
+                />
+                {validation.telefonnummer && (
+                    <p className="validation-flyout">{validation.telefonnummer}</p>
+                )}
+              </div>
             </div>
-
-            {/*{selectedRole === "Mitarbeiter" && (<div className="lvg">
-              <label htmlFor="abteilung">Abteilung <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="abteilung"
-                  name="abteilung"
-                  value={formData.abteilung}
-                  onChange={handleChange}
-                  required
-              />
-            </div>)}
-
-            {selectedRole === "Mitarbeiter" && (<div className="lvg">
-              <label htmlFor="position">Position <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="position"
-                  name="position"
-                  value={formData.position}
-                  onChange={handleChange}
-                  required
-              />
-            </div>)}*/}
 
             <div className="lvg">
               <label htmlFor="email">E-Mail-Adresse <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={validation.email ? "validation" : ""}
-
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={validation.email ? "validation" : ""}
+                />
+                {validation.email && (
+                    <p className="validation-flyout">{validation.email}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="passwort">Passwort <span className="required">*</span></label>
-              <input
-                  type="password"
-                  id="passwort"
-                  name="passwort"
-                  value={formData.passwort}
-                  onChange={handleChange}
-                  required
-                  className={validation.passwort ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="password"
+                    id="passwort"
+                    name="passwort"
+                    value={formData.passwort}
+                    onChange={handleChange}
+                    required
+                    className={validation.passwort ? "validation" : ""}
+                />
+                {validation.passwort && (
+                    <p className="validation-flyout">{validation.passwort}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="confirmPasswort">Passwort bestätigen <span className="required">*</span></label>
-              <input
-                  type="password"
-                  id="confirmPasswort"
-                  name="confirmPasswort"
-                  value={confirmPasswort}
-                  onChange={handleConfirmChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="password"
+                    id="confirmPasswort"
+                    name="confirmPasswort"
+                    value={confirmPasswort}
+                    onChange={handleConfirmChange}
+                    required
+                />
+              </div>
             </div>
 
             <div style={{
