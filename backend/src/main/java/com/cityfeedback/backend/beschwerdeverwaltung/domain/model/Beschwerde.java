@@ -1,5 +1,6 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.model;
 
+import com.cityfeedback.backend.benachrichtigungsverwaltung.model.Benachrichtigung;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,7 +9,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -24,7 +29,11 @@ public class Beschwerde {
     // Systemseitig generierte Attribute einer Beschwerde
     private Long id;
     private Date erstellDatum;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
     private String prioritaet;
 
     // Attribute, die der Buerger uebergibt
@@ -48,10 +57,26 @@ public class Beschwerde {
     @JsonBackReference // Verhindert Endlosschleifen, da diese Seite der Beziehung nicht in JSON aufgenommen wird
     private Buerger buerger;
 
-    //private List<DomainEvent> domainEvents = new ArrayList<>();
+    @OneToMany(mappedBy = "beschwerde", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Benachrichtigung> benachrichtigungen = new ArrayList<>();
 
-/*public void erstelleBeschwerde(Date erstellDatum, String status, String prioritaet, String beschwerdeTyp, String titel, String textfeld, Anhang anhang) {
-        BeschwerdeErstellen event = new BeschwerdeErstellen(erstellDatum, status, prioritaet, beschwerdeTyp, titel, textfeld, anhang);
-        domainEvents.add(event);
-    }*/
+    public enum Status {
+        EINGEGANGEN,
+        IN_BEARBEITUNG,
+        ERLEDIGT
+    }
+
+    // Methode zur Statusänderung mit Benachrichtigung
+    public void setStatus(Status neuerStatus) {
+        if (this.status != neuerStatus) {
+            this.status = neuerStatus;
+            Benachrichtigung benachrichtigung = new Benachrichtigung();
+            benachrichtigung.setDatum(LocalDate.now());
+            benachrichtigung.setZeit(LocalTime.now());
+            benachrichtigung.setKommentar("Status geändert zu: " + neuerStatus);
+            benachrichtigung.setBeschwerde(this);
+            this.benachrichtigungen.add(benachrichtigung);
+        }
+    }
+
 }
