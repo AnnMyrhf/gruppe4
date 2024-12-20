@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {buergerRegister} from "../actions/auth-buerger";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -15,7 +15,9 @@ const RegistrationForm = () => {
     nachname: '',
     telefonnummer: '',
     email: '',
-    passwort: ''
+    passwort: '',
+    abteilung: '',
+    position: ''
   });
 
   const [confirmPasswort, setConfirmPasswort] = useState("")
@@ -26,8 +28,15 @@ const RegistrationForm = () => {
   const [selectedRole, setSelectedRole] = useState("Bürger");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [validation, setValidation] = useState({})
+
+  useEffect(() => {
+    if (Object.keys(validation).length > 0) {
+      handleShowToast("Registrierung nicht erfolgreich");
+      console.log(validation);
+    }
+  }, [validation]);
 
   if (currentUser) {
     return <Navigate to="/dashboard" />;
@@ -39,6 +48,14 @@ const RegistrationForm = () => {
       ...prevState,
       [name]: value
     }));
+
+    if (validation[name]) {
+      setValidation(prevValidation => {
+        const updatedValidation = { ...prevValidation };
+        delete updatedValidation[name]; // Fehler für das aktuelle Feld entfernen
+        return updatedValidation;
+      });
+    }
   };
 
   const handleConfirmChange = (e) =>{
@@ -59,8 +76,7 @@ const RegistrationForm = () => {
             setTimeout(() => navigate("/"), 5000);
           })
           .catch((error) => {
-            console.log(error)
-            handleShowToast("Registrierung fehlgeschlagen!");
+            setValidation(error.errors)
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterRegister(formData.anrede,
@@ -68,18 +84,14 @@ const RegistrationForm = () => {
           formData.nachname,
           formData.telefonnummer,
           formData.email,
-          formData.passwort,
-          formData.abteilung,
-          formData.position
+          formData.passwort
           ))
           .then(() => {
             handleShowToast("Registrierung erfolgreich!");
-            setTimeout(() => navigate("/"), 3500);
+            setTimeout(() => navigate("/"), 1500);
           })
           .catch((error) => {
-            console.log(error)
-            handleShowToast("Registrierung fehlgeschlagen!");
-
+            setValidation(error.errors)
           });
     }
   };
@@ -147,6 +159,7 @@ const RegistrationForm = () => {
                   value={formData.anrede}
                   onChange={handleChange}
                   required
+                  className={validation.anrede ? "validation" : ""}
               />
             </div>
 
@@ -159,6 +172,7 @@ const RegistrationForm = () => {
                   value={formData.vorname}
                   onChange={handleChange}
                   required
+                  className={validation.vorname ? "validation" : ""}
               />
             </div>
 
@@ -171,6 +185,7 @@ const RegistrationForm = () => {
                   value={formData.nachname}
                   onChange={handleChange}
                   required
+                  className={validation.nachname ? "validation" : ""}
               />
             </div>
 
@@ -183,10 +198,11 @@ const RegistrationForm = () => {
                   value={formData.telefon}
                   onChange={handleChange}
                   required
+                  className={validation.telefonnummer ? "validation" : ""}
               />
             </div>
 
-            {selectedRole === "Mitarbeiter" && (<div className="lvg">
+            {/*{selectedRole === "Mitarbeiter" && (<div className="lvg">
               <label htmlFor="abteilung">Abteilung <span className="required">*</span></label>
               <input
                   type="text"
@@ -208,7 +224,7 @@ const RegistrationForm = () => {
                   onChange={handleChange}
                   required
               />
-            </div>)}
+            </div>)}*/}
 
             <div className="lvg">
               <label htmlFor="email">E-Mail-Adresse <span className="required">*</span></label>
@@ -219,6 +235,8 @@ const RegistrationForm = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  className={validation.email ? "validation" : ""}
+
               />
             </div>
 
@@ -231,6 +249,7 @@ const RegistrationForm = () => {
                   value={formData.passwort}
                   onChange={handleChange}
                   required
+                  className={validation.passwort ? "validation" : ""}
               />
             </div>
 
@@ -246,14 +265,22 @@ const RegistrationForm = () => {
               />
             </div>
 
-            <button type="submit">{selectedRole} Konto erstellen</button>
-            <p style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "-8px",
-              color: "#808080",
-              fontSize: "14px"
-            }}> Sie haben noch keinen Account? <Link to="/">Anmelden</Link></p>
+            <div style={{
+              position: 'relative',
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+            }}>
+              <button type="submit">{selectedRole} Konto erstellen</button>
+              <p style={{
+                width: "100%",
+                textAlign: "center",
+                color: "#808080",
+                fontSize: "14px"
+              }}> Sie haben bereits einen Account? <Link to="/">Anmelden</Link></p>
+            </div>
+
+
           </form>
         </div>
         <Toaster text={toastMessage} visible={showToast}/>
