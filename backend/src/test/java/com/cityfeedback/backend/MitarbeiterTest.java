@@ -1,11 +1,12 @@
 package com.cityfeedback.backend;
 
 
+import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.lang.module.ResolutionException;
 import java.util.Collection;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,14 +44,21 @@ public class MitarbeiterTest {
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
+
     @Autowired
     private MitarbeiterRepository mitarbeiterRepository;
+
+    @Autowired
+    private Validator validator;
 
     @BeforeEach
     void setUp() {
         // vor jedem Test wird die DB geleert
         mitarbeiterRepository.deleteAll();
 
+        // Initialisierung des Validators über das Validation API
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     /**
@@ -64,7 +73,6 @@ public class MitarbeiterTest {
         assertTrue(mitarbeiterRepository.existsByEmail(testMitarbeiter1.getEmail()));
 
     }
-
 
     /**
      * Ueberprueft, ob bei einer bereits bestehenden E-Mail-Adresse eine spezifische Fehlermeldung zurückgegeben wird.
@@ -95,32 +103,124 @@ public class MitarbeiterTest {
         assertTrue(istPasswortKorrekt);
 
     }
-/*
-   @Test
+
+    /**
+     * Prüft, ob ein Vorname mit mehr als 30 Zeichen eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
     public void testValidation_VornameZuLang() {
         testMitarbeiter1.setVorname("Anna".repeat(31)); // 31 Zeichen
-        assertThrows(MethodArgumentNotValidException.class, () -> {
-        mitarbeiterService.registriereMitarbeiter(testMitarbeiter1);
-        });
-        DefaultBindingResult bindingResult = new DefaultBindingResult(testMitarbeiter2, "mitarbeiter");
-FieldError error = new FieldError("mitarbeiter", "vorname", "Vorname ist zu lang");
-bindingResult.addError(error);
-    }*/
-
-/*
-   @Test
-    public void testValidation_NachnameZuLang() {
-        testMitarbeiter1.setNachname("Mustermann".repeat(31)); // 31 Zeichen
-        ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter1);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertFalse(violations.isEmpty(), "Fehler: Vorname zu lang");
     }
 
+    /**
+     * Prüft, ob ein Nachname mit mehr als 30 Zeichen eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testValidation_NachnameZuLang() {
+        testMitarbeiter1.setNachname("Mustermann".repeat(31)); // 31 Zeichen
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertFalse(violations.isEmpty(), "Fehler: Nachname zu lang");
+    }
+
+    /**
+     * Prüft, ob eine ungültige E-Mail-Adresse eine Validation-Fehlermeldung erzeugt.
+     */
     @Test
     public void testUngueltigeEmail() {
         testMitarbeiter1.setEmail("ungueltige Email");
-        ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter1);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }*/
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertFalse(violations.isEmpty(), "Fehler: Ungültige E-Mail-Adresse");
+    }
+
+    /**
+     * Prüft, ob das Fehlen einer Anrede eine entsprechende Fehlermeldung verursacht.
+     */
+    @Test
+    public void testAnredeNotBlank() {
+        testMitarbeiter1.setAnrede("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Anrede darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob ein leerer Vorname eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testVornameNotBlank() {
+        testMitarbeiter1.setVorname("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Vorname darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob ein leerer Nachname eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testNachnameNotBlank() {
+        testMitarbeiter1.setNachname("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Nachname darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob eine leere E-Mail eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testEmailNotBlank() {
+        testMitarbeiter1.setEmail("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("E-Mail darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob ein leeres Passwort eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testPasswortNotBlank() {
+        testMitarbeiter1.setPasswort("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Passwort darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob eine leere Telefonnummer eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testTelefonnummerNotBlank() {
+        testMitarbeiter1.setTelefonnummer("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob eine leere Abteilung eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testAbteilungNotBlank() {
+        testMitarbeiter1.setAbteilung("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Abteilung darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
+
+    /**
+     * Prüft, ob eine leere Position eine Validation-Fehlermeldung erzeugt.
+     */
+    @Test
+    public void testPositionNotBlank() {
+        testMitarbeiter1.setPosition("");
+        Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
+        assertEquals(1, violations.size());
+        assertEquals("Position darf nicht leer sein!", violations.iterator().next().getMessage());
+    }
 
     /**
      * Ueberprueft, ob ein bereits registrierter Buerger sich erfolgreich mit den korrekten Anmeldedaten anmelden kann
@@ -351,6 +451,9 @@ bindingResult.addError(error);
         assertEquals(expectedEmail, actualUsername);
     }
 
+    /**
+     * Prüft, ob die toString()-Methode eine korrekte, formatierte Zeichenkette zurückgibt, die alle relevanten Attribute des Mitarbeiters enthält.
+     */
     @Test
     void testToString() {
         String toStringOutput = testMitarbeiter1.toString();
@@ -358,6 +461,9 @@ bindingResult.addError(error);
         assertEquals(expectedString, toStringOutput);
     }
 
+    /**
+     * Testet, ob die hashCode()-Methode für zwei identische Mitarbeiterobjekte den gleichen Hashcode liefert.
+     */
     @Test
     void testHashCode() {
         int hashCode1 = testMitarbeiter2.hashCode();
@@ -367,6 +473,9 @@ bindingResult.addError(error);
         assertEquals(hashCode1, hashCode2, "Die Hashcodes müssen identisch sein.");
     }
 
+    /**
+     * Testet, ob die hashCode()-Methode für zwei unterschiedliche Mitarbeiterobjekte unterschiedliche Hashcodes liefert, um Kollisionen in Hash-basierten Datenstrukturen zu minimieren.
+     */
     @Test
     void testHashCode_DifferentObjects() {
 
@@ -386,8 +495,8 @@ bindingResult.addError(error);
         assertEquals(testMitarbeiter2.getVorname(), testMitarbeiter3.getVorname());
         assertEquals(testMitarbeiter2.getNachname(), testMitarbeiter3.getNachname());
 
-        assertTrue(testMitarbeiter2.equals(testMitarbeiter3));
-        assertTrue(testMitarbeiter3.equals(testMitarbeiter2));
+        assertEquals(testMitarbeiter2, testMitarbeiter3);
+        assertEquals(testMitarbeiter3, testMitarbeiter2);
     }
 
 }
