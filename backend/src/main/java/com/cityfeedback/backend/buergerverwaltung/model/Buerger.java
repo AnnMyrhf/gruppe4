@@ -3,6 +3,7 @@ package com.cityfeedback.backend.buergerverwaltung.model;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +43,7 @@ public class Buerger implements UserDetails {
     @Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
     private String nachname;
 
+    @Pattern(regexp = "^[+]?\\d+(-\\d+)*$", message = "Die Telefonnummer darf nur Zahlen, Bindestriche und ein '+' enthalten.")
     @NotBlank(message = "Telefonnummer darf nicht leer sein!")
     private String telefonnummer;
 

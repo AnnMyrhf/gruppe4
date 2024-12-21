@@ -31,13 +31,13 @@ public class Beschwerde {
     @Enumerated(EnumType.STRING)
     private Prioritaet prioritaet;
 
-    // Attribute, die der Buerger uebergibt
-    @NotBlank(message = "Bitte wählen Sie eine Kategorie aus!")//  darf nicht null oder leer sein
-    private String beschwerdeTyp;
-
     @NotBlank(message = "Der Titel darf nicht leer sein!")//  darf nicht null oder leer sein
     @Size(max = 100, message = "Der Titel darf nur 100 Zeichen enthalten.")
     private String titel;
+
+    // Attribute, die der Buerger uebergibt
+    @NotBlank(message = "Bitte wählen Sie eine Kategorie aus!")//  darf nicht null oder leer sein
+    private String beschwerdeTyp;
 
     @Column(length = 2000)
     @NotBlank(message = "Das Texfeld darf nicht leer sein!")//  darf nicht null oder leer sein
@@ -56,7 +56,7 @@ public class Beschwerde {
         this.titel = titel;
         this.beschwerdeTyp = beschwerdeTyp;
         this.textfeld = textfeld;
-        this.anhang = anhang;
+        this.anhang = anhang != null ? anhang : null;
         this.erstellDatum = new Date();
         this.status = Status.EINGEGANGEN;
         this.prioritaet = randomEnum(Prioritaet.class);

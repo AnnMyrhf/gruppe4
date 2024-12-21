@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {buergerRegister} from "../actions/auth-buerger";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,14 +20,23 @@ const RegistrationForm = () => {
     position: ''
   });
 
+  const [confirmPasswort, setConfirmPasswort] = useState("")
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("Bürger");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [validation, setValidation] = useState({})
+
+  useEffect(() => {
+    if (Object.keys(validation).length > 0) {
+      handleShowToast("Registrierung nicht erfolgreich");
+      console.log(validation);
+    }
+  }, [validation]);
 
   if (currentUser) {
     return <Navigate to="/dashboard" />;
@@ -39,7 +48,19 @@ const RegistrationForm = () => {
       ...prevState,
       [name]: value
     }));
+
+    if (validation[name]) {
+      setValidation(prevValidation => {
+        const updatedValidation = { ...prevValidation };
+        delete updatedValidation[name]; // Fehler für das aktuelle Feld entfernen
+        return updatedValidation;
+      });
+    }
   };
+
+  const handleConfirmChange = (e) =>{
+    setConfirmPasswort(e.target.value);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,8 +76,7 @@ const RegistrationForm = () => {
             setTimeout(() => navigate("/"), 5000);
           })
           .catch((error) => {
-
-            handleShowToast("Registrierung fehlgeschlagen!");
+            setValidation(error.errors)
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterRegister(formData.anrede,
@@ -64,17 +84,14 @@ const RegistrationForm = () => {
           formData.nachname,
           formData.telefonnummer,
           formData.email,
-          formData.passwort,
-          formData.abteilung,
-          formData.position
+          formData.passwort
           ))
           .then(() => {
             handleShowToast("Registrierung erfolgreich!");
-            setTimeout(() => navigate("/"), 3500);
+            setTimeout(() => navigate("/"), 1500);
           })
-          .catch((errorMessage) => {
-            handleShowToast("Registrierung fehlgeschlagen!");
-
+          .catch((error) => {
+            setValidation(error.errors)
           });
     }
   };
@@ -110,7 +127,7 @@ const RegistrationForm = () => {
             <h1>Registrieren</h1>
             <p className="subinfo">Erstellen Sie ein Konto, um Beschwerden einzureichen.</p>
           </div>
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="lvg">
               <label htmlFor="rolle">Rolle</label>
               <div id="rolle" style={{display: "flex", gap: "8px"}}>
@@ -135,120 +152,142 @@ const RegistrationForm = () => {
 
             <div className="lvg">
               <label htmlFor="anrede">Anrede <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="anrede"
-                  name="anrede"
-                  value={formData.anrede}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="anrede"
+                    name="anrede"
+                    value={formData.anrede}
+                    onChange={handleChange}
+                    required
+                    className={validation.anrede ? "validation" : ""}
+                />
+                {validation.anrede && (
+                    <p className="validation-flyout">{validation.anrede}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="vorname">Vorname <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="vorname"
-                  name="vorname"
-                  value={formData.vorname}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="vorname"
+                    name="vorname"
+                    value={formData.vorname}
+                    onChange={handleChange}
+                    required
+                    className={validation.vorname ? "validation" : ""}
+                />
+                {validation.vorname && (
+                    <p className="validation-flyout">{validation.vorname}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="nachname">Nachname <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="nachname"
-                  name="nachname"
-                  value={formData.nachname}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="nachname"
+                    name="nachname"
+                    value={formData.nachname}
+                    onChange={handleChange}
+                    required
+                    className={validation.nachname ? "validation" : ""}
+                />
+                {validation.nachname && (
+                    <p className="validation-flyout">{validation.nachname}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="telefonnummer">Telefonnummer <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="telefonnummer"
-                  name="telefonnummer"
-                  value={formData.telefon}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="telefonnummer"
+                    name="telefonnummer"
+                    value={formData.telefon}
+                    onChange={handleChange}
+                    required
+                    className={validation.telefonnummer ? "validation" : ""}
+                />
+                {validation.telefonnummer && (
+                    <p className="validation-flyout">{validation.telefonnummer}</p>
+                )}
+              </div>
             </div>
-
-            {selectedRole === "Mitarbeiter" && (<div className="lvg">
-              <label htmlFor="abteilung">Abteilung <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="abteilung"
-                  name="abteilung"
-                  value={formData.abteilung}
-                  onChange={handleChange}
-                  required
-              />
-            </div>)}
-
-            {selectedRole === "Mitarbeiter" && (<div className="lvg">
-              <label htmlFor="position">Position <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="position"
-                  name="position"
-                  value={formData.position}
-                  onChange={handleChange}
-                  required
-              />
-            </div>)}
 
             <div className="lvg">
               <label htmlFor="email">E-Mail-Adresse <span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={validation.email ? "validation" : ""}
+                />
+                {validation.email && (
+                    <p className="validation-flyout">{validation.email}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
               <label htmlFor="passwort">Passwort <span className="required">*</span></label>
-              <input
-                  type="password"
-                  id="passwort"
-                  name="passwort"
-                  value={formData.passwort}
-                  onChange={handleChange}
-                  required
-              />
+              <div className="input-wrapper">
+                <input
+                    type="password"
+                    id="passwort"
+                    name="passwort"
+                    value={formData.passwort}
+                    onChange={handleChange}
+                    required
+                    className={validation.passwort ? "validation" : ""}
+                />
+                {validation.passwort && (
+                    <p className="validation-flyout">{validation.passwort}</p>
+                )}
+              </div>
             </div>
 
             <div className="lvg">
-              <label htmlFor="confirmPassword">Passwort bestätigen <span className="required">*</span></label>
-              <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-              />
+              <label htmlFor="confirmPasswort">Passwort bestätigen <span className="required">*</span></label>
+              <div className="input-wrapper">
+                <input
+                    type="password"
+                    id="confirmPasswort"
+                    name="confirmPasswort"
+                    value={confirmPasswort}
+                    onChange={handleConfirmChange}
+                    required
+                />
+              </div>
             </div>
 
-            <button type="submit">{selectedRole} Konto erstellen</button>
-            <p style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "-8px",
-              color: "#808080",
-              fontSize: "14px"
-            }}> Sie haben noch keinen Account? <Link to="/">Anmelden</Link></p>
+            <div style={{
+              position: 'relative',
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+            }}>
+              <button type="submit">{selectedRole} Konto erstellen</button>
+              <p style={{
+                width: "100%",
+                textAlign: "center",
+                color: "#808080",
+                fontSize: "14px"
+              }}> Sie haben bereits einen Account? <Link to="/">Anmelden</Link></p>
+            </div>
+
+
           </form>
         </div>
         <Toaster text={toastMessage} visible={showToast}/>

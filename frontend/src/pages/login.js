@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import '../styles/loginStyle.css'
 import {Link, Navigate, useNavigate} from 'react-router-dom';
@@ -7,6 +7,7 @@ import { mitarbeiterLogin } from "../actions/auth-mitarbeiter";
 import buergerIcon from "../assests/people-group-solid.svg";
 import mitarbeiterIcon from "../assests/user-tie-solid.svg";
 import decorationIMG from "../assests/FeedbackIMG.png"
+import Toaster from "../components/Toaster";
 
 
 const LoginForm = () => {
@@ -15,17 +16,38 @@ const LoginForm = () => {
     passwort: '',
   });
 
+const [validation, setValidation] = useState(null)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("Bürger");
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (validation !== null) {
+      handleShowToast(validation);
+    }
+  }, [validation]);
 
   if (currentUser) {
     return <Navigate to="/dashboard" />;
   }
 
+
+
+  const handleShowToast = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+    // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
+    // angezeigt werden kann.
+    setTimeout(() => setShowToast(false), 3500);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setValidation(null)
     setFormData(prevState => ({
       ...prevState,
       [name]: value
@@ -40,6 +62,7 @@ const LoginForm = () => {
             navigate("/dashboard");
           })
           .catch((error) => {
+            setValidation(error.errors)
             console.log(error)
           });
     } else if (selectedRole === "Mitarbeiter"){
@@ -49,13 +72,14 @@ const LoginForm = () => {
             navigate("/dashboard");
           })
           .catch((error) => {
-            console.log("Mitarbeiter nicht erfolgreich")
+            setValidation(error.errors)
             console.log(error)
           });
     }
   };
 
   const handleRoleChange = (role) => {
+    setValidation(null)
     setSelectedRole(role);
   };
 
@@ -76,7 +100,7 @@ const LoginForm = () => {
             <h1>Anmelden</h1>
             <p className="subinfo">Melden Sie sich an, um eine Beschwerde abzuschicken.</p>
           </div>
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="lvg">
               <label htmlFor="rolle">Rolle</label>
               <div id="rolle" style={{display: "flex", gap: "8px"}}>
@@ -108,6 +132,7 @@ const LoginForm = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  className={validation ? "validation" : ""}
               />
             </div>
 
@@ -120,21 +145,27 @@ const LoginForm = () => {
                   value={formData.passwort}
                   onChange={handleChange}
                   required
+                  className={validation ? "validation" : ""}
               />
             </div>
 
-
-            <button className="loginSubmit" type="submit">Als {selectedRole} anmelden</button>
-            <p style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "-8px",
-              color: "#808080",
-              fontSize: "14px"
-            }}> Sie haben noch keinen Account? <Link to="/registrieren">Registrieren</Link></p>
+            <div style={{
+              position: 'relative',
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+            }}>
+              <button type="submit">Als {selectedRole} anmelden</button>
+              <p style={{
+                width: "100%",
+                textAlign: "center",
+                color: "#808080",
+                fontSize: "14px"
+              }}> Sie haben noch keinen Account? <Link to="/registrieren">Registrieren</Link></p>
+            </div>
           </form>
         </div>
-
+        <Toaster text={toastMessage} visible={showToast}/>
       </div>
   );
 };

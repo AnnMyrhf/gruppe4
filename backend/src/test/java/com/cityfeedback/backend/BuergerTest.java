@@ -10,6 +10,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import java.lang.module.ResolutionException;
 import java.util.ArrayList;
@@ -65,12 +67,16 @@ public class BuergerTest {
      */
     @Test
     public void registriereBuerger_sollErfolgreichSein() {
+        // Mock für BindingResult
+        BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
-        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
+        // Simuliere, dass keine Validierungsfehler vorliegen
+        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+
+        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3, bindingResult);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        // assertTrue(buergerRepository.existsByEmail(testBuerger3.getEmail()));
-
+        // Optional: weitere Überprüfungen
     }
 
     /**
@@ -78,8 +84,14 @@ public class BuergerTest {
      */
     @Test
     public void registriereBuerger_sollFehlerWerfenBeiDoppelterEmail() {
+        // Mock für BindingResult
+        BindingResult bindingResult = Mockito.mock(BindingResult.class);
+
+        // Simuliere, dass keine Validierungsfehler vorliegen
+        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+
         buergerRepository.save(testBuerger1);
-        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger2);
+        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger2, bindingResult);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
@@ -90,7 +102,13 @@ public class BuergerTest {
      */
     @Test
     public void registriereBuerger_sollPasswortHashen() {
-        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3);
+        // Mock für BindingResult
+        BindingResult bindingResult = Mockito.mock(BindingResult.class);
+
+        // Simuliere, dass keine Validierungsfehler vorliegen
+        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+
+        ResponseEntity<?> response = buergerService.registriereBuerger(testBuerger3, bindingResult);
 
         //Sollte das gespeicherte Passwort nicht dem Klartext entsprechen
         Buerger gespeicherterBuerger = buergerRepository.findByEmail(testBuerger3.getEmail()).get();
@@ -357,12 +375,12 @@ public class BuergerTest {
     }
 
     @Test
-    public void testTelefonnummerNotBlank() {
+    public void testTelefonnummerNotBlankAndOnlyNumbers() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "", "maxi@example.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
-        assertEquals(1, violations.size());
-        assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
+        assertEquals(2, violations.size());
+        //assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
     @Test

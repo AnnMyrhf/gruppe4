@@ -80,7 +80,7 @@ public class MitarbeiterService {
         }
 
         // Neuen Mitarbeiter erstellen
-        Mitarbeiter neuerMitarbeiter = new Mitarbeiter(mitarbeiter.getId(), mitarbeiter.getAnrede(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getTelefonnummer(), mitarbeiter.getEmail(), mitarbeiter.getPasswort(), mitarbeiter.getAbteilung(), mitarbeiter.getPosition());
+        Mitarbeiter neuerMitarbeiter = new Mitarbeiter(mitarbeiter.getId(), mitarbeiter.getAnrede(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getTelefonnummer(), mitarbeiter.getEmail(), mitarbeiter.getPasswort(), "Bürgerservice", "Angestellter");
         neuerMitarbeiter.setPasswort(passwordEncoder.encode(neuerMitarbeiter.getPasswort()));
 
         try {

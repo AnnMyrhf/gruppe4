@@ -1,4 +1,5 @@
 import './styles/globalStyles.css';
+import './styles/validationStyle.css';
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useLocation } from "react-router-dom";

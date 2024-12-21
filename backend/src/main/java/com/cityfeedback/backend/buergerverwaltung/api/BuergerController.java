@@ -4,6 +4,7 @@ import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
@@ -21,8 +22,8 @@ public class BuergerController {
     BuergerService buergerService;
 
     @PostMapping("/buerger-registrieren")
-    public ResponseEntity<?> registriereBuerger(@Valid @RequestBody Buerger buerger) {
-        return buergerService.registriereBuerger(buerger);
+    public ResponseEntity<?> registriereBuerger(@Valid @RequestBody Buerger buerger, BindingResult bindingResult) {
+        return buergerService.registriereBuerger(buerger, bindingResult);
     }
 
     @PostMapping("/buerger-anmelden")
