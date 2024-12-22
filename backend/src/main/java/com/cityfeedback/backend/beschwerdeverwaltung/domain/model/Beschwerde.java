@@ -1,16 +1,21 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.model;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeAktualisieren;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.domain.DomainEvents;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -58,10 +63,19 @@ public class Beschwerde {
         this.textfeld = textfeld;
         this.anhang = anhang;
         this.erstellDatum = new Date();
-        this.status = Status.EINGEGANGEN;
         this.prioritaet = randomEnum(Prioritaet.class);
         this.buerger = buerger;
     }
+
+    @DomainEvents
+    public List<Object> domainEvents() {
+        if (status == Status.EINGEGANGEN) {
+            return List.of(new BeschwerdeErstellen(this));
+        } else {
+            return List.of(new BeschwerdeAktualisieren(this));
+        }
+    }
+
 
     private <T extends Enum<?>> T randomEnum(Class<T> enumClass) {
         T[] values = enumClass.getEnumConstants();

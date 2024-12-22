@@ -1,17 +1,14 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.BenutzerDetailsService;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,8 +48,8 @@ public class SecurityTest {
     // Testobjekte
     Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
     Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Herr", "Max", "Mustermann", "123456", "Hallo@web.de", "StarkesPW11!", "Verwaltung", "Assistenz");
-    Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
-    Buerger testBuerger2 = new Buerger("Frau", "Julia", "Mustermann", "987654321", "maxi.musterfau@example.de", "StarkesPW1?", beschwerden);
+    Buerger testBuerger1 = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
+    Buerger testBuerger2 = new Buerger("Frau", new Name("Julia", "Mustermann"), "987654321", "maxi.musterfau@example.de", "StarkesPW1?", beschwerden);
     JwtResponse jwtResponseBuerger = new JwtResponse("eyJhbGciOiJIUzI1NiIsInR5...", 1L,  "test@example.com",new String[]{"BUERGER"} );
     JwtResponse jwtResponseMitarbeiter = new JwtResponse("eyJhbGciOiJIUzI1NiIsInR6...", 1L,  "test@test.com",new String[]{"MITARBEITER"} );
 

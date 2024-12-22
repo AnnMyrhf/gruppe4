@@ -1,6 +1,10 @@
-package com.cityfeedback.backend.buergerverwaltung.model;
+package com.cityfeedback.backend.buergerverwaltung.domain.model;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
+import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -10,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,13 +39,8 @@ public class Buerger implements UserDetails {
     @NotBlank(message = "Anrede darf nicht leer sein!")//  darf nicht null oder leer sein
     private String anrede;
 
-    @NotBlank(message = "Vorname darf nicht leer sein!")
-    @Size(max = 30, message = "Vorname darf max. 30 Zeichen lang sein!")
-    private String vorname;
-
-    @NotBlank(message = "Nachname darf nicht leer sein!")
-    @Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
-    private String nachname;
+    @Embedded
+    private Name name;
 
     @NotBlank(message = "Telefonnummer darf nicht leer sein!")
     private String telefonnummer;
@@ -61,14 +61,18 @@ public class Buerger implements UserDetails {
     // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden
     private List<Beschwerde> beschwerden;
 
-    public Buerger(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, List<Beschwerde> beschwerden) {
+    public Buerger(String anrede, Name name, String telefonnummer, String email, String passwort, List<Beschwerde> beschwerden) {
         this.anrede = anrede;
-        this.vorname = vorname;
-        this.nachname = nachname;
+        this.name = name;
         this.telefonnummer = telefonnummer;
         this.email = email;
         this.passwort = passwort;
         this.beschwerden = new ArrayList<>(); // Initialisiere die Liste der Beschwerden
+    }
+
+    @DomainEvents
+    public List<Object> domainEvents() {
+        return List.of(new BuergerRegistrieren(this));
     }
 
     /*
@@ -114,8 +118,7 @@ public class Buerger implements UserDetails {
     public String toString() {
         return "Buerger(" +
                 "anrede='" + anrede + '\'' +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
+                ", name='" + name + '\'' +
                 ", telefonnummer='" + telefonnummer + '\'' +
                 ", email='" + email + '\'' +
                 ", passwort='" + passwort + '\'' +

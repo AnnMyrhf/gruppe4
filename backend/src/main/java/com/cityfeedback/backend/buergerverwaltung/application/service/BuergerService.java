@@ -1,6 +1,6 @@
 package com.cityfeedback.backend.buergerverwaltung.application.service;
 
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.security.JwtResponse;
@@ -89,7 +89,7 @@ public class BuergerService {
         }
 
         // Neuen Buerger erstellen
-        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getVorname(), buerger.getNachname(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
+        Buerger neuerBuerger = new Buerger(buerger.getId(), buerger.getAnrede(), buerger.getName(), buerger.getTelefonnummer(), buerger.getEmail(), buerger.getPasswort(), buerger.getBeschwerden());
         neuerBuerger.setPasswort(passwordEncoder.encode(neuerBuerger.getPasswort()));
 
         try {

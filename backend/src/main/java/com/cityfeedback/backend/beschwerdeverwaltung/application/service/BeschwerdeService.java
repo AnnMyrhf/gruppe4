@@ -6,11 +6,9 @@ import java.util.regex.Pattern;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.buergerverwaltung.api.BuergerController;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import jakarta.validation.Valid;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,11 +103,9 @@ public class BeschwerdeService {
         // Neue Beschwerde erstellen
         Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(),  buerger);
 
-
-
-
         try {
             // Bürger in der Datenbank speichern
+
             beschwerdeRepository.save(newBeschwerde);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause() instanceof ConstraintViolationException) {

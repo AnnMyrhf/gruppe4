@@ -1,6 +1,4 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
-import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.security.JwtResponse;
@@ -24,12 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.lang.module.ResolutionException;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

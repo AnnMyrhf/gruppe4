@@ -1,13 +1,11 @@
 package com.cityfeedback.backend;
 
 
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 
 import jakarta.validation.*;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
@@ -20,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import java.lang.module.ResolutionException;
