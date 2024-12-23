@@ -32,8 +32,8 @@ public class BuergerLoggingAspect {
         }
     }
 
-    // Mitarbeiter anmelden
-    // Pointcut für Mitarbeiter anmelden
+    // Bürger anmelden
+    // Pointcut für Bürger anmelden
     @Pointcut("execution(* com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService.anmeldenBuerger(..))")
     public void anmeldenBuerger() {}
 

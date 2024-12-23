@@ -1,8 +1,7 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
-import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
@@ -25,18 +24,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.lang.module.ResolutionException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
 public class MitarbeiterService {
 
     public static final String MITARBEITER_EXISTIERT_NICHT = "Ein Mitarbeiter mit dieser E-Mail-Adresse existiert nicht:";
-    private static final Logger log = LoggerFactory.getLogger(MitarbeiterService.class);
 
     @Autowired
     MitarbeiterRepository mitarbeiterRepository;
@@ -72,7 +69,7 @@ public class MitarbeiterService {
         }
     }
 
-    @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
+    /*@Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> registriereMitarbeiter(@Valid Mitarbeiter mitarbeiter) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
         // Ueberprüfen, ob die E-Mail-Adresse bereits existiert
         if (mitarbeiterRepository.existsByEmail(mitarbeiter.getEmail())) {
@@ -98,21 +95,27 @@ public class MitarbeiterService {
         }
         return ResponseEntity.ok("Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren." + neuerMitarbeiter);
 
-    }
-    /*
+    }*/
+
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> registriereMitarbeiter(@Valid Mitarbeiter mitarbeiter, BindingResult bindingResult) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+
         if (bindingResult.hasErrors()) {
-            // Validation errors
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            // Validierungsfehler sammeln und zurückgeben
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                errors.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
         }
+
         // Ueberprüfen, ob die E-Mail-Adresse bereits existiert
         if (mitarbeiterRepository.existsByEmail(mitarbeiter.getEmail())) {
             return ResponseEntity.badRequest().body("Fehler: E-Mail-Adresse existiert bereits!");
         }
 
         // Neuen Mitarbeiter erstellen
-        Mitarbeiter neuerMitarbeiter = new Mitarbeiter(mitarbeiter.getId(), mitarbeiter.getAnrede(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getTelefonnummer(), mitarbeiter.getEmail(), mitarbeiter.getPasswort(), mitarbeiter.getAbteilung(), mitarbeiter.getPosition());
+        Mitarbeiter neuerMitarbeiter = new Mitarbeiter(mitarbeiter.getAnrede(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getTelefonnummer(), mitarbeiter.getEmail(), mitarbeiter.getPasswort());
         neuerMitarbeiter.setPasswort(passwordEncoder.encode(neuerMitarbeiter.getPasswort()));
 
         try {
@@ -130,7 +133,7 @@ public class MitarbeiterService {
         }
         return ResponseEntity.ok("Registrierung erfolgreich! Bitte loggen Sie sich ein, um fortzufahren." + neuerMitarbeiter);
 
-    }*/
+    }
 
         /*try {
             // Bürger in der Datenbank speichern
@@ -151,16 +154,12 @@ public class MitarbeiterService {
 
     @Transactional
     public ResponseEntity<?> loescheMitarbeiter(Long id) {
-
+        // TODO try catch block und entsprechend response entity (siehe anmelden und registrieren)
         Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(id).orElseThrow(() -> new ResolutionException(MITARBEITER_EXISTIERT_NICHT + id));
         mitarbeiterRepository.delete(mitarbeiter);
 
         return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
 
-    }
-
-    public String Test() {
-        return "yippie, das backend läuft!";
     }
 
 }

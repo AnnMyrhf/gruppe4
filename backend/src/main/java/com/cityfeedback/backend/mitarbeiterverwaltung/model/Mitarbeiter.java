@@ -3,6 +3,7 @@ package com.cityfeedback.backend.mitarbeiterverwaltung.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class Mitarbeiter implements UserDetails {
     @Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
     private String nachname;
 
+    @Pattern(regexp = "^[+]?\\d+(-\\d+)*$", message = "Die Telefonnummer darf nur Zahlen, Bindestriche und ein '+' enthalten.")
     @NotBlank(message = "Telefonnummer darf nicht leer sein!")
     private String telefonnummer;
 
@@ -49,20 +51,18 @@ public class Mitarbeiter implements UserDetails {
     private String passwort;
 
     @NotBlank(message = "Abteilung darf nicht leer sein!")
-    private String abteilung;
+    private String abteilung = "Bürgerservice";
 
     @NotBlank(message = "Position darf nicht leer sein!")
-    private String position;
+    private String position = "Angestellter";
 
-    public Mitarbeiter(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, String abteilung, String position) {
+    public Mitarbeiter(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort) {
         this.anrede = anrede;
         this.vorname = vorname;
         this.nachname = nachname;
         this.telefonnummer = telefonnummer;
         this.email = email;
         this.passwort = passwort;
-        this.abteilung = abteilung;
-        this.position = position;
     }
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
