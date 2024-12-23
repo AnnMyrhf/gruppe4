@@ -136,6 +136,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <!-- Pakete oder Klassen, die ausgeschlossen werden sollen -->
+                        <exclude>com/cityfeedback/backend/buergerverwaltung/infrastructure/**</exclude>
+                        <exclude>com/cityfeedback/backend/mitarbeiterverwaltung/infrastructure/**</exclude>
+                        <exclude>com/cityfeedback/backend/beschwerdeverwaltung/infrastructure/**</exclude>
+                        <exclude>com/cityfeedback/backend/benachrichtigungsverwaltung/infrastructure/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

@@ -18,15 +18,14 @@ public class MitarbeiterController {
 
     MitarbeiterService mitarbeiterService;
 
-    @PostMapping("/mitarbeiter-registrieren")
+    /*@PostMapping("/mitarbeiter-registrieren")
     public ResponseEntity<?> registriereMitarbeiter(@Valid @RequestBody Mitarbeiter mitarbeiter) {
         return mitarbeiterService.registriereMitarbeiter(mitarbeiter);
-    }
-/*
+    }*/
     @PostMapping("/mitarbeiter-registrieren")
     public ResponseEntity<?> registriereMitarbeiter(@Valid @RequestBody Mitarbeiter mitarbeiter, BindingResult bindingResult) {
         return mitarbeiterService.registriereMitarbeiter(mitarbeiter, bindingResult);
-    }*/
+    }
 
     @PostMapping("/mitarbeiter-anmelden")
     public ResponseEntity<?> anmeldenMitarbeiter(@RequestBody LoginDaten loginDaten) {

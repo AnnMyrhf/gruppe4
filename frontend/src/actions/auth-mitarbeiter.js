@@ -14,7 +14,7 @@ export const mitarbeiterRegister = (anrede,
                                     nachname,
                                     telefonnummer,
                                     email,
-                                    passwort,
+                                    passwort
 ) => (dispatch) => {
     return AuthService.register( anrede,
         vorname,

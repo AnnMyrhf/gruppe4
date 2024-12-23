@@ -67,9 +67,9 @@ public class BuergerService {
 
             return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities().toArray()));
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.badRequest().body("Buerger-Daten konnten nicht gefunden");
+            return ResponseEntity.badRequest().body("E-Mail konnten nicht gefunden");
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Ungültige Anmeldedaten: E-Mail oder Passwort falsch!"); // aus Sicherheitsgründen kein eindeutiger Hinweis
+            return ResponseEntity.badRequest().body("Passwort stimmt nicht mit E-Mail Adresse überein"); // aus Sicherheitsgründen kein eindeutiger Hinweis
         }
     }
 
@@ -131,7 +131,7 @@ public class BuergerService {
      */
     @Transactional
     public ResponseEntity<?> loescheBuerger(Long id) {
-
+        // TODO try catch block und entsprechend response entity (siehe anmelden und registrieren)
         Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
         buergerRepository.delete(buerger);
 
