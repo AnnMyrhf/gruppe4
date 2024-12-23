@@ -53,9 +53,6 @@ public class Buerger implements UserDetails {
     @NotBlank(message = "Passwort darf nicht leer sein!")
     private String passwort;
 
-   /*@OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
-   private List<Beschwerde> beschwerden = new ArrayList<>();*/
-
     @OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden

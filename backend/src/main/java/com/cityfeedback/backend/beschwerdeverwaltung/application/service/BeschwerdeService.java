@@ -94,18 +94,17 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
-    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
+    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) { // uebergebenes Beschwerde-Objekt soll vor der Verarbeitung validiert werden
         Optional<Buerger> ersteller = buergerService.getBuergerById(id);
         Buerger buerger = null;
         if (ersteller.isPresent()){
             buerger = ersteller.get();
         }
         // Neue Beschwerde erstellen
-        Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(),  buerger);
+        Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(), buerger);
 
         try {
             // Bürger in der Datenbank speichern
-
             beschwerdeRepository.save(newBeschwerde);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause() instanceof ConstraintViolationException) {
