@@ -14,7 +14,7 @@ public class BuergerEventListener {
 
     @TransactionalEventListener(classes = BuergerRegistrieren.class)
     public void buergerRegistrierenListener(BuergerRegistrieren event) {
-        LOG.info("{}: Buerger-Account wurde erfolgreich erstellt: {} {}", event.getTimestamp(), event.getName(), event.getEmail());
+        LOG.info("{}: Buerger-Account für {} {} wurde erfolgreich mit folgender E-Mail-Adresse erstellt: {}", event.getTimestamp(), event.getVorname(), event.getNachname(), event.getEmail());
     }
 
 }

@@ -2,7 +2,6 @@ package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
-import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import jakarta.validation.ConstraintViolation;
@@ -41,10 +40,10 @@ public class BuergerTest {
     final List<Beschwerde> beschwerden = new ArrayList<>();
 
     // Testobjekte
-    Buerger testBuerger1 = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "987654321", "maxi.musterfrau@example.com", "StarkesPW11?", beschwerden);
-    Buerger testBuerger2 = new Buerger("Frau", new Name("Julia", "Mustermann"), "987654321", "maxi.musterfrau@example.com", "StarkesPW1?", beschwerden);
-    Buerger testBuerger3 = new Buerger("Herr", new Name("Juan", "Perez"), "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
-    Buerger testBuerger4 = new Buerger("Herr", new Name("Juan", "Perez"), "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
+    Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfrau@example.com", "StarkesPW11?", beschwerden);
+    Buerger testBuerger2 = new Buerger("Frau", "Julia", "Mustermann", "987654321", "maxi.musterfrau@example.com", "StarkesPW1?", beschwerden);
+    Buerger testBuerger3 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+    Buerger testBuerger4 = new Buerger("Herr", "Juan", "Perez", "123456789", "j.perez@example.com", "pinFuerte123!", beschwerden);
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -184,8 +183,7 @@ public class BuergerTest {
      */
     @Test
     public void testGetter_Vorname() {
-        Name name = new Name("Maxi", "Mustermann");
-        assertEquals("Maxi", name.getVorname());
+        assertEquals("Maxi", testBuerger1.getVorname());
     }
 
     /**
@@ -193,8 +191,7 @@ public class BuergerTest {
      */
     @Test
     public void testGetter_Nachname() {
-        Name name = new Name("Maxi", "Mustermann");
-        assertEquals("Mustermann", name.getNachname());
+        assertEquals("Musterfrau", testBuerger1.getNachname());
     }
 
     /**
@@ -235,9 +232,8 @@ public class BuergerTest {
      */
     @Test
     public void testSetter_Vorname() {
-        Name name = new Name("Maxi", "Mustermann");
-        name.setVorname("Anna");
-        assertEquals("Anna", name.getVorname());
+        testBuerger1.setVorname("Anna");
+        assertEquals("Anna", testBuerger1.getVorname());
     }
 
     /**
@@ -245,9 +241,8 @@ public class BuergerTest {
      */
     @Test
     public void testSetter_Nachname() {
-        Name name = new Name("Maxi", "Mustermann");
-        name.setNachname("Schmidt");
-        assertEquals("Schmidt", name.getNachname());
+        testBuerger1.setNachname("Schmidt");
+        assertEquals("Schmidt", testBuerger1.getNachname());
     }
 
     /**
@@ -309,7 +304,7 @@ public class BuergerTest {
 
     @Test
     public void testValidBuerger() {
-        Buerger validBuerger = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger validBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(validBuerger);
         assertTrue(violations.isEmpty(), "Es sollten keine Validierungsfehler auftreten.");
@@ -317,7 +312,7 @@ public class BuergerTest {
 
     @Test
     public void testAnredeNotBlank() {
-        Buerger invalidBuerger = new Buerger("", new Name("Maxi", "Musterfrau"), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size());
@@ -326,45 +321,45 @@ public class BuergerTest {
 
     @Test
     public void testVornameNotBlank() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("", "Musterfrau"), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
 
-        Set<ConstraintViolation<Name>> nameViolations = validator.validate(invalidBuerger.getName());
-        assertEquals(1, nameViolations.size());
-        assertEquals("Vorname darf nicht leer sein!", nameViolations.iterator().next().getMessage());
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertEquals(1, violations.size());
+        assertEquals("Vorname darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
     @Test
     public void testVornameMaxLength() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("MaxiMaxiMaxiMaxiMaxiMaxiMaxiMaxi", "Musterfrau"), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "MaxiMaxiMaxiMaxiMaxiMaxiMaxiMaxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
 
-        Set<ConstraintViolation<Name>> nameViolations = validator.validate(invalidBuerger.getName());
-        assertEquals(1, nameViolations.size());
-        assertEquals("Vorname darf max. 30 Zeichen lang sein!", nameViolations.iterator().next().getMessage());
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für einen zu langen Vornamen auftreten.");
+        assertEquals("Vorname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
 
     }
 
     @Test
     public void testNachnameNotBlank() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("Maxi", ""), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "Maxi", "", "123456789", "maxi@example.com", "Passwort1!", null);
 
-        Set<ConstraintViolation<Name>> nameViolations = validator.validate(invalidBuerger.getName());
-        assertEquals(1, nameViolations.size());
-        assertEquals("Nachname darf nicht leer sein!", nameViolations.iterator().next().getMessage());
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertEquals(1, violations.size());
+        assertEquals("Nachname darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
     @Test
     public void testNachnameMaxLength() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("Maxi", "MusterfrauenMusterfrauenMusterfrauen"), "123456789", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "Maxi", "MusterfrauenMusterfrauenMusterfrauen", "123456789", "maxi@example.com", "Passwort1!", null);
 
-        Set<ConstraintViolation<Name>> nameViolations = validator.validate(invalidBuerger.getName());
-        assertEquals(1, nameViolations.size());
-        assertEquals("Nachname darf max. 30 Zeichen lang sein!", nameViolations.iterator().next().getMessage());
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertEquals(1, violations.size());
+        assertEquals("Nachname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
 
     }
 
     @Test
     public void testTelefonnummerNotBlank() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "", "maxi@example.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "", "maxi@example.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size());
@@ -373,7 +368,7 @@ public class BuergerTest {
 
     @Test
     public void testEmailValid() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "123456789", "maxi.com", "Passwort1!", null);
+        Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für eine ungültige E-Mail auftreten.");
@@ -382,7 +377,7 @@ public class BuergerTest {
 
     @Test
     public void testPasswortNotBlank() {
-        Buerger invalidBuerger = new Buerger("Frau", new Name("Maxi", "Musterfrau"), "123456789", "maxi@example.com", "", null);
+        Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für ein leeres Passwort auftreten.");

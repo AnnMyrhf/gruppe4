@@ -1,10 +1,7 @@
 package com.cityfeedback.backend.buergerverwaltung.domain.model;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
-import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -39,8 +36,13 @@ public class Buerger implements UserDetails {
     @NotBlank(message = "Anrede darf nicht leer sein!")//  darf nicht null oder leer sein
     private String anrede;
 
-    @Embedded
-    private Name name;
+    @NotBlank(message = "Vorname darf nicht leer sein!")
+    @Size(max = 30, message = "Vorname darf max. 30 Zeichen lang sein!")
+    private String vorname;
+
+    @NotBlank(message = "Nachname darf nicht leer sein!")
+    @Size(max = 30, message = "Nachname darf max. 30 Zeichen lang sein!")
+    private String nachname;
 
     @NotBlank(message = "Telefonnummer darf nicht leer sein!")
     private String telefonnummer;
@@ -58,9 +60,10 @@ public class Buerger implements UserDetails {
     // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden
     private List<Beschwerde> beschwerden;
 
-    public Buerger(String anrede, Name name, String telefonnummer, String email, String passwort, List<Beschwerde> beschwerden) {
+    public Buerger(String anrede, String vorname, String nachname, String telefonnummer, String email, String passwort, List<Beschwerde> beschwerden) {
         this.anrede = anrede;
-        this.name = name;
+        this.vorname = vorname;
+        this.nachname = nachname;
         this.telefonnummer = telefonnummer;
         this.email = email;
         this.passwort = passwort;
@@ -115,7 +118,8 @@ public class Buerger implements UserDetails {
     public String toString() {
         return "Buerger(" +
                 "anrede='" + anrede + '\'' +
-                ", name='" + name + '\'' +
+                ", vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
                 ", telefonnummer='" + telefonnummer + '\'' +
                 ", email='" + email + '\'' +
                 ", passwort='" + passwort + '\'' +

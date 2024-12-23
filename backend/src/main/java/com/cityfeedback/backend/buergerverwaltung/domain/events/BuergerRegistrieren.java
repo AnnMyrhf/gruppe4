@@ -1,7 +1,6 @@
 package com.cityfeedback.backend.buergerverwaltung.domain.events;
 
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
-import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,13 +20,15 @@ public class BuergerRegistrieren {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
     private Long id;
     private Timestamp timestamp;
-    private Name name;
+    private String vorname;
+    private String nachname;
     private String email;
 
     public BuergerRegistrieren(Buerger buerger) {
         this.id = buerger.getId();
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        this.name = buerger.getName();
+        this.vorname = buerger.getVorname();
+        this.nachname = buerger.getNachname();
         this.email = buerger.getEmail();
     }
 }

@@ -1,13 +1,10 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.benachrichtigungsverwaltung.infrastructure.BenachrichtigungsRepository;
-import com.cityfeedback.backend.benachrichtigungsverwaltung.model.Benachrichtigung;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
-import com.cityfeedback.backend.buergerverwaltung.domain.valueobjects.Name;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
@@ -43,11 +40,11 @@ public class BackendApplication {
             BuergerService buergerService;
 
             // Testobjekte
-            Buerger testBuerger1 = new Buerger("Frau", new Name( "Maxi", "Musterfrau"), "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
 
-            Buerger testBuerger2 = new Buerger("Frau", new Name("Peter", "Neu"), "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 
