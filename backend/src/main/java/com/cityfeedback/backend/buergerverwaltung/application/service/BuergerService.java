@@ -131,7 +131,7 @@ public class BuergerService {
      */
     @Transactional
     public ResponseEntity<?> loescheBuerger(Long id) {
-
+        // TODO try catch block und entsprechend response entity (siehe anmelden und registrieren)
         Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
         buergerRepository.delete(buerger);
 
