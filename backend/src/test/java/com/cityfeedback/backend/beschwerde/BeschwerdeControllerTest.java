@@ -3,7 +3,7 @@ package com.cityfeedback.backend.beschwerde;
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

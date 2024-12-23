@@ -4,7 +4,7 @@ import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
@@ -30,7 +30,7 @@ public class BackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService, PasswordEncoder passwordEncoder){
+    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService, PasswordEncoder passwordEncoder) {
         return args -> {
             // Leere Liste fuer Beschwerden
             final List<Beschwerde> beschwerden = new ArrayList<>();
@@ -45,7 +45,7 @@ public class BackendApplication {
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 
-            Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!");
             mitarbeiterRepository.save(testMitarbeiter1);
 
             // Testobjekte
@@ -64,7 +64,7 @@ public class BackendApplication {
             Beschwerde testBeschwerde5 = new Beschwerde("Parkprobleme", "Falschparker auf Gehwegen", "Vor unserem Haus parken regelmäßig Autos auf dem Gehweg, was besonders für Kinder und ältere Menschen problematisch ist.", new Anhang("falschparker.jpg", "image/jpeg", 8192L, "Bytes"), testBuerger2);
             beschwerdeRepository.save(testBeschwerde5);
 
-            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
+            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
 
