@@ -289,7 +289,7 @@ public class BuergerTest {
     @Test
     void testToString() {
         String toStringOutput = testBuerger1.toString();
-        String expectedString = "Buerger(anrede='Frau', name='Name(vorname=Maxi, nachname=Musterfrau)', telefonnummer='987654321', email='maxi.musterfrau@example.com', passwort='StarkesPW11?', beschwerden=[])";
+        String expectedString = "Buerger(anrede='Frau', vorname='Maxi', nachname='Musterfrau', telefonnummer='987654321', email='maxi.musterfrau@example.com', passwort='StarkesPW11?', beschwerden=[])";
         assertEquals(expectedString, toStringOutput);
     }
 
