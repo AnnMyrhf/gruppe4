@@ -2,16 +2,12 @@ package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.BenutzerDetailsService;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

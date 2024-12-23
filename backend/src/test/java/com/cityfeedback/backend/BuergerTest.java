@@ -3,7 +3,7 @@ package com.cityfeedback.backend;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
-import com.cityfeedback.backend.buergerverwaltung.model.Buerger;
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -354,6 +353,7 @@ public class BuergerTest {
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für einen zu langen Vornamen auftreten.");
         assertEquals("Vorname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
+
     }
 
     @Test
@@ -372,6 +372,7 @@ public class BuergerTest {
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size());
         assertEquals("Nachname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
+
     }
 
     @Test

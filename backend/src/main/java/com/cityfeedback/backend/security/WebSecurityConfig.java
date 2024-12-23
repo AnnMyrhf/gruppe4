@@ -74,7 +74,7 @@ public class WebSecurityConfig {
         // Definiert Autorisierungsregeln
         http.authorizeHttpRequests(requests -> requests
                 // Öffentliche Endpunkte (keine Authentifizierung erforderlich)
-                .requestMatchers("/beschwerde/**","mitarbeiter/dashboard", "/buerger/dashboard/**", "/buerger-anmelden", "/buerger-registrieren", "/mitarbeiter-registrieren", "/mitarbeiter-anmelden", "/h2/**").permitAll()
+                .requestMatchers("/send-email**", "/beschwerde/**","mitarbeiter/dashboard", "/buerger/dashboard/**", "/buerger-anmelden", "/buerger-registrieren", "/mitarbeiter-registrieren", "/mitarbeiter-anmelden", "/h2/**").permitAll()
 
                 // Endpunkte, die die Rolle "BUERGER" erfordern
                 .requestMatchers("/beschwerde/**", "/buerger-loeschen/**").hasRole("BUERGER")

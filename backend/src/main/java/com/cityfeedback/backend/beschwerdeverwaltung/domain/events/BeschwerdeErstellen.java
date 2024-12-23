@@ -1,37 +1,35 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.events;
 
+import com.cityfeedback.backend.benachrichtigungsverwaltung.model.Benachrichtigung;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.Date;
-import java.util.Objects;
-/*Getter
-public class BeschwerdeErstellen extends DomainEvent {
-    private final Beschwerde beschwerde;
-    private final Anhang anhang;
+import java.sql.Timestamp;
 
-    public BeschwerdeErstellen(Long domainId, Anhang anhang, Beschwerde beschwerde) {
-        super(domainId);
-        this.anhang = Objects.requireNonNull(anhang, "Anhang darf nicht leer sein");
-        this.beschwerde = Objects.requireNonNull(beschwerde, "Beschwerde darf nicht null sein");
-    }
-}*/
-/*
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class BeschwerdeErstellen extends DomainEvent {
-    private Date erstellDatum;
-    private String status;
-    private String prioritaet;
-    private String beschwerdeTyp;
+public class BeschwerdeErstellen {
+
+    @Id // Markiert id als Primaerschluessel
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
+    private Long id;
+    private Timestamp timestamp;
     private String titel;
-    private String textfeld;
-    private Anhang anhang;
+    private Status status;
 
+    public BeschwerdeErstellen(Beschwerde beschwerde) {
+        this.id = beschwerde.getId();
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.titel = beschwerde.getTitel();
+        this.status = Status.EINGEGANGEN;
+    }
+}
 
-}*/

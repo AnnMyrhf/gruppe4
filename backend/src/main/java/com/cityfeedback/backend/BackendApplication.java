@@ -34,31 +34,40 @@ public class BackendApplication {
         return args -> {
             // Leere Liste fuer Beschwerden
             final List<Beschwerde> beschwerden = new ArrayList<>();
+            BindingResult bindingResult;
 
-            // Testobjekte Bürger
+            // Testobjekte
             Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
 
-            Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "testbuerger@test.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 
-            // Testobjekte Beschwerde
-            beschwerdeRepository.save(new Beschwerde("Straßenbau", "Schlaglöcher auf Hauptstraße", "Auf der Hauptstraße befinden sich mehrere tiefe Schlaglöcher, die eine Gefahr für den Straßenverkehr darstellen. Besonders Radfahrer sind gefährdet.", new Anhang("schlagloch.jpg", "image/jpeg", 20480L, "Bytes"), testBuerger1));
+            Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef"));
+            mitarbeiterRepository.save(testMitarbeiter1);
 
-            beschwerdeRepository.save(new Beschwerde("Müllentsorgung", "Überfüllte Mülltonnen", "Die Mülltonnen vor unserem Wohnblock werden seit drei Wochen nicht geleert. Es stinkt und zieht Ungeziefer an.", new Anhang("muell.jpg", "image/jpeg", 15360L, "Bytes"), testBuerger1));
+            // Testobjekte
+            Beschwerde testBeschwerde1 = new Beschwerde("Straßenbau", "Schlaglöcher auf Hauptstraße", "Auf der Hauptstraße befinden sich mehrere tiefe Schlaglöcher, die eine Gefahr für den Straßenverkehr darstellen. Besonders Radfahrer sind gefährdet.", new Anhang("schlagloch.jpg", "image/jpeg", 20480L, "Bytes"), testBuerger1);
+            beschwerdeRepository.save(testBeschwerde1);
 
-            beschwerdeRepository.save(new Beschwerde("Lärmbelästigung", "Nächtlicher Baulärm", "Seit zwei Wochen finden nachts Bauarbeiten auf der Baustelle in der Mustergasse statt. Es ist unmöglich zu schlafen.", new Anhang("baulaerm.pdf", "application/pdf", 10240L, "Bytes"), testBuerger1));
+            Beschwerde testBeschwerde2 = new Beschwerde("Müllentsorgung", "Überfüllte Mülltonnen", "Die Mülltonnen vor unserem Wohnblock werden seit drei Wochen nicht geleert. Es stinkt und zieht Ungeziefer an.", new Anhang("muell.jpg", "image/jpeg", 15360L, "Bytes"), testBuerger1);
+            beschwerdeRepository.save(testBeschwerde2);
 
-            beschwerdeRepository.save(new Beschwerde("Straßenbeleuchtung", "Defekte Straßenlaternen", "In unserer Straße funktionieren drei Straßenlaternen nicht mehr. Es ist nachts sehr dunkel und unsicher.", new Anhang("strassenlaterne.jpg", "image/jpeg", 11264L, "Bytes"), testBuerger2));
+            Beschwerde testBeschwerde3 = new Beschwerde("Lärmbelästigung", "Nächtlicher Baulärm", "Seit zwei Wochen finden nachts Bauarbeiten auf der Baustelle in der Mustergasse statt. Es ist unmöglich zu schlafen.", new Anhang("baulaerm.pdf", "application/pdf", 10240L, "Bytes"), testBuerger1);
+            beschwerdeRepository.save(testBeschwerde3);
 
-            beschwerdeRepository.save(new Beschwerde("Parkprobleme", "Falschparker auf Gehwegen", "Vor unserem Haus parken regelmäßig Autos auf dem Gehweg, was besonders für Kinder und ältere Menschen problematisch ist.", new Anhang("falschparker.jpg", "image/jpeg", 8192L, "Bytes"), testBuerger2));
+            Beschwerde testBeschwerde4 = new Beschwerde("Straßenbeleuchtung", "Defekte Straßenlaternen", "In unserer Straße funktionieren drei Straßenlaternen nicht mehr. Es ist nachts sehr dunkel und unsicher.", new Anhang("strassenlaterne.jpg", "image/jpeg", 11264L, "Bytes"), testBuerger2);
+            beschwerdeRepository.save(testBeschwerde4);
 
-            // Testobjekte Mitarbeiter
-            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter@test.com", "StarkesPW11?");
+            Beschwerde testBeschwerde5 = new Beschwerde("Parkprobleme", "Falschparker auf Gehwegen", "Vor unserem Haus parken regelmäßig Autos auf dem Gehweg, was besonders für Kinder und ältere Menschen problematisch ist.", new Anhang("falschparker.jpg", "image/jpeg", 8192L, "Bytes"), testBuerger2);
+            beschwerdeRepository.save(testBeschwerde5);
+
+            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!", "Verwaltung", "Chef");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
+
         };
     }
 

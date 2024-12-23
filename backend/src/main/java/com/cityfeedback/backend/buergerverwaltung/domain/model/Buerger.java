@@ -1,6 +1,7 @@
-package com.cityfeedback.backend.buergerverwaltung.model;
+package com.cityfeedback.backend.buergerverwaltung.domain.model;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,9 +57,6 @@ public class Buerger implements UserDetails {
     @NotBlank(message = "Passwort darf nicht leer sein!")
     private String passwort;
 
-   /*@OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL)
-   private List<Beschwerde> beschwerden = new ArrayList<>();*/
-
     @OneToMany(mappedBy = "buerger", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     // Verhindert Endlosschleifen und stellt sicher, dass die Beschwerden in JSON zurückgegeben werden
@@ -71,6 +70,11 @@ public class Buerger implements UserDetails {
         this.email = email;
         this.passwort = passwort;
         this.beschwerden = new ArrayList<>(); // Initialisiere die Liste der Beschwerden
+    }
+
+    @DomainEvents
+    public List<Object> domainEvents() {
+        return List.of(new BuergerRegistrieren(this));
     }
 
     /*
