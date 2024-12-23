@@ -61,6 +61,23 @@ public class BeschwerdeController {
         return beschwerdeService.createBeschwerde(beschwerde, buergerId);
     }
 
+    @PutMapping("/beschwerde/{id}/kommentar")
+    public ResponseEntity<?> updateKommentar(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String kommentar = body.get("kommentar");
+
+        Beschwerde aktualisierteBeschwerde = beschwerdeService.updateKommentar(id, kommentar);
+        return ResponseEntity.ok(aktualisierteBeschwerde);
+    }
+
+    @PutMapping("/beschwerde/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String status = body.get("status");
+
+        Beschwerde aktualisierteBeschwerde = beschwerdeService.updateStatus(id, status);
+        return ResponseEntity.ok(aktualisierteBeschwerde);
+    }
+
+
 
 
 }

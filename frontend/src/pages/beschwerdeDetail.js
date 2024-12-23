@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import UserService from "../services/user.service"
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import UserService from "../services/user.service";
 import backIcon from "../assests/arrow-left-solid.svg";
-
 
 export default function BeschwerdeDetail() {
     const { id } = useParams(); // ID aus der URL holen
     const [beschwerde, setBeschwerde] = useState(null);
+    const [originalBeschwerde, setOriginalBeschwerde] = useState(null); // Zustand für ursprüngliche Daten
     const navigate = useNavigate();
     const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -19,12 +19,11 @@ export default function BeschwerdeDetail() {
         }));
     };
 
-
     useEffect(() => {
-
         UserService.getBeschwerde(id).then(
             (response) => {
                 setBeschwerde(response.data);
+                setOriginalBeschwerde(response.data); // Ursprüngliche Daten speichern
             },
             (error) => {
                 const _content =
@@ -33,15 +32,35 @@ export default function BeschwerdeDetail() {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-                console.log(error)
+                console.log(error);
             }
         );
     }, [id]);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    useEffect(() => {
-       console.log(beschwerde)
-    }, beschwerde);
+        // Überprüfung, ob sich der Kommentar oder der Status geändert hat
+        if (beschwerde.kommentar !== originalBeschwerde.kommentar) {
+            UserService.updateKommentar(id, beschwerde.kommentar)
+                .then(response => {
+                    console.log("Kommentar aktualisiert:", response.data);
+                })
+                .catch(error => {
+                    console.error("Fehler beim Aktualisieren des Kommentars:", error);
+                });
+        }
+
+        if (beschwerde.status !== originalBeschwerde.status) {
+            UserService.updateStatus(id, beschwerde.status)
+                .then(response => {
+                    console.log("Status aktualisiert:", response.data);
+                })
+                .catch(error => {
+                    console.error("Fehler beim Aktualisieren des Status:", error);
+                });
+        }
+    };
 
     if (!beschwerde) {
         return <p>Lade Beschwerde...</p>;
@@ -57,9 +76,8 @@ export default function BeschwerdeDetail() {
     return (
         <div style={mainStyle}>
             <button className="tertiaryBtn"
-                    onClick={()=>navigate('/dashboard')}
-            >
-                <img src={backIcon} alt="Icon" width="auto" height="16"/>
+                    onClick={() => navigate('/dashboard')}>
+                <img src={backIcon} alt="Icon" width="auto" height="16" />
                 Zurück zum Dashboard
             </button>
             <h1>{beschwerde.titel}</h1>
@@ -72,7 +90,7 @@ export default function BeschwerdeDetail() {
 
             {currentUser &&
                 currentUser.role.some(item => item.authority === 'MITARBEITER') &&
-                <form className="form">
+                <form onSubmit={handleSubmit} className="form">
                     <div className="lvg">
                         <label htmlFor="textarea">Kommentar </label>
                         <input
@@ -93,13 +111,13 @@ export default function BeschwerdeDetail() {
                             onChange={handleChange}
                             required
                         >
-                            <option value="Eingegangen">Eingegangen</option>
-                            <option value="In Bearbeitung">In Bearbeitung</option>
-                            <option value="Erledigt">Erledigt</option>
+                            <option value="EINGEGANGEN">Eingegangen</option>
+                            <option value="IN_BEARBEITUNG">In Bearbeitung</option>
+                            <option value="ERLEDIGT">Erledigt</option>
                         </select>
                     </div>
 
-                    <button className="primary-btn" onClick={()=>{}}>Kommentar abschicken</button>
+                    <button className="primary-btn">Änderungen speichern</button>
                 </form>
             }
         </div>

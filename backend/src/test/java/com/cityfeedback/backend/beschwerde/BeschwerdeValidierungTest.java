@@ -195,7 +195,7 @@ class BeschwerdeTest {
     @Test
     void testConstructorWithParameters() {
         Date date = new Date();
-        Beschwerde beschwerde = new Beschwerde(1L, date, Status.EINGEGANGEN, Prioritaet.HOCH, "Titel", "Typ", "Text", null, null);
+        Beschwerde beschwerde = new Beschwerde("Titel", "Typ", "Text", null, null);
 
         assertThat(beschwerde.getId()).isEqualTo(1L);
         assertThat(beschwerde.getErstellDatum()).isEqualTo(date);
@@ -212,7 +212,7 @@ class BeschwerdeTest {
     void testConstructorWithInvalidParameters() {
         // Test mit null-Werten und prüfen, ob Fehler auftreten
         Date date = new Date();
-        Beschwerde beschwerde = new Beschwerde(null, null, null, null, null, null, null, null, null);
+        Beschwerde beschwerde = new Beschwerde(null, null, null, null, null, null, null, null, null, null);
 
         assertThat(beschwerde.getId()).isNull();
         assertThat(beschwerde.getErstellDatum()).isNull();

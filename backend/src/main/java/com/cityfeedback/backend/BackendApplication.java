@@ -36,7 +36,7 @@ public class BackendApplication {
             final List<Beschwerde> beschwerden = new ArrayList<>();
             BindingResult bindingResult;
 
-            // Testobjekte
+            // Testobjekte Bürger
             Buerger testBuerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "987654321", "maxi.musterfau@example.com", "StarkesPW11?", beschwerden);
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
@@ -45,10 +45,8 @@ public class BackendApplication {
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 
-            Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!");
-            mitarbeiterRepository.save(testMitarbeiter1);
 
-            // Testobjekte
+            // Testobjekte Beschwerde
             Beschwerde testBeschwerde1 = new Beschwerde("Straßenbau", "Schlaglöcher auf Hauptstraße", "Auf der Hauptstraße befinden sich mehrere tiefe Schlaglöcher, die eine Gefahr für den Straßenverkehr darstellen. Besonders Radfahrer sind gefährdet.", new Anhang("schlagloch.jpg", "image/jpeg", 20480L, "Bytes"), testBuerger1);
             beschwerdeRepository.save(testBeschwerde1);
 
@@ -64,7 +62,12 @@ public class BackendApplication {
             Beschwerde testBeschwerde5 = new Beschwerde("Parkprobleme", "Falschparker auf Gehwegen", "Vor unserem Haus parken regelmäßig Autos auf dem Gehweg, was besonders für Kinder und ältere Menschen problematisch ist.", new Anhang("falschparker.jpg", "image/jpeg", 8192L, "Bytes"), testBuerger2);
             beschwerdeRepository.save(testBeschwerde5);
 
-            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "Hallo@web.com", "Hallo12!");
+            // Testobjekte Mitarbeiter
+            Mitarbeiter testMitarbeiter1 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter@test.com", "StarkesPW11?");
+            testMitarbeiter1.setPasswort(passwordEncoder.encode(testMitarbeiter1.getPasswort()));
+            mitarbeiterRepository.save(testMitarbeiter1);
+
+            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
 
