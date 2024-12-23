@@ -1,5 +1,4 @@
 package com.cityfeedback.backend.buergerverwaltung.infrastructure.aspects;
-import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.aspects.MitarbeiterLoggingAspect;
 import org.aspectj.lang.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class BuergerLoggingAspect {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(MitarbeiterLoggingAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(BuergerLoggingAspect.class);
 
     // register new Mitarbeiter
     // Pointcut für create new Mitarbeiter

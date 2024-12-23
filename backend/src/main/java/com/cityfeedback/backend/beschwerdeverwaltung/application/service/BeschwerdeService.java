@@ -43,34 +43,6 @@ public class BeschwerdeService {
 
     // Liste unerlaubter Zeichen
     private String[] UNERLAUBTE_ZEICHEN = {"<", ">", ";"};
-/*
-    public boolean isBeschwerdeDatenGueltig(Beschwerde beschwerde) {
-        if (beschwerde.getErstellDatum() == null ||
-                beschwerde.getStatus() == null || beschwerde.getStatus().isEmpty() ||
-                beschwerde.getBeschwerdeTyp() == null || beschwerde.getBeschwerdeTyp().isEmpty() ||
-                beschwerde.getPrioritaet() == null || beschwerde.getPrioritaet().isEmpty() ||
-                beschwerde.getTextfeld() == null || beschwerde.getTextfeld().isEmpty() || beschwerde.getTextfeld().length() > 1000 ||
-                beschwerde.getAnhang()nhang() == null || beschwerde.getAnhang().isEmpty()) {
-            return false;
-        }
-
-        // Validierung des Status
-        if (!STATUS_PATTERN.matcher(beschwerde.getStatus()).matches()) {
-            return false;
-        }
-
-        // Validierung des Datentyps des Anhangs
-        if (!DATENTYP_ANHANG_PATTERN.matcher(beschwerde.getAnhang()).matches()) {
-            return false;
-        }
-
-        // Prüft auf unerlaubte Zeichen im Text
-        if (UNERLAUBTE_MUSTER.matcher(beschwerde.getTextfeld()).find()) {
-            return false;
-        }
-
-        return true;
-    }*/
 
     public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
         List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
