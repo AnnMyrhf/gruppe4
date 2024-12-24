@@ -28,10 +28,28 @@ const postBeschwerde = (buergerId, titel, beschwerdeTyp, textfeld) => {
     }, {headers: authHeader()})
 };
 
+const updateKommentar = (beschwerdeId, kommentar) => {
+    return axios.put(
+        `${API_URL}beschwerde/${beschwerdeId}/kommentar`, // URL mit der Beschwerde-ID
+        { kommentar }, // Request-Body
+        { headers: authHeader() } // Authentifizierungs-Header
+    );
+};
+
+const updateStatus = (beschwerdeId, status) => {
+    return axios.put(
+        `${API_URL}beschwerde/${beschwerdeId}/status`, // URL mit der Beschwerde-ID
+        { status }, // Request-Body
+        { headers: authHeader() } // Authentifizierungs-Header
+    );
+};
+
 export default {
     //getPublicContent,
     getBuergerDashBoard,
     getMitarbeiterBoard,
     getBeschwerde,
-    postBeschwerde
+    postBeschwerde,
+    updateKommentar,
+    updateStatus
 };

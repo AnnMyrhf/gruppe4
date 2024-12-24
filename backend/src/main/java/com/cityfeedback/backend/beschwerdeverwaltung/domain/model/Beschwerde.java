@@ -59,6 +59,9 @@ public class Beschwerde {
     @JsonBackReference // Verhindert Endlosschleifen, da diese Seite der Beziehung nicht in JSON aufgenommen wird
     private Buerger buerger;
 
+    @Column(length = 1000)
+    private String kommentar; // Optional: für einen einzelnen Kommentar
+
 
     /*@OneToMany(mappedBy = "beschwerde", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -73,6 +76,8 @@ public class Beschwerde {
         this.erstellDatum = new Date();
         this.prioritaet = randomEnum(Prioritaet.class);
         this.buerger = buerger;
+        this.kommentar = "";
+        this.status = Status.EINGEGANGEN;
         //this.benachrichtigungen = new ArrayList<>(); // Initialisiere die Liste der Benachrichtigungen
     }
 

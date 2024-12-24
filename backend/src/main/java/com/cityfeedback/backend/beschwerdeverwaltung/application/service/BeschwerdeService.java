@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.api.BuergerController;
@@ -96,5 +97,23 @@ public class BeschwerdeService {
             // Generische Fehlerbehandlung
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
         }
+    }
+
+    public Beschwerde updateKommentar(Long beschwerdeId, String kommentar) {
+        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
+                .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
+
+        beschwerde.setKommentar(kommentar);
+        return beschwerdeRepository.save(beschwerde);
+    }
+
+    public Beschwerde updateStatus(Long beschwerdeId, String status) {
+        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
+                .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
+
+        Status newStatus = Status.valueOf(status.toUpperCase()); // Konvertierung in Großbuchstaben
+        beschwerde.setStatus(newStatus); // Setzen des Status
+
+        return beschwerdeRepository.save(beschwerde);
     }
 }
