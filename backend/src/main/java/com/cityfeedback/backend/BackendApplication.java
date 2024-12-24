@@ -5,7 +5,6 @@ import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRe
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
-import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +28,7 @@ public class BackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, MitarbeiterService mitarbeiterService, PasswordEncoder passwordEncoder) {
+    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             // Leere Liste fuer Beschwerden
             final List<Beschwerde> beschwerden = new ArrayList<>();
