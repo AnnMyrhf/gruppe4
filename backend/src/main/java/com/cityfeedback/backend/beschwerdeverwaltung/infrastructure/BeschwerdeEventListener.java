@@ -1,11 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.infrastructure;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeAktualisieren;
+import com.cityfeedback.backend.benachrichtigungsverwaltung.application.service.BenachrichtigungsService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
-
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
     public class BeschwerdeEventListener {
 
         @Autowired
-        BeschwerdeService beschwerdeService;
+        BenachrichtigungsService benachrichtigungsService;
 
         @Autowired
         BeschwerdeRepository beschwerdeRepository;
@@ -24,13 +20,23 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
         @TransactionalEventListener(classes = BeschwerdeErstellen.class)
         public void beschwerdeErstellenListener(BeschwerdeErstellen event) {
-            LOG.info("{}: Beschwerde wurde erfolgreich erstellt: {}", event.getTimestamp(), event.getTitel());
-        }
+            LOG.info("{}: Beschwerde wurde erfolgreich erstellt: {} und eine Bestätigung an folgende Mail-Adresse versendet:", event.getTimestamp(), event.getTitel(), event.getEmail());
 
+            // Erstellt die Bestaetigungsmail
+            String betreff = "CityFeedback-Portal: Ihre Beschwerde ist bei uns eingegangen";
+            String text = "Vielen Dank für die Nutzung unseres CityFeedback-Portals!\n\n" +
+                    "Mit dieser E-Mail bestätigen wir Ihnen den Eingang Ihrer Beschwerde:\n\n" + event.getTitel() + " um " + event.getTimestamp() + "\n\n" +  "Die Bearbeitung Ihrer Beschwerde kann einige Zeit in Anspruch nehmen. Wir bitten Sie daher um etwas Geduld. Den Bearbeitungsstatus Ihrer Beschwerde(n) können Sie sich in Ihrem Buerger-Dashboard ansehen\n\n" +
+                    "Mit freundlichen Grüßen\n" +
+                    "Ihr CityFeedback-Team";
+
+            // Versendet die E-Mail
+            benachrichtigungsService.sendeEmail(event.getEmail(), betreff, text);
+        }
+/*
         @TransactionalEventListener(classes = BeschwerdeErstellen.class)
         public void beschwerdeAktualisierenListener(BeschwerdeAktualisieren event) {
             LOG.info("{}: Beschwerde wurde erfolgreich aktualisiert: {} {} {}", event.getTimestamp(), event.getTitel(),event.getStatus(), event.getPrioritaet());
-        }
+        }*/
 
     }
 
