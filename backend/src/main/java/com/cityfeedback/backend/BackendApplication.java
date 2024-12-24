@@ -41,7 +41,7 @@ public class BackendApplication {
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
 
-            Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "PN@example.com", "StarkesPW11?", beschwerden);
+            Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "testbuerger@test.com", "StarkesPW11?", beschwerden);
             testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
             buergerRepository.save(testBuerger2);
 

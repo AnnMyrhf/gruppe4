@@ -72,7 +72,7 @@ export default function BeschwerdeDetail() {
         flexDirection: "column",
         gap: "16px"
     };
-
+    // TODO Styling
     return (
         <div style={mainStyle}>
             <button className="tertiaryBtn"
@@ -87,6 +87,18 @@ export default function BeschwerdeDetail() {
             <p>Priorität: {beschwerde.prioritaet}</p>
             <p>Kategorie: {beschwerde.beschwerdeTyp}</p>
             <p>Beschreibung: {beschwerde.textfeld}</p>
+            {
+                currentUser &&
+                currentUser.role.some(item => item.authority === 'BUERGER') &&
+                <div>
+                    <h2>Bearbeitungsstatus</h2>
+                    {beschwerde.kommentar ?
+                        <div>
+                            <p>{beschwerde.kommentar}</p>
+                        </div>
+                        : <p>Beschwerde wurde noch nicht bearbeitet</p>}
+                </div>
+            }
 
             {currentUser &&
                 currentUser.role.some(item => item.authority === 'MITARBEITER') &&

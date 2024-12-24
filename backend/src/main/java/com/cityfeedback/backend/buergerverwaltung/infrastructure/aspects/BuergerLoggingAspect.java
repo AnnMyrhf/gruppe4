@@ -45,7 +45,7 @@ public class BuergerLoggingAspect {
         if (result.getStatusCode().isError()){
             logger.error("Bürger anmelden fehlgeschlagen: " + result.getStatusCode().toString() + " "  + result.getBody().toString());
         } else {
-            logger.info("Bürger anmelden erfolgreich");
+            logger.info("Bürger anmelden erfolgreich:" + result.getStatusCode().toString());
         }
     }
 
