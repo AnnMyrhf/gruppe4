@@ -94,7 +94,6 @@
             <version>1.18.30</version> <!-- Replace with the latest stable version -->
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
