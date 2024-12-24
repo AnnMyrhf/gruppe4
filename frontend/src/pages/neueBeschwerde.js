@@ -11,6 +11,7 @@ const BeschwerdeForm = () => {
   const [file, setFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [toastStatus, setToastStatus] = useState('');
   const { user: currentUser } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     buergerId: currentUser.id,
@@ -19,9 +20,12 @@ const BeschwerdeForm = () => {
     titel: ""
   });
 
-  const handleShowToast = (message) => {
+  const handleShowToast = (message, status) => {
     setToastMessage(message);
+    setToastStatus(status);
     setShowToast(true);
+    // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
+    // angezeigt werden kann.
     setTimeout(() => setShowToast(false), 3500);
   };
 
@@ -47,7 +51,7 @@ const BeschwerdeForm = () => {
 
     UserService.postBeschwerde(formData.buergerId, formData.titel, formData.beschwerdeTyp, formData.textfeld).then(
         (response) => {
-          handleShowToast("Beschwerde erfolgreich eingereicht");
+          handleShowToast("Beschwerde erfolgreich eingereicht", "success");
           setTimeout(() => goToDashboard(), 1500);
         },
         (error) => {
@@ -72,7 +76,8 @@ const BeschwerdeForm = () => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        flexGrow: "1"
+        flexGrow: "1",
+        position: 'relative'
       }}>
         <main className="main">
           <div style={{
@@ -160,7 +165,7 @@ const BeschwerdeForm = () => {
               <button type="submit">Abschicken</button>
             </form>
           </div>
-          <Toaster text={toastMessage} visible={showToast}/>
+          <Toaster text={toastMessage} visible={showToast} status={toastStatus}/>
         </main>
       </div>
   );

@@ -16,7 +16,7 @@ const LoginForm = () => {
     passwort: '',
   });
 
-const [validation, setValidation] = useState(null)
+const [validation, setValidation] = useState({})
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,10 +24,12 @@ const [validation, setValidation] = useState(null)
   const { user: currentUser } = useSelector((state) => state.auth);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [toastStatus, setToastStatus] = useState('');
 
   useEffect(() => {
-    if (validation !== null) {
-      handleShowToast(validation);
+    if (Object.keys(validation).length > 0) {
+      handleShowToast("Login fehlgeschlagen", "error");
+      console.log(validation)
     }
   }, [validation]);
 
@@ -35,10 +37,9 @@ const [validation, setValidation] = useState(null)
     return <Navigate to="/dashboard" />;
   }
 
-
-
-  const handleShowToast = (message) => {
+  const handleShowToast = (message, status) => {
     setToastMessage(message);
+    setToastStatus(status);
     setShowToast(true);
     // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
     // angezeigt werden kann.
@@ -47,7 +48,7 @@ const [validation, setValidation] = useState(null)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValidation(null)
+    setValidation({})
     setFormData(prevState => ({
       ...prevState,
       [name]: value
@@ -63,23 +64,20 @@ const [validation, setValidation] = useState(null)
           })
           .catch((error) => {
             setValidation(error.errors)
-            console.log(error)
           });
     } else if (selectedRole === "Mitarbeiter"){
       dispatch(mitarbeiterLogin(formData.email, formData.passwort))
           .then(() => {
-            console.log("Mitarbeiter Erfolgreich")
             navigate("/dashboard");
           })
           .catch((error) => {
             setValidation(error.errors)
-            console.log(error)
           });
     }
   };
 
   const handleRoleChange = (role) => {
-    setValidation(null)
+    setValidation({})
     setSelectedRole(role);
   };
 
@@ -125,47 +123,57 @@ const [validation, setValidation] = useState(null)
 
             <div className="lvg">
               <label htmlFor="email">E-Mail Adresse<span className="required">*</span></label>
-              <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={validation ? "validation" : ""}
-              />
+              <div className="input-wrapper">
+                <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={validation.email ? "validation" : ""}
+                />
+                {validation.email && (
+                    <p className="validation-flyout">{validation.email}</p>
+                )}
+              </div>
             </div>
 
-            <div className="lvg">
-              <label htmlFor="passwort">Passwort<span className="required">*</span></label>
-              <input
-                  type="password"
-                  id="passwort"
-                  name="passwort"
-                  value={formData.passwort}
-                  onChange={handleChange}
-                  required
-                  className={validation ? "validation" : ""}
-              />
-            </div>
+              <div className="lvg">
+                <label htmlFor="passwort">Passwort<span className="required">*</span></label>
+                <div className="input-wrapper">
+                  <input
+                      type="password"
+                      id="passwort"
+                      name="passwort"
+                      value={formData.passwort}
+                      onChange={handleChange}
+                      required
+                      className={validation.passwort ? "validation" : ""}
+                  />
+                  {validation.passwort && (
+                      <p className="validation-flyout">{validation.passwort}</p>
+                  )}
+                </div>
+              </div>
 
-            <div style={{
-              position: 'relative',
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-            }}>
-              <button type="submit">Als {selectedRole} anmelden</button>
-              <p style={{
-                width: "100%",
-                textAlign: "center",
-                color: "#808080",
-                fontSize: "14px"
-              }}> Sie haben noch keinen Account? <Link to="/registrieren">Registrieren</Link></p>
-            </div>
+              <div style={{
+                position: 'relative',
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}>
+                <button type="submit">Als {selectedRole} anmelden</button>
+                <p style={{
+                  width: "100%",
+                  textAlign: "center",
+                  color: "#808080",
+                  fontSize: "14px"
+                }}> Sie haben noch keinen Account? <Link to="/registrieren">Registrieren</Link></p>
+              </div>
           </form>
         </div>
-        <Toaster text={toastMessage} visible={showToast}/>
+        <Toaster text={toastMessage} visible={showToast} status={toastStatus}/>
       </div>
   );
 };

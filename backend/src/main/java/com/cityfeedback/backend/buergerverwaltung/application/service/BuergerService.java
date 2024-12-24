@@ -67,9 +67,13 @@ public class BuergerService {
 
             return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities().toArray()));
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.badRequest().body("E-Mail konnten nicht gefunden");
+            Map<String, String> errors = new HashMap<>();
+            errors.put("email", "E-Mail konnten nicht gefunden");
+            return ResponseEntity.badRequest().body(errors);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Passwort stimmt nicht mit E-Mail Adresse überein"); // aus Sicherheitsgründen kein eindeutiger Hinweis
+            Map<String, String> errors = new HashMap<>();
+            errors.put("passwort", "Passwort stimmt nicht mit E-Mail Adresse überein");
+            return ResponseEntity.badRequest().body(errors); // aus Sicherheitsgründen kein eindeutiger Hinweis
         }
     }
 
@@ -90,7 +94,6 @@ public class BuergerService {
             // Validierungsfehler sammeln und zurückgeben
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error -> {
-                System.out.println(error.getDefaultMessage());
                 errors.put(error.getField(), error.getDefaultMessage());
             });
             return ResponseEntity.badRequest().body(errors);

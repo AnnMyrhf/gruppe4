@@ -28,12 +28,13 @@ const RegistrationForm = () => {
   const [selectedRole, setSelectedRole] = useState("Bürger");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [toastStatus, setToastStatus] = useState('');
   const { user: currentUser } = useSelector((state) => state.auth);
   const [validation, setValidation] = useState({})
 
   useEffect(() => {
     if (Object.keys(validation).length > 0) {
-      handleShowToast("Registrierung nicht erfolgreich");
+      handleShowToast("Registrierung nicht erfolgreich", "error");
       console.log(validation);
     }
   }, [validation]);
@@ -72,7 +73,7 @@ const RegistrationForm = () => {
           formData.email,
           formData.passwort))
           .then(() => {
-            handleShowToast("Registrierung erfolgreich!");
+            handleShowToast("Registrierung erfolgreich!", "success");
             setTimeout(() => navigate("/"), 5000);
           })
           .catch((error) => {
@@ -98,8 +99,9 @@ const RegistrationForm = () => {
 
 
 
-  const handleShowToast = (message) => {
+  const handleShowToast = (message, status) => {
     setToastMessage(message);
+    setToastStatus(status);
     setShowToast(true);
     // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
     // angezeigt werden kann.
@@ -290,7 +292,7 @@ const RegistrationForm = () => {
 
           </form>
         </div>
-        <Toaster text={toastMessage} visible={showToast}/>
+        <Toaster text={toastMessage} visible={showToast} status={toastStatus}/>
       </div>
   );
 };

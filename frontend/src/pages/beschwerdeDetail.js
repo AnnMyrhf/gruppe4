@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserService from "../services/user.service";
 import backIcon from "../assests/arrow-left-solid.svg";
+import Toaster from "../components/Toaster";
 
 export default function BeschwerdeDetail() {
     const { id } = useParams(); // ID aus der URL holen
@@ -10,6 +11,9 @@ export default function BeschwerdeDetail() {
     const [originalBeschwerde, setOriginalBeschwerde] = useState(null); // Zustand für ursprüngliche Daten
     const navigate = useNavigate();
     const { user: currentUser } = useSelector((state) => state.auth);
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastStatus, setToastStatus] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,9 +49,11 @@ export default function BeschwerdeDetail() {
             UserService.updateKommentar(id, beschwerde.kommentar)
                 .then(response => {
                     console.log("Kommentar aktualisiert:", response.data);
+                    handleShowToast("Beschwerde aktualisiert", "success")
                 })
                 .catch(error => {
-                    console.error("Fehler beim Aktualisieren des Kommentars:", error);
+                    handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
+
                 });
         }
 
@@ -55,11 +61,24 @@ export default function BeschwerdeDetail() {
             UserService.updateStatus(id, beschwerde.status)
                 .then(response => {
                     console.log("Status aktualisiert:", response.data);
+                    handleShowToast("Beschwerde aktualisiert", "success")
+
                 })
                 .catch(error => {
                     console.error("Fehler beim Aktualisieren des Status:", error);
+                    handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
+
                 });
         }
+    };
+
+    const handleShowToast = (message, status) => {
+        setToastMessage(message);
+        setToastStatus(status);
+        setShowToast(true);
+        // Hier nach 3,5 Sekunden wieder auf false setzen, damit der Toast beim nächsten Mal neu
+        // angezeigt werden kann.
+        setTimeout(() => setShowToast(false), 3500);
     };
 
     if (!beschwerde) {
@@ -70,7 +89,8 @@ export default function BeschwerdeDetail() {
         padding: "64px",
         display: "flex",
         flexDirection: "column",
-        gap: "16px"
+        gap: "16px",
+        position: 'relative'
     };
     // TODO Styling
     return (
@@ -132,6 +152,7 @@ export default function BeschwerdeDetail() {
                     <button className="primary-btn">Änderungen speichern</button>
                 </form>
             }
+            <Toaster text={toastMessage} visible={showToast} status={toastStatus}/>
         </div>
     );
 }
