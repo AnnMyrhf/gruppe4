@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,30 +37,38 @@ public class BeschwerdeController {
     }
 
     @PostMapping("beschwerde/erstellen")
-    public ResponseEntity<?> createBeschwerde(@RequestBody Map<String, Object> body) {
-        // Extrahiere die buergerId und konvertiere sie in Long
-        Number buergerIdNumber = (Number) body.get("buergerId");
-        Long buergerId = buergerIdNumber.longValue();
+    public ResponseEntity<?> createBeschwerde(
+            @RequestParam("buergerId") Long buergerId,
+            @RequestParam("titel") String titel,
+            @RequestParam("beschwerdeTyp") String beschwerdeTyp,
+            @RequestParam("textfeld") String textfeld,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        // Baue das Beschwerde-Objekt
-        Beschwerde beschwerde = new Beschwerde();
-        beschwerde.setTitel((String) body.get("titel"));
-        beschwerde.setBeschwerdeTyp((String) body.get("beschwerdeTyp"));
-        beschwerde.setTextfeld((String) body.get("textfeld"));
+        try {
+            // Baue das Beschwerde-Objekt
+            Beschwerde beschwerde = new Beschwerde();
+            beschwerde.setTitel(titel);
+            beschwerde.setBeschwerdeTyp(beschwerdeTyp);
+            beschwerde.setTextfeld(textfeld);
 
-        // Anhang extrahieren und setzen (falls vorhanden)
-        if (body.containsKey("anhang")) {
-            Map<String, Object> anhangMap = (Map<String, Object>) body.get("anhang");
-            Anhang anhang = new Anhang();
-            anhang.setDateiName((String) anhangMap.get("dateiName"));
-            anhang.setDatenTyp((String) anhangMap.get("datenTyp"));
-            anhang.setDateiGroesse(((Number) anhangMap.get("dateiGroesse")).longValue());
-            anhang.setDateiEinheit((String) anhangMap.get("dateiEinheit"));
-            beschwerde.setAnhang(anhang);
+            // Verarbeite den Anhang, falls vorhanden
+            if (file != null && !file.isEmpty()) {
+                Anhang anhang = new Anhang();
+                anhang.setDateiName(file.getOriginalFilename());
+                anhang.setDatenTyp(file.getContentType());
+                anhang.setDateiGroesse(file.getSize());
+                anhang.setDaten(file.getBytes()); // Datei in Byte-Array konvertieren
+                beschwerde.setAnhang(anhang);
+            }
+
+            // Übergib die Daten an den Service
+            return beschwerdeService.createBeschwerde(beschwerde, buergerId);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler beim Verarbeiten der Datei");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten");
         }
-
-        // Übergib die Daten an den Service
-        return beschwerdeService.createBeschwerde(beschwerde, buergerId);
     }
 
     @PutMapping("/beschwerde/{id}/kommentar")

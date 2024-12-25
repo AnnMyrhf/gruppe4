@@ -44,12 +44,22 @@ const BeschwerdeForm = () => {
 
  function goToDashboard(){
         navigate('/dashboard', { replace: true });
-} 
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    UserService.postBeschwerde(formData.buergerId, formData.titel, formData.beschwerdeTyp, formData.textfeld).then(
+    const data = new FormData(); // FormData Objekt erstellen
+    data.append("buergerId", formData.buergerId);
+    data.append("titel", formData.titel);
+    data.append("beschwerdeTyp", formData.beschwerdeTyp);
+    data.append("textfeld", formData.textfeld);
+
+    if (file) {
+      data.append("file", file); // Datei hinzufügen
+    }
+
+    UserService.postBeschwerde(data).then(
         (response) => {
           handleShowToast("Beschwerde erfolgreich eingereicht", "success");
           setTimeout(() => goToDashboard(), 1500);
@@ -62,11 +72,11 @@ const BeschwerdeForm = () => {
               error.message ||
               error.toString();
 
-          //Todo Error Handling
+          console.error("Fehler:", _content);
         }
     );
+  };
 
- };
 
   return (
       <div style={{

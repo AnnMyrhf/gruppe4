@@ -69,35 +69,28 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
-    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) {
+    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long buergerId) {
         try {
             // Überprüfen, ob der Bürger existiert
-            Optional<Buerger> ersteller = buergerService.getBuergerById(id);
-            if (ersteller.isEmpty()) {
-                throw new IllegalArgumentException("Kein Bürger mit ID: " + id + " gefunden");
+            Optional<Buerger> buergerOptional = buergerService.getBuergerById(buergerId);
+            if (buergerOptional.isEmpty()) {
+                throw new IllegalArgumentException("Bürger mit ID " + buergerId + " nicht gefunden.");
             }
-            Buerger buerger = ersteller.orElse(null);
 
-            // Neue Beschwerde erstellen
-            Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(), buerger);
+            Buerger buerger = buergerOptional.get();
 
-            // Beschwerde in der Datenbank speichern
-            beschwerdeRepository.save(newBeschwerde);
+            // Setze Bürger in die Beschwerde
+            beschwerde.setBuerger(buerger);
 
-            // Erfolgreiche Antwort zurückgeben
-            return ResponseEntity.ok("Beschwerde erfolgreich erstellt!");
+            // Speichere die Beschwerde
+            beschwerdeRepository.save(beschwerde);
 
-        } catch (IllegalArgumentException e) {
-            // Fehler für ungültige Bürger-ID
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (DataIntegrityViolationException e) {
-            // Datenbankbezogene Fehler
-            return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten");
+            return ResponseEntity.ok("Beschwerde erfolgreich erstellt.");
         } catch (Exception e) {
-            // Generische Fehlerbehandlung
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
         }
     }
+
 
     public Beschwerde updateKommentar(Long beschwerdeId, String kommentar) {
         Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
