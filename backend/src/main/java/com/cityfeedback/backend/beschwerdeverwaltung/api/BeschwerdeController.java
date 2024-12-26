@@ -44,31 +44,7 @@ public class BeschwerdeController {
             @RequestParam("textfeld") String textfeld,
             @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        try {
-            // Baue das Beschwerde-Objekt
-            Beschwerde beschwerde = new Beschwerde();
-            beschwerde.setTitel(titel);
-            beschwerde.setBeschwerdeTyp(beschwerdeTyp);
-            beschwerde.setTextfeld(textfeld);
-
-            // Verarbeite den Anhang, falls vorhanden
-            if (file != null && !file.isEmpty()) {
-                Anhang anhang = new Anhang();
-                anhang.setDateiName(file.getOriginalFilename());
-                anhang.setDatenTyp(file.getContentType());
-                anhang.setDateiGroesse(file.getSize());
-                anhang.setDaten(file.getBytes()); // Datei in Byte-Array konvertieren
-                beschwerde.setAnhang(anhang);
-            }
-
-            // Übergib die Daten an den Service
-            return beschwerdeService.createBeschwerde(beschwerde, buergerId);
-
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler beim Verarbeiten der Datei");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten");
-        }
+        return beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, file, buergerId);
     }
 
     @PutMapping("/beschwerde/{id}/kommentar")

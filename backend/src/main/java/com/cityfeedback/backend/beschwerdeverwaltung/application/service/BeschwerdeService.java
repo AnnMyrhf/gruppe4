@@ -1,9 +1,11 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
@@ -19,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BeschwerdeService {
@@ -69,23 +72,35 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
-    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long buergerId) {
+    public ResponseEntity<String> createBeschwerde(String titel, String beschwerdeTyp, String textfeld, MultipartFile file, Long buergerId) {
         try {
-            // Überprüfen, ob der Bürger existiert
+            // Bürger suchen
             Optional<Buerger> buergerOptional = buergerService.getBuergerById(buergerId);
             if (buergerOptional.isEmpty()) {
                 throw new IllegalArgumentException("Bürger mit ID " + buergerId + " nicht gefunden.");
             }
-
             Buerger buerger = buergerOptional.get();
 
-            // Setze Bürger in die Beschwerde
-            beschwerde.setBuerger(buerger);
+            // Verarbeite den Anhang, falls vorhanden
+            Anhang anhang = null;
+            if (file != null && !file.isEmpty()) {
+                anhang = new Anhang();
+                anhang.setDateiName(file.getOriginalFilename());
+                anhang.setDatenTyp(file.getContentType());
+                anhang.setDateiGroesse(file.getSize());
+                anhang.setDaten(file.getBytes()); // Datei in Byte-Array konvertieren
+            }
+
+            // erstelle die Beschwerde
+            Beschwerde beschwerde = new Beschwerde(titel, beschwerdeTyp, textfeld, anhang, buerger);
 
             // Speichere die Beschwerde
             beschwerdeRepository.save(beschwerde);
-
+            // return Erfolg
             return ResponseEntity.ok("Beschwerde erfolgreich erstellt.");
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
         }
