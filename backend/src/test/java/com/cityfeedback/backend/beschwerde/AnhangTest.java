@@ -10,12 +10,12 @@ class AnhangTest {
 
     @Test
     void testAnhangConstructor() {
-        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
         assertThat(anhang.getDateiName()).isEqualTo("datei.pdf");
         assertThat(anhang.getDatenTyp()).isEqualTo("application/pdf");
         assertThat(anhang.getDateiGroesse()).isEqualTo(12345L);
-        assertThat(anhang.getDateiEinheit()).isEqualTo("KB");
+        assertThat(anhang.getDaten()).isNull();
     }
 
     @Test
@@ -25,7 +25,7 @@ class AnhangTest {
         assertThat(anhang.getDateiName()).isNull();
         assertThat(anhang.getDatenTyp()).isNull();
         assertThat(anhang.getDateiGroesse()).isNull();
-        assertThat(anhang.getDateiEinheit()).isNull();
+        assertThat(anhang.getDaten()).isNull();
     }
 
     @Test
@@ -53,67 +53,59 @@ class AnhangTest {
     }
 
     @Test
-    void testSetDateiEinheit() {
-        Anhang anhang = new Anhang();
-        anhang.setDateiEinheit("KB");
-
-        assertThat(anhang.getDateiEinheit()).isEqualTo("KB");
-    }
-
-    @Test
     void testEqualsSameValues() {
-        Anhang anhang1 = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
-        Anhang anhang2 = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang1 = new Anhang("datei.pdf", "application/pdf", 12345L, null);
+        Anhang anhang2 = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
         assertEquals(anhang1, anhang2); // Gleiche Werte
     }
 
     @Test
     void testEqualsDifferentValues() {
-        Anhang anhang1 = new Anhang("datei1.pdf", "application/pdf", 12345L, "KB");
-        Anhang anhang2 = new Anhang("datei2.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang1 = new Anhang("datei1.pdf", "application/pdf", 12345L, null);
+        Anhang anhang2 = new Anhang("datei2.pdf", "application/pdf", 12345L, null);
 
         assertNotEquals(anhang1, anhang2); // Verschiedene Werte
     }
 
     @Test
     void testEqualsWithNull() {
-        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
         assertNotEquals(anhang, null); // Vergleich mit null
     }
 
     @Test
     void testEqualsWithDifferentType() {
-        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
         assertNotEquals(anhang, "string"); // Vergleich mit anderem Typ
     }
 
     @Test
     void testHashCodeSameValues() {
-        Anhang anhang1 = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
-        Anhang anhang2 = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang1 = new Anhang("datei.pdf", "application/pdf", 12345L, null);
+        Anhang anhang2 = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
         assertEquals(anhang1.hashCode(), anhang2.hashCode()); // Gleicher Hash-Code
     }
 
     @Test
     void testHashCodeDifferentValues() {
-        Anhang anhang1 = new Anhang("datei1.pdf", "application/pdf", 12345L, "KB");
-        Anhang anhang2 = new Anhang("datei2.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang1 = new Anhang("datei1.pdf", "application/pdf", 12345L, null);
+        Anhang anhang2 = new Anhang("datei2.pdf", "application/pdf", 12345L, null);
 
         assertNotEquals(anhang1.hashCode(), anhang2.hashCode()); // Unterschiedlicher Hash-Code
     }
 
     @Test
     void testToString() {
-        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, "KB");
+        Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
         String toStringResult = anhang.toString();
 
         assertThat(toStringResult).contains("dateiName=datei.pdf");
         assertThat(toStringResult).contains("datenTyp=application/pdf");
         assertThat(toStringResult).contains("dateiGroesse=12345");
-        assertThat(toStringResult).contains("dateiEinheit=KB");
+        assertThat(toStringResult).contains("daten=null");
     }
 }

@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -120,18 +122,31 @@ class BeschwerdeServiceTest {
     }
 
     @Test
-    void testCreateBeschwerde_Success() {
+    void testCreateBeschwerde_Success() throws IOException {
         // Mocking
         Long buergerId = 1L;
+        String titel = "Test Titel";
+        String beschwerdeTyp = "Typ1";
+        String textfeld = "Test Text";
+        MultipartFile mockFile = mock(MultipartFile.class);
+
+        // Mock MultipartFile
+        when(mockFile.isEmpty()).thenReturn(false);
+        when(mockFile.getOriginalFilename()).thenReturn("testfile.txt");
+        when(mockFile.getContentType()).thenReturn("text/plain");
+        when(mockFile.getSize()).thenReturn(1234L);
+        when(mockFile.getBytes()).thenReturn("Test File Content".getBytes());
+
+        // Mock Buerger und Repository
         Buerger mockBuerger = new Buerger();
         Beschwerde beschwerde = new Beschwerde();
-        beschwerde.setTitel("Test Titel");
+        beschwerde.setTitel(titel);
 
         when(buergerService.getBuergerById(buergerId)).thenReturn(Optional.of(mockBuerger));
         when(beschwerdeRepository.save(any(Beschwerde.class))).thenReturn(beschwerde);
 
         // Test
-        ResponseEntity<?> response = beschwerdeService.createBeschwerde(beschwerde, buergerId);
+        ResponseEntity<?> response = beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, mockFile, buergerId);
 
         // Verify
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
@@ -139,21 +154,24 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
 
+
     @Test
     void testCreateBeschwerde_BuergerNotFound() {
         // Mocking
         Long buergerId = 1L;
-        Beschwerde beschwerde = new Beschwerde();
-        beschwerde.setTitel("Test Titel");
+        String titel = "Test Titel";
+        String beschwerdeTyp = "Typ1";
+        String textfeld = "Test Text";
+        MultipartFile mockFile = mock(MultipartFile.class);
 
         when(buergerService.getBuergerById(buergerId)).thenReturn(Optional.empty());
 
         // Test
-        ResponseEntity<?> response = beschwerdeService.createBeschwerde(beschwerde, buergerId);
+        ResponseEntity<?> response = beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, mockFile, buergerId);
 
         // Verify
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
-        assertThat(response.getBody()).isEqualTo("Kein Bürger mit ID: 1 gefunden");
+        assertThat(response.getStatusCodeValue()).isEqualTo(500);
+        assertThat(response.getBody()).isEqualTo("Fehler: Bürger mit ID 1 nicht gefunden.");
         verify(buergerService, times(1)).getBuergerById(buergerId);
         verify(beschwerdeRepository, never()).save(any(Beschwerde.class));
     }
@@ -162,6 +180,10 @@ class BeschwerdeServiceTest {
     void testCreateBeschwerde_DataIntegrityViolationException() {
         // Mocking
         Long buergerId = 1L;
+        String titel = "Test Titel";
+        String beschwerdeTyp = "Typ1";
+        String textfeld = "Test Text";
+        MultipartFile mockFile = mock(MultipartFile.class);
         Buerger mockBuerger = new Buerger();
         Beschwerde beschwerde = new Beschwerde();
 
@@ -171,11 +193,10 @@ class BeschwerdeServiceTest {
         when(beschwerdeRepository.save(any(Beschwerde.class))).thenThrow(exception);
 
         // Test
-        ResponseEntity<?> response = beschwerdeService.createBeschwerde(beschwerde, buergerId);
+        ResponseEntity<?> response = beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, mockFile, buergerId);
 
         // Verify
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
-        assertThat(response.getBody()).isEqualTo("Ein Datenbankfehler ist aufgetreten");
+        assertThat(response.getStatusCodeValue()).isEqualTo(500);
         verify(buergerService, times(1)).getBuergerById(buergerId);
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
@@ -184,6 +205,10 @@ class BeschwerdeServiceTest {
     void testCreateBeschwerde_InternalServerError() {
         // Mocking
         Long buergerId = 1L;
+        String titel = "Test Titel";
+        String beschwerdeTyp = "Typ1";
+        String textfeld = "Test Text";
+        MultipartFile mockFile = mock(MultipartFile.class);
         Buerger mockBuerger = new Buerger();
         Beschwerde beschwerde = new Beschwerde();
         beschwerde.setTitel("Test Titel");
@@ -192,11 +217,11 @@ class BeschwerdeServiceTest {
         when(beschwerdeRepository.save(any(Beschwerde.class))).thenThrow(new RuntimeException("Unerwarteter Fehler"));
 
         // Test
-        ResponseEntity<?> response = beschwerdeService.createBeschwerde(beschwerde, buergerId);
+        ResponseEntity<?> response = beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, mockFile, buergerId);
 
         // Verify
         assertThat(response.getStatusCodeValue()).isEqualTo(500);
-        assertThat(response.getBody()).isEqualTo("Ein interner Fehler ist aufgetreten.");
+        assertThat(response.getBody()).isEqualTo("Fehler: Unerwarteter Fehler");
         verify(buergerService, times(1)).getBuergerById(buergerId);
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
