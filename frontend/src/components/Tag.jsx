@@ -5,7 +5,7 @@ const getTagColor = (text) => {
     switch (text) {
         case 'Eingegangen':
             return '#9ce1ff';         // Kritisch - Rot
-        case 'In Bearbeitung':
+        case 'In bearbeitung':
             return '#fee229';      // Marginal - Gelb
         case 'Erledigt':
             return '#65C728';       // Abgeschlossen - Grün

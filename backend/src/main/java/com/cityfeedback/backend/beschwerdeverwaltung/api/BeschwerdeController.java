@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,30 +37,14 @@ public class BeschwerdeController {
     }
 
     @PostMapping("beschwerde/erstellen")
-    public ResponseEntity<?> createBeschwerde(@RequestBody Map<String, Object> body) {
-        // Extrahiere die buergerId und konvertiere sie in Long
-        Number buergerIdNumber = (Number) body.get("buergerId");
-        Long buergerId = buergerIdNumber.longValue();
+    public ResponseEntity<?> createBeschwerde(
+            @RequestParam("buergerId") Long buergerId,
+            @RequestParam("titel") String titel,
+            @RequestParam("beschwerdeTyp") String beschwerdeTyp,
+            @RequestParam("textfeld") String textfeld,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        // Baue das Beschwerde-Objekt
-        Beschwerde beschwerde = new Beschwerde();
-        beschwerde.setTitel((String) body.get("titel"));
-        beschwerde.setBeschwerdeTyp((String) body.get("beschwerdeTyp"));
-        beschwerde.setTextfeld((String) body.get("textfeld"));
-
-        // Anhang extrahieren und setzen (falls vorhanden)
-        if (body.containsKey("anhang")) {
-            Map<String, Object> anhangMap = (Map<String, Object>) body.get("anhang");
-            Anhang anhang = new Anhang();
-            anhang.setDateiName((String) anhangMap.get("dateiName"));
-            anhang.setDatenTyp((String) anhangMap.get("datenTyp"));
-            anhang.setDateiGroesse(((Number) anhangMap.get("dateiGroesse")).longValue());
-            anhang.setDateiEinheit((String) anhangMap.get("dateiEinheit"));
-            beschwerde.setAnhang(anhang);
-        }
-
-        // Übergib die Daten an den Service
-        return beschwerdeService.createBeschwerde(beschwerde, buergerId);
+        return beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, file, buergerId);
     }
 
     @PutMapping("/beschwerde/{id}/kommentar")

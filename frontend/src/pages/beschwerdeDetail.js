@@ -7,13 +7,51 @@ import Toaster from "../components/Toaster";
 
 export default function BeschwerdeDetail() {
     const { id } = useParams(); // ID aus der URL holen
-    const [beschwerde, setBeschwerde] = useState(null);
+    const [beschwerde, setBeschwerde] = useState({});
     const [originalBeschwerde, setOriginalBeschwerde] = useState(null); // Zustand für ursprüngliche Daten
     const navigate = useNavigate();
     const { user: currentUser } = useSelector((state) => state.auth);
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastStatus, setToastStatus] = useState('');
+    const anhang = beschwerde.anhang;
+    const hasValidAnhang = anhang && anhang.daten && anhang.datenTyp;
+
+
+    const formatDate = (dateString) => {
+        if (!dateString) {
+            return 'Ungültiges Datum';
+        }
+        const date = new Date(dateString); // Umwandlung des ISO 8601-Strings in ein Date-Objekt
+        const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
+
+        // Formatierung mit Intl.DateTimeFormat
+        return new Intl.DateTimeFormat('de-DE', options).format(date);
+    };
+
+    const getReadableStatus = (status) => {
+        const STATUS_LABELS = {
+            EINGEGANGEN: 'Eingegangen',
+            IN_BEARBEITUNG: 'In Bearbeitung',
+            ERLEDIGT: 'Erledigt',
+        };
+
+        return STATUS_LABELS[status] || 'Unbekannter Status';
+    };
+
+    const getReadablePrioritaet = (prio) => {
+        const STATUS_LABELS = {
+            NIEDRIG: 'Niedrig',
+            MITTEL: 'Mittel',
+            HOCH: 'Hoch',
+        };
+
+        return STATUS_LABELS[prio] || 'Unbekannter Status';
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,6 +66,11 @@ export default function BeschwerdeDetail() {
             (response) => {
                 setBeschwerde(response.data);
                 setOriginalBeschwerde(response.data); // Ursprüngliche Daten speichern
+                console.log(response.data)
+                const anhang = beschwerde.anhang;
+                if (anhang){
+                    const imageSrc = `data:${anhang.datenTyp};base64,${anhang.daten}`;
+                }
             },
             (error) => {
                 const _content =
@@ -40,6 +83,8 @@ export default function BeschwerdeDetail() {
             }
         );
     }, [id]);
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -102,11 +147,20 @@ export default function BeschwerdeDetail() {
             </button>
             <h1>{beschwerde.titel}</h1>
             <p>ID: {beschwerde.id}</p>
-            <p>Datum: {beschwerde.erstellDatum}</p>
-            <p>Status: {beschwerde.status}</p>
-            <p>Priorität: {beschwerde.prioritaet}</p>
+            <p>Datum: {formatDate(beschwerde.erstellDatum)}</p>
+            <p>Status: {getReadableStatus(beschwerde.status)}</p>
+            <p>Priorität: {getReadablePrioritaet(beschwerde.prioritaet)}</p>
             <p>Kategorie: {beschwerde.beschwerdeTyp}</p>
             <p>Beschreibung: {beschwerde.textfeld}</p>
+            {hasValidAnhang ? (
+                <img
+                    src={`data:${anhang.datenTyp};base64,${anhang.daten}`}
+                    alt={anhang.dateiName}
+                    style={{ maxWidth: "500px", height: "auto" }}
+                />
+            ) : (
+                <p>Kein Anhang verfügbar</p>
+            )}
             {
                 currentUser &&
                 currentUser.role.some(item => item.authority === 'BUERGER') &&

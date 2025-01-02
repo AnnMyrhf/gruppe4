@@ -19,13 +19,13 @@ const getBeschwerde = (id) => {
     return axios.get(API_URL + "beschwerde/"+id, {headers: authHeader()})
 }
 
-const postBeschwerde = (buergerId, titel, beschwerdeTyp, textfeld) => {
-    return axios.post(API_URL + "beschwerde/erstellen", {
-        buergerId,
-        titel,
-        beschwerdeTyp,
-        textfeld,
-    }, {headers: authHeader()})
+const postBeschwerde = (data) => {
+    return axios.post(API_URL + "beschwerde/erstellen", data, {
+        headers: {
+            ...authHeader(),
+            "Content-Type": "multipart/form-data", // Multipart-Header
+        },
+    });
 };
 
 const updateKommentar = (beschwerdeId, kommentar) => {

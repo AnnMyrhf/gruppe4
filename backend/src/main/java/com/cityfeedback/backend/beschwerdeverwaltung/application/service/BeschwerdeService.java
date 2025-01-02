@@ -1,9 +1,11 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
@@ -19,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BeschwerdeService {
@@ -69,35 +72,40 @@ public class BeschwerdeService {
         return beschwerde.orElse(null);
     }
 
-    public ResponseEntity<?> createBeschwerde(@Valid Beschwerde beschwerde, Long id) {
+    public ResponseEntity<String> createBeschwerde(String titel, String beschwerdeTyp, String textfeld, MultipartFile file, Long buergerId) {
         try {
-            // Überprüfen, ob der Bürger existiert
-            Optional<Buerger> ersteller = buergerService.getBuergerById(id);
-            if (ersteller.isEmpty()) {
-                throw new IllegalArgumentException("Kein Bürger mit ID: " + id + " gefunden");
+            // Bürger suchen
+            Optional<Buerger> buergerOptional = buergerService.getBuergerById(buergerId);
+            if (buergerOptional.isEmpty()) {
+                throw new IllegalArgumentException("Bürger mit ID " + buergerId + " nicht gefunden.");
             }
-            Buerger buerger = ersteller.orElse(null);
+            Buerger buerger = buergerOptional.get();
 
-            // Neue Beschwerde erstellen
-            Beschwerde newBeschwerde = new Beschwerde(beschwerde.getTitel(), beschwerde.getBeschwerdeTyp(), beschwerde.getTextfeld(), beschwerde.getAnhang(), buerger);
+            // Verarbeite den Anhang, falls vorhanden
+            Anhang anhang = null;
+            if (file != null && !file.isEmpty()) {
+                anhang = new Anhang();
+                anhang.setDateiName(file.getOriginalFilename());
+                anhang.setDatenTyp(file.getContentType());
+                anhang.setDateiGroesse(file.getSize());
+                anhang.setDaten(file.getBytes()); // Datei in Byte-Array konvertieren
+            }
 
-            // Beschwerde in der Datenbank speichern
-            beschwerdeRepository.save(newBeschwerde);
+            // erstelle die Beschwerde
+            Beschwerde beschwerde = new Beschwerde(titel, beschwerdeTyp, textfeld, anhang, buerger);
 
-            // Erfolgreiche Antwort zurückgeben
-            return ResponseEntity.ok("Beschwerde erfolgreich erstellt!");
+            // Speichere die Beschwerde
+            beschwerdeRepository.save(beschwerde);
+            // return Erfolg
+            return ResponseEntity.ok("Beschwerde erfolgreich erstellt.");
 
-        } catch (IllegalArgumentException e) {
-            // Fehler für ungültige Bürger-ID
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (DataIntegrityViolationException e) {
-            // Datenbankbezogene Fehler
-            return ResponseEntity.badRequest().body("Ein Datenbankfehler ist aufgetreten");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
         } catch (Exception e) {
-            // Generische Fehlerbehandlung
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
         }
     }
+
 
     public Beschwerde updateKommentar(Long beschwerdeId, String kommentar) {
         Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
