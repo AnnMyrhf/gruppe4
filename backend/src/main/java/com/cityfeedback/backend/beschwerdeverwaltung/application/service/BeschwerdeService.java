@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -49,19 +50,30 @@ public class BeschwerdeService {
     private String[] UNERLAUBTE_ZEICHEN = {"<", ">", ";"};
 
     public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
-        List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
-        if (beschwerden.isEmpty()) {
-            throw new IllegalArgumentException("Keine Beschwerden für Buerger-ID " + buergerId + " gefunden");
+        try {
+            List<Beschwerde> beschwerden = beschwerdeRepository.findByBuerger_Id(buergerId);
+            if (beschwerden.isEmpty()) {
+                throw new IllegalArgumentException("Keine Beschwerden für Buerger-ID " + buergerId + " gefunden");
+            }
+            return beschwerden;
+        } catch (IllegalArgumentException e) {
+            // Rückgabe eines leeren Arrays, wenn keine Beschwerden gefunden wurden
+            return new ArrayList<>();
         }
-        return beschwerden;
     }
 
+
     public List<Beschwerde> getAllBeschwerden() {
-        List<Beschwerde> beschwerden = beschwerdeRepository.findAll();
-        if (beschwerden.isEmpty()) {
-            throw new IllegalArgumentException("Keine Beschwerden vorhanden ");
+        try {
+            List<Beschwerde> beschwerden = beschwerdeRepository.findAll();
+            if (beschwerden.isEmpty()) {
+                throw new IllegalArgumentException("Keine Beschwerden vorhanden ");
+            }
+            return beschwerden;
+        } catch (IllegalArgumentException e) {
+            // Rückgabe eines leeren Arrays, wenn keine Beschwerden gefunden wurden
+            return new ArrayList<>();
         }
-        return beschwerden;
     }
 
     public Beschwerde getBeschwerde(Long id){
