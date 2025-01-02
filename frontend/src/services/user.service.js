@@ -44,6 +44,24 @@ const updateStatus = (beschwerdeId, status) => {
     );
 };
 
+const deleteAccount = (id, buerger) => {
+    if (buerger) { // Role ist true falls Bürger angemeldet
+        return axios
+            .delete(API_URL + "buerger-loeschen/" + id, { headers: authHeader() })
+            .then((response) => {
+            console.log(response.data)
+            return response.data;
+        })
+    } else {
+        return axios
+            .delete(API_URL + "mitarbeiter-loeschen/" + id, { headers: authHeader() })
+            .then((response) => {
+                return response.data;
+            })
+    }
+
+};
+
 export default {
     //getPublicContent,
     getBuergerDashBoard,
@@ -51,5 +69,6 @@ export default {
     getBeschwerde,
     postBeschwerde,
     updateKommentar,
-    updateStatus
+    updateStatus,
+    deleteAccount
 };

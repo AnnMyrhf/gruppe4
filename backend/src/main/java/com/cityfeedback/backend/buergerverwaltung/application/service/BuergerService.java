@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.buergerverwaltung.application.service;
 
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.security.JwtResponse;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -134,12 +136,17 @@ public class BuergerService {
      */
     @Transactional
     public ResponseEntity<?> loescheBuerger(Long id) {
-        // TODO try catch block und entsprechend response entity (siehe anmelden und registrieren)
-        Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
-        buergerRepository.delete(buerger);
+        try {
+            // Bürger in der Datenbank speichern
+            Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
+            buergerRepository.delete(buerger);
+        } catch (ResolutionException e) {
+            return ResponseEntity.badRequest().body("Bürger konnte nicht gefunden werden");
 
-        return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
-
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Bürgeraccount erfolgreich gelöscht");
     }
 
     public Optional<Buerger> getBuergerById(Long id){

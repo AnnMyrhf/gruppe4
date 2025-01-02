@@ -154,11 +154,17 @@ public class MitarbeiterService {
 
     @Transactional
     public ResponseEntity<?> loescheMitarbeiter(Long id) {
-        // TODO try catch block und entsprechend response entity (siehe anmelden und registrieren)
-        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(id).orElseThrow(() -> new ResolutionException(MITARBEITER_EXISTIERT_NICHT + id));
-        mitarbeiterRepository.delete(mitarbeiter);
+        try {
+            // Bürger in der Datenbank speichern
+            Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(id).orElseThrow(() -> new ResolutionException(MITARBEITER_EXISTIERT_NICHT + id));
+            mitarbeiterRepository.delete(mitarbeiter);
+        } catch (ResolutionException e) {
+           return ResponseEntity.badRequest().body("Mitarbeiter konnte nicht gefunden werden");
 
-        return ResponseEntity.ok("Account erfolgreich geloescht erfolgreich!.");
+        } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Fehler ist aufgetreten: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Mitarbeiteraccount erfolgreich gelöscht");
 
     }
 
