@@ -167,7 +167,7 @@ const BeschwerdeForm = () => {
                     id="file"
                     name="file"
                     onChange={handleFileChange}
-                    accept=".pdf,image/*"
+                    accept="image/*"
                     className="custom-file-input"
                 />
               </div>
