@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.infrastructure;
 
 import com.cityfeedback.backend.benachrichtigungsverwaltung.application.service.BenachrichtigungsService;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeAktualisieren;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +33,11 @@ import org.springframework.transaction.event.TransactionalEventListener;
             // Versendet die E-Mail
             benachrichtigungsService.sendeEmail(event.getEmail(), betreff, text);
         }
-/*
-        @TransactionalEventListener(classes = BeschwerdeErstellen.class)
+
+        @TransactionalEventListener(classes = BeschwerdeAktualisieren.class)
         public void beschwerdeAktualisierenListener(BeschwerdeAktualisieren event) {
             LOG.info("{}: Beschwerde wurde erfolgreich aktualisiert: {} {} {}", event.getTimestamp(), event.getTitel(),event.getStatus(), event.getPrioritaet());
-        }*/
+        }
 
     }
 

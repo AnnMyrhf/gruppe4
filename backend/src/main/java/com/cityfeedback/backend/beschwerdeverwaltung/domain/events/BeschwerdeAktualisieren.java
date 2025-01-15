@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeschwerdeAktualisieren {
+public class BeschwerdeAktualisieren implements DomainEvent{
 
 
         @Id // Markiert id als Primaerschluessel
