@@ -40,9 +40,9 @@ public class BackendApplication {
             testBuerger1.setPasswort(passwordEncoder.encode(testBuerger1.getPasswort()));
             buergerRepository.save(testBuerger1);
 
-          //  Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "testbuerger@test.com", "StarkesPW11?", beschwerden);
-        //    testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
-         //   buergerRepository.save(testBuerger2);
+        Buerger testBuerger2 = new Buerger("Frau", "Peter", "Neu", "987654321", "testbuerger@test.com", "StarkesPW11?", beschwerden);
+        testBuerger2.setPasswort(passwordEncoder.encode(testBuerger2.getPasswort()));
+        buergerRepository.save(testBuerger2);
 
 
             // Testobjekte Beschwerde
@@ -72,7 +72,7 @@ public class BackendApplication {
           //  Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
          //   testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
          //   mitarbeiterRepository.save(testMitarbeiter2);
-
+         buergerRepository.delete(testBuerger2);
         };
     }
 

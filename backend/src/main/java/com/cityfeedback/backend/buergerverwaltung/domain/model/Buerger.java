@@ -1,6 +1,8 @@
 package com.cityfeedback.backend.buergerverwaltung.domain.model;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.domain.events.DomainEvent;
+import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerLoeschen;
 import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -20,6 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status.EINGEGANGEN;
 
 /**
  * Repraesentiert einen Buerger in der CityFeedback-Anwendung
@@ -73,8 +77,16 @@ public class Buerger implements UserDetails {
     }
 
     @DomainEvents
-    public List<Object> domainEvents() {
-        return List.of(new BuergerRegistrieren(this));
+    public List<DomainEvent> getDomainEvents() {
+        List<DomainEvent> events = new ArrayList<>();
+
+        if (getId() == null) {
+            events.add(new BuergerRegistrieren(this));
+        } else {
+            events.add(new BuergerLoeschen(this));
+        }
+
+        return events;
     }
 
     /*

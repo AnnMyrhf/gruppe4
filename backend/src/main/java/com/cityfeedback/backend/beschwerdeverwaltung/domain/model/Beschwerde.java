@@ -64,11 +64,11 @@ public class Beschwerde {
     @Column(length = 1000)
     private String kommentar; // Optional: für einen einzelnen Kommentar
 
-    public Beschwerde(String titel, String beschwerdeTyp, String textfeld, Anhang anhang, Buerger buerger){
+    public Beschwerde(String titel, String beschwerdeTyp, String textfeld, Anhang anhang, Buerger buerger) {
         this.titel = titel;
         this.beschwerdeTyp = beschwerdeTyp;
         this.textfeld = textfeld;
-        this.anhang = anhang != null ? anhang : null;
+        this.anhang = anhang;
         this.erstellDatum = new Date();
         this.prioritaet = randomEnum(Prioritaet.class);
         this.buerger = buerger;
@@ -80,10 +80,9 @@ public class Beschwerde {
     public List<DomainEvent> getDomainEvents() {
         List<DomainEvent> events = new ArrayList<>();
 
-            if(status==EINGEGANGEN){
-                    events.add(new BeschwerdeErstellen(this));
-        }
-            else events.add(new BeschwerdeAktualisieren(this));
+        if (status == EINGEGANGEN) {
+            events.add(new BeschwerdeErstellen(this));
+        } else events.add(new BeschwerdeAktualisieren(this));
 
         return events;
     }
@@ -92,5 +91,5 @@ public class Beschwerde {
         T[] values = enumClass.getEnumConstants();
         return values[(int) (Math.random() * values.length)];
     }
-    }
+}
 
