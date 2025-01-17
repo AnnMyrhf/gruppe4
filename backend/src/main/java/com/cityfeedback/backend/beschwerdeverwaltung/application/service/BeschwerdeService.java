@@ -18,6 +18,7 @@ import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import jakarta.validation.Valid;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,8 @@ public class BeschwerdeService {
 
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
+
+    @Lazy
     @Autowired
     private BuergerService buergerService;
 
@@ -136,4 +139,36 @@ public class BeschwerdeService {
 
         return beschwerdeRepository.save(beschwerde);
     }
+
+    /*public ResponseEntity<String> deleteBeschwerde(Long beschwerdeId) {
+        try {
+            // Überprüfen, ob die Beschwerde existiert
+            Optional<Beschwerde> beschwerdeOptional = beschwerdeRepository.findById(beschwerdeId);
+            if (beschwerdeOptional.isEmpty()) {
+                throw new IllegalArgumentException("Beschwerde mit ID " + beschwerdeId + " nicht gefunden.");
+            }
+
+            // Beschwerde löschen
+            beschwerdeRepository.deleteById(beschwerdeId);
+            return ResponseEntity.ok("Beschwerde erfolgreich gelöscht.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler: " + e.getMessage());
+        }
+    }*/
+
+    public void deleteBeschwerde(Long beschwerdeId){
+        try {
+            // Überprüfen, ob die Beschwerde existiert
+            Optional<Beschwerde> beschwerdeOptional = beschwerdeRepository.findById(beschwerdeId);
+            if (beschwerdeOptional.isEmpty()) {
+                throw new IllegalArgumentException("Beschwerde mit ID " + beschwerdeId + " nicht gefunden.");
+            }
+
+            // Beschwerde löschen
+            beschwerdeRepository.deleteById(beschwerdeId);
+        } catch (Exception e) {
+        }
+    }
+
+
 }
