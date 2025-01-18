@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class BeschwerdeServiceTest {
@@ -84,15 +85,28 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findAll();
     }
 
+//    @Test
+//    void testGetAllBeschwerden_NotFound() {
+//        // Mocking
+//        when(beschwerdeRepository.findAll()).thenReturn(List.of());
+//
+//        // Test & Verify
+//        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getAllBeschwerden());
+//        verify(beschwerdeRepository, times(1)).findAll();
+//    }
+
     @Test
     void testGetAllBeschwerden_NotFound() {
         // Mocking
         when(beschwerdeRepository.findAll()).thenReturn(List.of());
 
         // Test & Verify
-        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getAllBeschwerden());
+        List<Beschwerde> result = beschwerdeService.getAllBeschwerden();
+        assertTrue(result.isEmpty(), "Die Liste sollte leer sein");
         verify(beschwerdeRepository, times(1)).findAll();
     }
+
+
 
     @Test
     void testGetBeschwerdenByBuergerId_Found() {
@@ -110,6 +124,17 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
     }
 
+//    @Test
+//    void testGetBeschwerdenByBuergerId_NotFound() {
+//        // Mocking
+//        Long buergerId = 1L;
+//        when(beschwerdeRepository.findByBuerger_Id(buergerId)).thenReturn(List.of());
+//
+//        // Test & Verify
+//        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getBeschwerdenByBuergerId(buergerId));
+//        verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
+//    }
+
     @Test
     void testGetBeschwerdenByBuergerId_NotFound() {
         // Mocking
@@ -117,9 +142,11 @@ class BeschwerdeServiceTest {
         when(beschwerdeRepository.findByBuerger_Id(buergerId)).thenReturn(List.of());
 
         // Test & Verify
-        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getBeschwerdenByBuergerId(buergerId));
+        List<Beschwerde> result = beschwerdeService.getBeschwerdenByBuergerId(buergerId);
+        assertTrue(result.isEmpty(), "Die Liste sollte leer sein");
         verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
     }
+
 
     @Test
     void testCreateBeschwerde_Success() throws IOException {
