@@ -8,6 +8,7 @@ import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.BenutzerDetailsService;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
+import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,5 +159,62 @@ public class SecurityTest {
         assertNotNull(token);
         assertFalse(token.isEmpty());
     }
+
+    // Testobjekte für LoginDaten
+    LoginDaten loginDaten1 = new LoginDaten("user@example.com", "password123");
+    LoginDaten loginDaten2 = new LoginDaten("user@example.com", "password123");
+    LoginDaten loginDaten3 = new LoginDaten("otheruser@example.com", "password456");
+
+
+    // --- Tests für die LoginDaten Klasse ---
+
+    @Test
+    void testGetterSetter() {
+        // Test für Getter und Setter
+        LoginDaten loginDaten = new LoginDaten();
+        loginDaten.setEmail("newuser@example.com");
+        loginDaten.setPasswort("newpassword");
+
+        assertEquals("newuser@example.com", loginDaten.getEmail(), "Die E-Mail-Adresse sollte korrekt gesetzt und zurückgegeben werden.");
+        assertEquals("newpassword", loginDaten.getPasswort(), "Das Passwort sollte korrekt gesetzt und zurückgegeben werden.");
+    }
+
+    @Test
+    void testConstructor() {
+        // Test für den Konstruktor
+        LoginDaten loginDaten = new LoginDaten("test@example.com", "testpassword");
+        assertEquals("test@example.com", loginDaten.getEmail(), "Die E-Mail-Adresse sollte im Konstruktor gesetzt werden.");
+        assertEquals("testpassword", loginDaten.getPasswort(), "Das Passwort sollte im Konstruktor gesetzt werden.");
+    }
+
+    @Test
+    void testEquals() {
+        // Test für equals(Object)
+        assertEquals(loginDaten1, loginDaten2, "Die Objekte sollten gleich sein.");
+
+        // Test für unterschiedliche Objekte
+        assertNotEquals(loginDaten1, loginDaten3, "Die Objekte sollten ungleich sein.");
+
+        // Test für Vergleich mit null
+        assertNotEquals(loginDaten1, null, "Das Objekt sollte nicht gleich null sein.");
+
+        // Test für Vergleich mit einem Objekt eines anderen Typs
+        assertNotEquals(loginDaten1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
+    }
+
+    @Test
+    void testHashCode() {
+        // Test für hashCode()
+        assertEquals(loginDaten1.hashCode(), loginDaten2.hashCode(), "Die Hash-Codes sollten gleich sein.");
+        assertNotEquals(loginDaten1.hashCode(), loginDaten3.hashCode(), "Die Hash-Codes sollten ungleich sein.");
+    }
+
+    @Test
+    void testToString() {
+        // Test für toString()
+        String expectedString = "LoginDaten(email=user@example.com, passwort=password123)";
+        assertEquals(expectedString, loginDaten1.toString(), "Die toString() Methode sollte korrekt arbeiten.");
+    }
+
 
 }
