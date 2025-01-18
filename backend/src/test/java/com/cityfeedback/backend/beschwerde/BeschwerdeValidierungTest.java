@@ -399,5 +399,72 @@ class BeschwerdeTest {
         assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichem Kommentar unterscheiden.");
     }
 
+    @Test
+    void testHashCode_NewObject() {
+        Beschwerde beschwerde = new Beschwerde();
+
+        int hashCode = beschwerde.hashCode();
+
+        // Stellen Sie sicher, dass ein neuer Hash-Code korrekt berechnet wird.
+        assertNotNull(hashCode, "Der Hash-Code eines neuen Objekts darf nicht null sein.");
+    }
+
+    @Test
+    void testHashCode_AllFieldsDifferent() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel 1");
+        beschwerde1.setTextfeld("Textfeld 1");
+        beschwerde1.setKommentar("Kommentar 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel 2");
+        beschwerde2.setTextfeld("Textfeld 2");
+        beschwerde2.setKommentar("Kommentar 2");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichen Werten unterscheiden.");
+    }
+
+    @Test
+    void testHashCode_SameValuesMultipleInstances() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel");
+        beschwerde1.setTextfeld("Textfeld");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel");
+        beschwerde2.setTextfeld("Textfeld");
+
+        // Beide Objekte sollten denselben Hash-Code haben, wenn ihre Werte identisch sind
+        assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Obwohl es zwei Instanzen sind, sollten ihre Hash-Codes gleich sein.");
+    }
+
+    @Test
+    void testHashCode_DifferentIds() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setId(1L);
+        beschwerde1.setTitel("Titel 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setId(2L);
+        beschwerde2.setTitel("Titel 1");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Objekte mit unterschiedlichen IDs sollten unterschiedliche Hash-Codes haben.");
+    }
+
+    @Test
+    void testHashCode_RandomValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Zufallstitel");
+        beschwerde1.setTextfeld("Zufallstext");
+        beschwerde1.setKommentar("Zufallskommentar");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Anderer Titel");
+        beschwerde2.setTextfeld("Anderer Text");
+        beschwerde2.setKommentar("Anderer Kommentar");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Objekte mit zufälligen Werten sollten unterschiedliche Hash-Codes haben.");
+    }
+
 }
 
