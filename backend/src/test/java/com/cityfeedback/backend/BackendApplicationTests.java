@@ -10,4 +10,10 @@ class BackendApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void mainMethodTest() {
+        BackendApplication.main(new String[] {});
+        // Wenn keine Ausnahmen auftreten, besteht der Test.
+    }
+
 }
