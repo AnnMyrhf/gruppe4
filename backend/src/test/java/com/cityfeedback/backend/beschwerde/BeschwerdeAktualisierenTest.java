@@ -14,9 +14,18 @@ public class BeschwerdeAktualisierenTest {
 
     private Beschwerde beschwerde;
     private BeschwerdeAktualisieren beschwerdeAktualisieren;
+    private BeschwerdeAktualisieren beschwerdeAktualisieren2;
+    private Timestamp timestamp;
 
     @BeforeEach
     void setUp() {
+        timestamp = new Timestamp(System.currentTimeMillis());
+        beschwerdeAktualisieren = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        beschwerdeAktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+    }
+
+    @BeforeEach
+    void setUp2() {
         // Vorbereitung: eine Beschwerde mit Testwerten erstellen
         beschwerde = new Beschwerde("Test Titel", "Test Typ", "Test Text", null, null);
         beschwerde.setStatus(Status.IN_BEARBEITUNG);
@@ -94,5 +103,59 @@ public class BeschwerdeAktualisierenTest {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         aktualisieren.setTimestamp(timestamp);
         assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
+    }
+
+    @Test
+    void testEquals_Object() {
+        // Test für equals(Object)
+        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+
+        assertEquals(aktualisieren1, aktualisieren2, "Die Objekte sollten gleich sein.");
+
+        beschwerdeAktualisieren2.setTitel("Neuer Titel");
+        assertNotEquals(aktualisieren1, beschwerdeAktualisieren2, "Die Objekte sollten ungleich sein.");
+
+        assertNotEquals(aktualisieren1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(aktualisieren1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
+    }
+
+    @Test
+    void testConstructorWithParameters() {
+        // Test für den Konstruktor mit Parametern (Long, Timestamp, String, Status, Prioritaet)
+        BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren(2L, timestamp, "Neuer Titel", Status.IN_BEARBEITUNG, Prioritaet.NIEDRIG);
+        assertEquals(2L, aktualisieren.getId(), "Die ID sollte korrekt gesetzt werden.");
+        assertEquals("Neuer Titel", aktualisieren.getTitel(), "Der Titel sollte korrekt gesetzt werden.");
+        assertEquals(Status.IN_BEARBEITUNG, aktualisieren.getStatus(), "Der Status sollte korrekt gesetzt werden.");
+        assertEquals(Prioritaet.NIEDRIG, aktualisieren.getPrioritaet(), "Die Priorität sollte korrekt gesetzt werden.");
+        assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
+    }
+
+    @Test
+    void testToString() {
+        // Test für toString()
+        String expectedString = "BeschwerdeAktualisieren(id=1, timestamp=" + timestamp.toString() +
+                ", titel=Titel, status=IN_BEARBEITUNG, prioritaet=HOCH)";
+        assertEquals(expectedString, beschwerdeAktualisieren.toString(), "Die toString() Methode sollte korrekt arbeiten.");
+    }
+
+    @Test
+    void testHashCode() {
+        // Test für hashCode()
+        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+
+        assertEquals(aktualisieren1.hashCode(), aktualisieren2.hashCode(), "Die Hash-Codes sollten gleich sein.");
+
+        beschwerdeAktualisieren2.setTitel("Neuer Titel");
+        assertNotEquals(aktualisieren1.hashCode(), beschwerdeAktualisieren2.hashCode(), "Die Hash-Codes sollten ungleich sein.");
+    }
+
+    @Test
+    void testSetId() {
+        // Test für setId(Long)
+        BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
+        aktualisieren.setId(100L);
+        assertEquals(100L, aktualisieren.getId(), "Die ID sollte korrekt gesetzt werden.");
     }
 }
