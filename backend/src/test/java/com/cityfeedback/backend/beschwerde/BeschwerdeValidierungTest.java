@@ -305,5 +305,44 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTextfeld()).isEqualTo(textfeld);
     }
 
+    @Test
+    void testSetKommentar() {
+        // Arrange: Erstellen eines Testobjekts der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Kommentar, das gesetzt werden soll
+        String neuerKommentar = "Dies ist ein Testkommentar";
+
+        // Act: Setze den Kommentar
+        beschwerde.setKommentar(neuerKommentar);
+
+        // Assert: Überprüfe, ob der Kommentar korrekt gesetzt wurde
+        assertEquals(neuerKommentar, beschwerde.getKommentar(), "Der Kommentar sollte korrekt gesetzt werden.");
+    }
+
+    @Test
+    void testSetKommentarNull() {
+        // Arrange: Erstelle ein Testobjekt der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Act: Setze den Kommentar auf null
+        beschwerde.setKommentar(null);
+
+        // Assert: Überprüfe, ob der Kommentar korrekt auf null gesetzt wurde
+        assertEquals(null, beschwerde.getKommentar(), "Der Kommentar sollte null sein.");
+    }
+
+    @Test
+    void testSetKommentarLeererString() {
+        // Arrange: Erstelle ein Testobjekt der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Act: Setze den Kommentar auf einen leeren String
+        beschwerde.setKommentar("");
+
+        // Assert: Überprüfe, ob der Kommentar korrekt auf einen leeren String gesetzt wurde
+        assertEquals("", beschwerde.getKommentar(), "Der Kommentar sollte ein leerer String sein.");
+    }
+
 }
 
