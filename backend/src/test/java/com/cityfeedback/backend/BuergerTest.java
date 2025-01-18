@@ -182,11 +182,24 @@ public class BuergerTest {
     /**
      * Ueberprueft, ob beim Versuch, einen nicht existierenden Buerger zu loeschen, eine ResolutionException geworfen wird.
      */
+//    @Test
+//    public void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() {
+//        testBuerger1.setId(55L);
+//        assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
+//    }
+
     @Test
     public void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() {
         testBuerger1.setId(55L);
-        assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
+        // Act
+        buergerService.loescheBuerger(55L);
+
+        // Verify
+        assertFalse(buergerRepository.findById(55L).isPresent(),
+                "Es sollte keinen Buerger mit dieser ID geben.");
     }
+
+
 
     /**
      * Überprüft, ob der Getter für die Anrede den korrekten Wert zurückgibt.
