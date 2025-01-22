@@ -1,7 +1,7 @@
 package com.cityfeedback.backend.security;
 
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

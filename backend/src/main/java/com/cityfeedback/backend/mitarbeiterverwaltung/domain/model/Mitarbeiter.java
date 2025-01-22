@@ -1,5 +1,8 @@
-package com.cityfeedback.backend.mitarbeiterverwaltung.model;
+package com.cityfeedback.backend.mitarbeiterverwaltung.domain.model;
 
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.MitarbeiterLoeschen;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.MitarbeiterRegistrieren;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.DomainEvent;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,10 +11,12 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -63,6 +68,19 @@ public class Mitarbeiter implements UserDetails {
         this.telefonnummer = telefonnummer;
         this.email = email;
         this.passwort = passwort;
+    }
+
+    @DomainEvents
+    public List<DomainEvent> getDomainEvents() {
+        List<DomainEvent> events = new ArrayList<>();
+
+        if (getId() == null) {
+            events.add(new MitarbeiterRegistrieren(this));
+        } else {
+            events.add(new MitarbeiterLoeschen(this));
+        }
+
+        return events;
     }
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung

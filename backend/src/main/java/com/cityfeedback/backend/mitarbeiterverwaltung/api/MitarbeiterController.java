@@ -1,6 +1,6 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.api;
 
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import jakarta.validation.Valid;
