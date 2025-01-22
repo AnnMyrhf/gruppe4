@@ -7,6 +7,7 @@ import Beschwerde from "../components/beschwerde";
 const Dashboard = () => {
 
     const [beschwerden, setBeschwerden] = useState([]);
+    const [name, setName] = useState("User");
 
     const dispatch = useDispatch();
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -29,6 +30,23 @@ const Dashboard = () => {
                     setBeschwerden(_content);
                 }
             );
+            UserService.getInfo(currentUser.id, true).then(
+                (response) => {
+                    // setBeschwerden(response.data);
+                    setName(response.vorname)
+                    console.log(response)
+                },
+                (error) => {
+                    const _content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    console.log("Error")
+
+                }
+            );
         } else if (currentUser.role.some(item => item.authority === 'MITARBEITER')){
             UserService.getMitarbeiterBoard().then(
                 (response) => {
@@ -45,9 +63,24 @@ const Dashboard = () => {
                     setBeschwerden(_content);
                 }
             );
+            UserService.getInfo(currentUser.id, false).then(
+                (response) => {
+                    // setBeschwerden(response.data);
+                    setName(response.vorname)
+                    console.log(response)
+                },
+                (error) => {
+                    const _content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    console.log("Error")
+
+                }
+            );
         }
-
-
     }, []);
 
     const handleClick = () => {
@@ -70,7 +103,7 @@ const Dashboard = () => {
                         display: "flex",
                         justifyContent: "space-between"
                     }}>
-                        <h1>ABC Dashboard</h1>
+                        <h1>{name}s Dashboard</h1>
                         {currentUser && currentUser.role.some(item => item.authority === 'BUERGER') && <button className="primary-btn" onClick={handleClick}>Neue Beschwerde</button>}
                     </div>
                     <div>
@@ -84,7 +117,7 @@ const Dashboard = () => {
                     gap: "12px",
                     width: "100%"
                 }}>
-                    <h2>Offene Beschwerden</h2>
+                    <h2>Beschwerden</h2>
                     {
                         beschwerden.length === 0 ? (
                             <p>Keine Beschwerden vorhanden</p>

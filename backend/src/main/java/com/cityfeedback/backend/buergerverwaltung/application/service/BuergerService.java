@@ -166,6 +166,4 @@ public class BuergerService {
         return buergerRepository.findById(id);
     }
 
-
-
 }
