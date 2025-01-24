@@ -90,31 +90,31 @@ export default function BeschwerdeDetail() {
         e.preventDefault();
 
         // Überprüfung, ob sich der Kommentar oder der Status geändert hat
-        if (beschwerde.kommentar !== originalBeschwerde.kommentar) {
-            UserService.updateKommentar(id, beschwerde.kommentar)
+        if (beschwerde !== originalBeschwerde) {
+            UserService.updateBeschwerde(id, beschwerde.kommentar, beschwerde.status)
                 .then(response => {
-                    console.log("Kommentar aktualisiert:", response.data);
+                    console.log("Beschwerde aktualisiert:", response.data);
                     handleShowToast("Beschwerde aktualisiert", "success")
                 })
                 .catch(error => {
+                    console.log(error)
                     handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
-
                 });
         }
 
-        if (beschwerde.status !== originalBeschwerde.status) {
-            UserService.updateStatus(id, beschwerde.status)
-                .then(response => {
-                    console.log("Status aktualisiert:", response.data);
-                    handleShowToast("Beschwerde aktualisiert", "success")
-
-                })
-                .catch(error => {
-                    console.error("Fehler beim Aktualisieren des Status:", error);
-                    handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
-
-                });
-        }
+        // if (beschwerde.status !== originalBeschwerde.status) {
+        //     UserService.updateStatus(id, beschwerde.status)
+        //         .then(response => {
+        //             console.log("Status aktualisiert:", response.data);
+        //             handleShowToast("Beschwerde aktualisiert", "success")
+        //
+        //         })
+        //         .catch(error => {
+        //             console.error("Fehler beim Aktualisieren des Status:", error);
+        //             handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
+        //
+        //         });
+        // }
     };
 
     const handleShowToast = (message, status) => {
