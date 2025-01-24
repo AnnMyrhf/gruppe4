@@ -1,16 +1,14 @@
 package com.cityfeedback.backend;
 
 
-import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 
 import jakarta.validation.*;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +21,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import java.lang.module.ResolutionException;

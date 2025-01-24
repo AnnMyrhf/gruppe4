@@ -1,6 +1,8 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.model;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeAktualisieren;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeErstellen;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.DomainEvent;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
@@ -14,8 +16,11 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.domain.DomainEvents;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status.*;
 
 @Entity
 @Data
@@ -59,11 +64,11 @@ public class Beschwerde {
     @Column(length = 1000)
     private String kommentar; // Optional: für einen einzelnen Kommentar
 
-    public Beschwerde(String titel, String beschwerdeTyp, String textfeld, Anhang anhang, Buerger buerger){
+    public Beschwerde(String titel, String beschwerdeTyp, String textfeld, Anhang anhang, Buerger buerger) {
         this.titel = titel;
         this.beschwerdeTyp = beschwerdeTyp;
         this.textfeld = textfeld;
-        this.anhang = anhang != null ? anhang : null;
+        this.anhang = anhang;
         this.erstellDatum = new Date();
         this.prioritaet = randomEnum(Prioritaet.class);
         this.buerger = buerger;
@@ -72,22 +77,19 @@ public class Beschwerde {
     }
 
     @DomainEvents
-    public List<Object> domainEvents() {
-        return List.of(new BeschwerdeErstellen(this));
+    public List<DomainEvent> getDomainEvents() {
+        List<DomainEvent> events = new ArrayList<>();
+
+        if (status == EINGEGANGEN) {
+            events.add(new BeschwerdeErstellen(this));
+        } else events.add(new BeschwerdeAktualisieren(this));
+
+        return events;
     }
-
- /*  @DomainEvents
-    public List<Object> domainEvents() {
-        if (status == Status.EINGEGANGEN) {
-            return List.of(new BeschwerdeErstellen(this));
-        } else {
-            return List.of(new BeschwerdeAktualisieren(this));
-        }
-    }*/
-
 
     private <T extends Enum<?>> T randomEnum(Class<T> enumClass) {
         T[] values = enumClass.getEnumConstants();
         return values[(int) (Math.random() * values.length)];
     }
 }
+

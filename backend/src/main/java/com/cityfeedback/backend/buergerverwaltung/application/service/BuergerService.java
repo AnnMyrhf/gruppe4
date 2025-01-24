@@ -3,7 +3,6 @@ package com.cityfeedback.backend.buergerverwaltung.application.service;
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.security.JwtResponse;

@@ -10,11 +10,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuergerRegistrieren implements DomainEvent{
+public class BuergerLoeschen implements DomainEvent{
 
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
@@ -24,7 +25,7 @@ public class BuergerRegistrieren implements DomainEvent{
     private String nachname;
     private String email;
 
-    public BuergerRegistrieren(Buerger buerger) {
+    public BuergerLoeschen(Buerger buerger) {
         this.id = buerger.getId();
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.vorname = buerger.getVorname();

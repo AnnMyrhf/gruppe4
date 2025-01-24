@@ -3,7 +3,7 @@ package com.cityfeedback.backend.security;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,6 +1,7 @@
-package com.cityfeedback.backend.buergerverwaltung.domain.events;
+package com.cityfeedback.backend.mitarbeiterverwaltung.domain.events;
 
-import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.DomainEvent;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,11 +11,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuergerRegistrieren implements DomainEvent{
+public class MitarbeiterLoeschen implements DomainEvent {
 
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
@@ -24,11 +26,11 @@ public class BuergerRegistrieren implements DomainEvent{
     private String nachname;
     private String email;
 
-    public BuergerRegistrieren(Buerger buerger) {
-        this.id = buerger.getId();
+    public MitarbeiterLoeschen(Mitarbeiter mitarbeiter) {
+        this.id = mitarbeiter.getId();
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        this.vorname = buerger.getVorname();
-        this.nachname = buerger.getNachname();
-        this.email = buerger.getEmail();
+        this.vorname = mitarbeiter.getVorname();
+        this.nachname = mitarbeiter.getNachname();
+        this.email = mitarbeiter.getEmail();
     }
 }

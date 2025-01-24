@@ -1,12 +1,13 @@
 package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -48,6 +49,8 @@ public class BackendApplication {
             Anhang anhang = new Anhang("schlagloch.jpg", "image/jpeg", 20480L, null);
             Beschwerde testBeschwerde1 = new Beschwerde("Straßenbau", "Schlaglöcher auf Hauptstraße", "Auf der Hauptstraße befinden sich mehrere tiefe Schlaglöcher, die eine Gefahr für den Straßenverkehr darstellen. Besonders Radfahrer sind gefährdet.", anhang, testBuerger1);
             beschwerdeRepository.save(testBeschwerde1);
+            testBeschwerde1.setStatus(Status.IN_BEARBEITUNG);
+            beschwerdeRepository.save(testBeschwerde1);
 
             Beschwerde testBeschwerde2 = new Beschwerde("Müllentsorgung", "Überfüllte Mülltonnen", "Die Mülltonnen vor unserem Wohnblock werden seit drei Wochen nicht geleert. Es stinkt und zieht Ungeziefer an.", anhang, testBuerger1);
             beschwerdeRepository.save(testBeschwerde2);
@@ -69,7 +72,6 @@ public class BackendApplication {
             Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
-
         };
     }
 

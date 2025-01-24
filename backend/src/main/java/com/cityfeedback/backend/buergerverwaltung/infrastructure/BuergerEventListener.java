@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.buergerverwaltung.infrastructure;
 
 import com.cityfeedback.backend.benachrichtigungsverwaltung.application.service.BenachrichtigungsService;
+import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerLoeschen;
 import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,22 @@ public class BuergerEventListener {
                 "wir freuen uns, dass Sie sich bei unserem CityFeedback-Portal registriert haben.\n\n" +
                 "Um eine Beschwerde zu erstellen, melden Sie sich bitte zuerst mit Ihrem Account an:\n" +
                 loginLink + "\n\n" +
+                "Mit freundlichen Grüßen,\n" +
+                "Ihr CityFeedback-Team";
+
+        // Versendet die E-Mail
+        benachrichtigungsService.sendeEmail(event.getEmail(), subject, text);
+    }
+
+    @TransactionalEventListener(classes = BuergerLoeschen.class)
+    public void buergerLoeschenListener(BuergerLoeschen event) {
+        LOG.info("{}: Buerger-Account für {} {} wurde erfolgreich geloescht und eine Bestaetigung per Mail verschickt an: {}", event.getTimestamp(), event.getVorname(), event.getNachname(), event.getEmail());
+
+        // Erstellt die Willkommensmail
+        String subject = "Bestaetigung: Ihr Konto im CityFeedback-Portal wurde geloescht\n!";
+        String text = "Hallo " + event.getVorname() + " " + event.getNachname() + ",\n" +
+                "wir bestaetigen Ihnen, dass Ihr Benutzerkonto auf unserem CityFeedback-Portal erfolgreich geloescht wurde.\n\n" +
+                "Alle Ihre Daten wurden gemaess unserer Datenschutzbestimmungen unwiderruflich entfernt. Sie erhalten ab sofort keine Benachrichtigungen mehr von uns.\n" +
                 "Mit freundlichen Grüßen,\n" +
                 "Ihr CityFeedback-Team";
 

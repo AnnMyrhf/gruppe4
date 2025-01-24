@@ -2,7 +2,7 @@ package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
 
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
-import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
+import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
@@ -10,8 +10,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
