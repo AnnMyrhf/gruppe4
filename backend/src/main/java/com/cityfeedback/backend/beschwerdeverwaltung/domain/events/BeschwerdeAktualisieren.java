@@ -26,14 +26,14 @@ public class BeschwerdeAktualisieren implements DomainEvent{
         private Timestamp timestamp;
         private String titel;
         private Status status;
-        private Prioritaet prioritaet;
+        private String kommentar;
 
         public BeschwerdeAktualisieren(Beschwerde beschwerde) {
             this.id = beschwerde.getId();
             this.timestamp = new Timestamp(System.currentTimeMillis());
             this.titel = beschwerde.getTitel();
             this.status = beschwerde.getStatus();
-            this.prioritaet = beschwerde.getPrioritaet();
+            this.kommentar = beschwerde.getKommentar();
         }
     }
 

@@ -1,11 +1,14 @@
 package com.cityfeedback.backend;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
+import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
+import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -29,7 +32,7 @@ public class BackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner commandLineRunner(MitarbeiterRepository mitarbeiterRepository, BuergerRepository buergerRepository, BeschwerdeRepository beschwerdeRepository, PasswordEncoder passwordEncoder, BeschwerdeService beschwerdeService, BuergerService buergerService, MitarbeiterService mitarbeiterService) {
         return args -> {
             // Leere Liste fuer Beschwerden
             final List<Beschwerde> beschwerden = new ArrayList<>();
@@ -69,9 +72,13 @@ public class BackendApplication {
             testMitarbeiter1.setPasswort(passwordEncoder.encode(testMitarbeiter1.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter1);
 
-            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Müller", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
+            Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Meier", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
+            beschwerdeService.updateKommentar(1L, "TestTest");
+            buergerService.loescheBuerger(1L);
+            mitarbeiterRepository.delete(testMitarbeiter2);
+
         };
     }
 

@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.domain.model;
 
-import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.MitarbeiterLoeschen;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.MitarbeiterRegistrieren;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.DomainEvent;
 import jakarta.persistence.*;
@@ -74,11 +73,7 @@ public class Mitarbeiter implements UserDetails {
     public List<DomainEvent> getDomainEvents() {
         List<DomainEvent> events = new ArrayList<>();
 
-        if (getId() == null) {
             events.add(new MitarbeiterRegistrieren(this));
-        } else {
-            events.add(new MitarbeiterLoeschen(this));
-        }
 
         return events;
     }

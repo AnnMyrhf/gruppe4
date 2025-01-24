@@ -1,7 +1,5 @@
 package com.cityfeedback.backend;
 
-import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
-import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

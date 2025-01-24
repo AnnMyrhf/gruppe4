@@ -36,7 +36,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
         @TransactionalEventListener(classes = BeschwerdeAktualisieren.class)
         public void beschwerdeAktualisierenListener(BeschwerdeAktualisieren event) {
-            LOG.info("{}: Beschwerde wurde erfolgreich aktualisiert: {} {} {}", event.getTimestamp(), event.getTitel(),event.getStatus(), event.getPrioritaet());
+            LOG.info("{}: Beschwerde wurde erfolgreich aktualisiert: {} {} {}", event.getTimestamp(), event.getTitel(),event.getStatus(), event.getKommentar());
         }
 
     }

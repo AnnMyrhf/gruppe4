@@ -6,7 +6,6 @@ import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.DomainEvent;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
-import com.cityfeedback.backend.buergerverwaltung.domain.events.BuergerRegistrieren;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
