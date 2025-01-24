@@ -216,5 +216,85 @@ public class SecurityTest {
         assertEquals(expectedString, loginDaten1.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
+    @Test
+    void testConstructorAndGetters() {
+        // Testdaten
+        String token = "testToken123";
+        Long id = 1L;
+        String email = "test@example.com";
+        Object[] roles = {"ROLE_USER", "ROLE_ADMIN"};
+
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse(token, id, email, roles);
+
+        // Assertions
+        assertEquals(token, jwtResponse.getAccessToken());
+        assertEquals("Bearer", jwtResponse.getTokenType());
+        assertEquals(id, jwtResponse.getId());
+        assertEquals(email, jwtResponse.getEmail());
+        assertEquals(roles, jwtResponse.getRole());
+    }
+
+    @Test
+    void testSetAccessToken() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("initialToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Token ändern
+        jwtResponse.setAccessToken("newToken123");
+
+        // Assertion
+        assertEquals("newToken123", jwtResponse.getAccessToken());
+    }
+
+    @Test
+    void testSetTokenType() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Typ ändern
+        jwtResponse.setTokenType("CustomType");
+
+        // Assertion
+        assertEquals("CustomType", jwtResponse.getTokenType());
+    }
+
+    @Test
+    void testSetEmail() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // E-Mail ändern
+        jwtResponse.setEmail("newemail@example.com");
+
+        // Assertion
+        assertEquals("newemail@example.com", jwtResponse.getEmail());
+    }
+
+    @Test
+    void testSetRole() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Rolle ändern
+        Object[] newRoles = {"ROLE_ADMIN"};
+        jwtResponse.setRole(newRoles);
+
+        // Assertion
+        assertEquals(newRoles, jwtResponse.getRole());
+    }
+
+    @Test
+    void testSetId() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // ID ändern
+        jwtResponse.setId(42L);
+
+        // Assertion
+        assertEquals(42L, jwtResponse.getId());
+    }
+
 
 }
