@@ -60,9 +60,9 @@ public class MitarbeiterLoggingAspect {
     )
     public void loescheMitarbeiterLogging(ResponseEntity<?> result) {
         if (result.getStatusCode().isError()){
-            logger.error("Mitarbeiter anmelden fehlgeschlagen: " + result.getStatusCode().toString() + " "  + result.getBody().toString());
+            logger.error("Mitarbeiter löschen fehlgeschlagen: " + result.getStatusCode().toString() + " "  + result.getBody().toString());
         } else {
-            logger.info("Mitarbeiter anmelden erfolgreich: " + result.getStatusCode().toString());
+            logger.info("Mitarbeiter löschen erfolgreich");
         }
     }
 }

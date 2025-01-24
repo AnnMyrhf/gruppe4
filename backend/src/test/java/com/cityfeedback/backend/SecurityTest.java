@@ -8,6 +8,7 @@ import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.security.BenutzerDetailsService;
 import com.cityfeedback.backend.security.JwtResponse;
 import com.cityfeedback.backend.security.JwtUtils;
+import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,5 +159,142 @@ public class SecurityTest {
         assertNotNull(token);
         assertFalse(token.isEmpty());
     }
+
+    // Testobjekte für LoginDaten
+    LoginDaten loginDaten1 = new LoginDaten("user@example.com", "password123");
+    LoginDaten loginDaten2 = new LoginDaten("user@example.com", "password123");
+    LoginDaten loginDaten3 = new LoginDaten("otheruser@example.com", "password456");
+
+
+    // --- Tests für die LoginDaten Klasse ---
+
+    @Test
+    void testGetterSetter() {
+        // Test für Getter und Setter
+        LoginDaten loginDaten = new LoginDaten();
+        loginDaten.setEmail("newuser@example.com");
+        loginDaten.setPasswort("newpassword");
+
+        assertEquals("newuser@example.com", loginDaten.getEmail(), "Die E-Mail-Adresse sollte korrekt gesetzt und zurückgegeben werden.");
+        assertEquals("newpassword", loginDaten.getPasswort(), "Das Passwort sollte korrekt gesetzt und zurückgegeben werden.");
+    }
+
+    @Test
+    void testConstructor() {
+        // Test für den Konstruktor
+        LoginDaten loginDaten = new LoginDaten("test@example.com", "testpassword");
+        assertEquals("test@example.com", loginDaten.getEmail(), "Die E-Mail-Adresse sollte im Konstruktor gesetzt werden.");
+        assertEquals("testpassword", loginDaten.getPasswort(), "Das Passwort sollte im Konstruktor gesetzt werden.");
+    }
+
+    @Test
+    void testEquals() {
+        // Test für equals(Object)
+        assertEquals(loginDaten1, loginDaten2, "Die Objekte sollten gleich sein.");
+
+        // Test für unterschiedliche Objekte
+        assertNotEquals(loginDaten1, loginDaten3, "Die Objekte sollten ungleich sein.");
+
+        // Test für Vergleich mit null
+        assertNotEquals(loginDaten1, null, "Das Objekt sollte nicht gleich null sein.");
+
+        // Test für Vergleich mit einem Objekt eines anderen Typs
+        assertNotEquals(loginDaten1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
+    }
+
+    @Test
+    void testHashCode() {
+        // Test für hashCode()
+        assertEquals(loginDaten1.hashCode(), loginDaten2.hashCode(), "Die Hash-Codes sollten gleich sein.");
+        assertNotEquals(loginDaten1.hashCode(), loginDaten3.hashCode(), "Die Hash-Codes sollten ungleich sein.");
+    }
+
+    @Test
+    void testToString() {
+        // Test für toString()
+        String expectedString = "LoginDaten(email=user@example.com, passwort=password123)";
+        assertEquals(expectedString, loginDaten1.toString(), "Die toString() Methode sollte korrekt arbeiten.");
+    }
+
+    @Test
+    void testConstructorAndGetters() {
+        // Testdaten
+        String token = "testToken123";
+        Long id = 1L;
+        String email = "test@example.com";
+        Object[] roles = {"ROLE_USER", "ROLE_ADMIN"};
+
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse(token, id, email, roles);
+
+        // Assertions
+        assertEquals(token, jwtResponse.getAccessToken());
+        assertEquals("Bearer", jwtResponse.getTokenType());
+        assertEquals(id, jwtResponse.getId());
+        assertEquals(email, jwtResponse.getEmail());
+        assertEquals(roles, jwtResponse.getRole());
+    }
+
+    @Test
+    void testSetAccessToken() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("initialToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Token ändern
+        jwtResponse.setAccessToken("newToken123");
+
+        // Assertion
+        assertEquals("newToken123", jwtResponse.getAccessToken());
+    }
+
+    @Test
+    void testSetTokenType() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Typ ändern
+        jwtResponse.setTokenType("CustomType");
+
+        // Assertion
+        assertEquals("CustomType", jwtResponse.getTokenType());
+    }
+
+    @Test
+    void testSetEmail() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // E-Mail ändern
+        jwtResponse.setEmail("newemail@example.com");
+
+        // Assertion
+        assertEquals("newemail@example.com", jwtResponse.getEmail());
+    }
+
+    @Test
+    void testSetRole() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // Rolle ändern
+        Object[] newRoles = {"ROLE_ADMIN"};
+        jwtResponse.setRole(newRoles);
+
+        // Assertion
+        assertEquals(newRoles, jwtResponse.getRole());
+    }
+
+    @Test
+    void testSetId() {
+        // Objekt erstellen
+        JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
+
+        // ID ändern
+        jwtResponse.setId(42L);
+
+        // Assertion
+        assertEquals(42L, jwtResponse.getId());
+    }
+
 
 }

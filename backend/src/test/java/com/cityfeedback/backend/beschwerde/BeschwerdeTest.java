@@ -305,5 +305,166 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTextfeld()).isEqualTo(textfeld);
     }
 
+    @Test
+    void testSetKommentar() {
+        // Arrange: Erstellen eines Testobjekts der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Kommentar, das gesetzt werden soll
+        String neuerKommentar = "Dies ist ein Testkommentar";
+
+        // Act: Setze den Kommentar
+        beschwerde.setKommentar(neuerKommentar);
+
+        // Assert: Überprüfe, ob der Kommentar korrekt gesetzt wurde
+        assertEquals(neuerKommentar, beschwerde.getKommentar(), "Der Kommentar sollte korrekt gesetzt werden.");
+    }
+
+    @Test
+    void testSetKommentarNull() {
+        // Arrange: Erstelle ein Testobjekt der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Act: Setze den Kommentar auf null
+        beschwerde.setKommentar(null);
+
+        // Assert: Überprüfe, ob der Kommentar korrekt auf null gesetzt wurde
+        assertEquals(null, beschwerde.getKommentar(), "Der Kommentar sollte null sein.");
+    }
+
+    @Test
+    void testSetKommentarLeererString() {
+        // Arrange: Erstelle ein Testobjekt der Beschwerde
+        Beschwerde beschwerde = new Beschwerde("Testtitel", "Allgemein", "Testtext", null, null);
+
+        // Act: Setze den Kommentar auf einen leeren String
+        beschwerde.setKommentar("");
+
+        // Assert: Überprüfe, ob der Kommentar korrekt auf einen leeren String gesetzt wurde
+        assertEquals("", beschwerde.getKommentar(), "Der Kommentar sollte ein leerer String sein.");
+    }
+
+    @Test
+    void testHashCode_SameObject() {
+        Beschwerde beschwerde = new Beschwerde();
+        beschwerde.setTitel("Titel");
+        beschwerde.setTextfeld("Textfeld");
+
+        // Teste, dass dasselbe Objekt denselben Hash-Code bei mehreren Aufrufen von hashCode() liefert
+        int hashCode1 = beschwerde.hashCode();
+        int hashCode2 = beschwerde.hashCode();
+
+        assertEquals(hashCode1, hashCode2, "Der Hash-Code des gleichen Objekts sollte immer gleich sein.");
+    }
+
+    @Test
+    void testHashCode_NullValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel(null); // Titel auf null setzen
+        beschwerde1.setTextfeld("Textfeld");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel(null); // Titel auf null setzen
+        beschwerde2.setTextfeld("Textfeld");
+
+        assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Zwei Objekte mit null Titel sollten den gleichen Hash-Code haben.");
+    }
+
+    @Test
+    void testHashCode_EmptyValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel(""); // Leeren Titel setzen
+        beschwerde1.setTextfeld("");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel(""); // Leeren Titel setzen
+        beschwerde2.setTextfeld("");
+
+        assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Zwei Objekte mit leeren Feldern sollten den gleichen Hash-Code haben.");
+    }
+
+    @Test
+    void testHashCode_DifferentFields() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel");
+        beschwerde1.setTextfeld("Textfeld");
+        beschwerde1.setKommentar("Kommentar 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel");
+        beschwerde2.setTextfeld("Textfeld");
+        beschwerde2.setKommentar("Kommentar 2");
+
+        // Wenn sich nur der Kommentar unterscheidet, sollten auch die Hash-Codes unterschiedlich sein
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichem Kommentar unterscheiden.");
+    }
+
+    @Test
+    void testHashCode_NewObject() {
+        Beschwerde beschwerde = new Beschwerde();
+
+        int hashCode = beschwerde.hashCode();
+
+        // Stellen Sie sicher, dass ein neuer Hash-Code korrekt berechnet wird.
+        assertNotNull(hashCode, "Der Hash-Code eines neuen Objekts darf nicht null sein.");
+    }
+
+    @Test
+    void testHashCode_AllFieldsDifferent() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel 1");
+        beschwerde1.setTextfeld("Textfeld 1");
+        beschwerde1.setKommentar("Kommentar 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel 2");
+        beschwerde2.setTextfeld("Textfeld 2");
+        beschwerde2.setKommentar("Kommentar 2");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichen Werten unterscheiden.");
+    }
+
+    @Test
+    void testHashCode_SameValuesMultipleInstances() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Titel");
+        beschwerde1.setTextfeld("Textfeld");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Titel");
+        beschwerde2.setTextfeld("Textfeld");
+
+        // Beide Objekte sollten denselben Hash-Code haben, wenn ihre Werte identisch sind
+        assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Obwohl es zwei Instanzen sind, sollten ihre Hash-Codes gleich sein.");
+    }
+
+    @Test
+    void testHashCode_DifferentIds() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setId(1L);
+        beschwerde1.setTitel("Titel 1");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setId(2L);
+        beschwerde2.setTitel("Titel 1");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Objekte mit unterschiedlichen IDs sollten unterschiedliche Hash-Codes haben.");
+    }
+
+    @Test
+    void testHashCode_RandomValues() {
+        Beschwerde beschwerde1 = new Beschwerde();
+        beschwerde1.setTitel("Zufallstitel");
+        beschwerde1.setTextfeld("Zufallstext");
+        beschwerde1.setKommentar("Zufallskommentar");
+
+        Beschwerde beschwerde2 = new Beschwerde();
+        beschwerde2.setTitel("Anderer Titel");
+        beschwerde2.setTextfeld("Anderer Text");
+        beschwerde2.setKommentar("Anderer Kommentar");
+
+        assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Objekte mit zufälligen Werten sollten unterschiedliche Hash-Codes haben.");
+    }
+
 }
 

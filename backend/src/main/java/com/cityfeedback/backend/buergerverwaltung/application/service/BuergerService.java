@@ -1,5 +1,7 @@
 package com.cityfeedback.backend.buergerverwaltung.application.service;
 
+import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
+import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import com.cityfeedback.backend.buergerverwaltung.infrastructure.BuergerRepository;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +32,7 @@ import org.springframework.validation.BindingResult;
 
 import java.lang.module.ResolutionException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,6 +51,10 @@ public class BuergerService {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtUtils jwtUtils;
+
+    @Lazy
+    @Autowired
+    BeschwerdeService beschwerdeService;
 
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> anmeldenBuerger(LoginDaten loginDaten) {
@@ -137,6 +145,11 @@ public class BuergerService {
     public ResponseEntity<?> loescheBuerger(Long id) {
         try {
             // Bürger in der Datenbank speichern
+            //Prüfen ob Bürger noch Beschwerden hat
+            List<Beschwerde> beschwerden = beschwerdeService.getBeschwerdenByBuergerId(id);
+            if (!beschwerden.isEmpty()){
+                beschwerden.forEach(beschwerde -> beschwerdeService.deleteBeschwerde(beschwerde.getId()));
+            }
             Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
             buergerRepository.delete(buerger);
         } catch (ResolutionException e) {
@@ -151,7 +164,5 @@ public class BuergerService {
     public Optional<Buerger> getBuergerById(Long id){
         return buergerRepository.findById(id);
     }
-
-
 
 }

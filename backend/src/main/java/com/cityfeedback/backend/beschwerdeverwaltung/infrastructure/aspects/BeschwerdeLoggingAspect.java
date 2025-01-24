@@ -30,4 +30,14 @@ public class BeschwerdeLoggingAspect {
             logger.info(result.getBody().toString() + " " + result.getStatusCode().toString());
         }
     }
+
+    // lösche Beschwerde
+    // Pointcut für lösche Beschwerde
+    @Pointcut("execution(* com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService.deleteBeschwerde(..))")
+    public void deleteBeschwerde() {}
+
+    @AfterReturning(pointcut = "deleteBeschwerde()")
+    public void deleteBeschwerdeLogging() {
+        logger.info("Beschwerde erfolgreich gelöscht");
+    }
 }

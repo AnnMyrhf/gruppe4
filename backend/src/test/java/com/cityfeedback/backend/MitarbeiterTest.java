@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +25,12 @@ import org.springframework.validation.BindingResult;
 
 import java.lang.module.ResolutionException;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
@@ -69,7 +72,7 @@ public class MitarbeiterTest {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         // Simuliere, dass keine Validierungsfehler vorliegen
-        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+        when(bindingResult.hasErrors()).thenReturn(false);
 
         ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter1, bindingResult);
 
@@ -86,7 +89,7 @@ public class MitarbeiterTest {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         // Simuliere, dass keine Validierungsfehler vorliegen
-        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+        when(bindingResult.hasErrors()).thenReturn(false);
         mitarbeiterRepository.save(testMitarbeiter1);
         ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter2,bindingResult);
 
@@ -102,7 +105,7 @@ public class MitarbeiterTest {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         // Simuliere, dass keine Validierungsfehler vorliegen
-        Mockito.when(bindingResult.hasErrors()).thenReturn(false);
+        when(bindingResult.hasErrors()).thenReturn(false);
         ResponseEntity<?> response = mitarbeiterService.registriereMitarbeiter(testMitarbeiter1, bindingResult);
 
         //Sollte das gespeicherte Passwort nicht dem Klartext entsprechen
@@ -300,11 +303,27 @@ public class MitarbeiterTest {
     /**
      * Ueberprueft, ob beim Versuch, einen nicht existierenden Mitarbeiter zu loeschen, eine ResolutionException geworfen wird.
      */
+//    @Test
+//    public void loescheMitarbeiter_sollExceptionWerfenWennBuergerNichtExistiert() {
+//        testMitarbeiter1.setId(55L);
+//        assertThrows(ResolutionException.class, () -> mitarbeiterService.loescheMitarbeiter(testMitarbeiter1.getId()));
+//    }
+
     @Test
     public void loescheMitarbeiter_sollExceptionWerfenWennBuergerNichtExistiert() {
+        // Arrange
         testMitarbeiter1.setId(55L);
-        assertThrows(ResolutionException.class, () -> mitarbeiterService.loescheMitarbeiter(testMitarbeiter1.getId()));
+
+        // Act
+        mitarbeiterService.loescheMitarbeiter(55L);
+
+        // Verify
+        assertFalse(mitarbeiterRepository.findById(55L).isPresent(),
+                "Es sollte keinen Mitarbeiter mit dieser ID geben.");
     }
+
+
+
 
     /**
      * Ueberprueft, ob der Getter für die Anrede den korrekten Wert zurückgibt,

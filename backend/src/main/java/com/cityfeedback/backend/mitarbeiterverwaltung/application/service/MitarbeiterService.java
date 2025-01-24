@@ -1,5 +1,6 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
 
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.security.JwtResponse;
@@ -26,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import java.lang.module.ResolutionException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -61,9 +63,13 @@ public class MitarbeiterService {
 
             return ResponseEntity.ok(new JwtResponse(jwt, authenticatedUser.getId(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities().toArray()));
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.badRequest().body("E-Mail konnten nicht gefunden");
+            Map<String, String> errors = new HashMap<>();
+            errors.put("email", "E-Mail konnten nicht gefunden");
+            return ResponseEntity.badRequest().body(errors);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Passwort stimmt nicht mit E-Mail Adresse überein"); // aus Sicherheitsgründen kein eindeutiger Hinweis
+            Map<String, String> errors = new HashMap<>();
+            errors.put("passwort", "Passwort stimmt nicht mit E-Mail Adresse überein");
+            return ResponseEntity.badRequest().body(errors); // aus Sicherheitsgründen kein eindeutiger Hinweis
         }
     }
 
@@ -165,5 +171,10 @@ public class MitarbeiterService {
         return ResponseEntity.ok("Mitarbeiteraccount erfolgreich gelöscht");
 
     }
+
+    public Optional<Mitarbeiter> getMitarbeiterById(Long id){
+        return mitarbeiterRepository.findById(id);
+    }
+
 
 }

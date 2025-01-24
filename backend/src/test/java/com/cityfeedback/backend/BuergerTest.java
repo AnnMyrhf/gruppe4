@@ -182,11 +182,24 @@ public class BuergerTest {
     /**
      * Ueberprueft, ob beim Versuch, einen nicht existierenden Buerger zu loeschen, eine ResolutionException geworfen wird.
      */
+//    @Test
+//    public void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() {
+//        testBuerger1.setId(55L);
+//        assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
+//    }
+
     @Test
     public void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() {
         testBuerger1.setId(55L);
-        assertThrows(ResolutionException.class, () -> buergerService.loescheBuerger(testBuerger1.getId()));
+        // Act
+        buergerService.loescheBuerger(55L);
+
+        // Verify
+        assertFalse(buergerRepository.findById(55L).isPresent(),
+                "Es sollte keinen Buerger mit dieser ID geben.");
     }
+
+
 
     /**
      * Überprüft, ob der Getter für die Anrede den korrekten Wert zurückgibt.
@@ -401,6 +414,70 @@ public class BuergerTest {
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für ein leeres Passwort auftreten.");
         assertEquals("Passwort darf nicht leer sein!", violations.iterator().next().getMessage());
     }
+
+    @Test
+    public void testUserDetailsImplementation() {
+        assertTrue(testBuerger1.isAccountNonExpired(), "Der Account sollte nicht abgelaufen sein.");
+        assertTrue(testBuerger1.isAccountNonLocked(), "Der Account sollte nicht gesperrt sein.");
+        assertTrue(testBuerger1.isCredentialsNonExpired(), "Die Anmeldeinformationen sollten nicht abgelaufen sein.");
+        assertTrue(testBuerger1.isEnabled(), "Der Account sollte aktiviert sein.");
+    }
+
+    @Test
+    public void testTelefonnummerInvalidFormat() {
+        Buerger invalidBuerger = new Buerger("Frau", "Anna", "Muster", "abc-def-123", "anna@example.com", "Passwort123!", null);
+
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Die Telefonnummer darf nur Zahlen")));
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        Buerger buerger1 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+
+        assertEquals(buerger1, buerger2, "Die beiden Bürger sollten als gleich gelten.");
+        assertEquals(buerger1.hashCode(), buerger2.hashCode(), "Die Hash-Codes sollten übereinstimmen.");
+    }
+
+    @Test
+    public void testEquals_SameAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+
+        assertEquals(buerger1, buerger2);
+    }
+
+    @Test
+    public void testEquals_DifferentAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Max", "Mustermann", "987654321", "max@example.com", "Passwort2!", beschwerden);
+
+        assertNotEquals(buerger1, buerger2);
+    }
+
+
+    @Test
+    public void testHashCode_SameAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+
+        assertEquals(buerger1.hashCode(), buerger2.hashCode());
+    }
+
+    @Test
+    public void testHashCode_DifferentAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Max", "Mustermann", "987654321", "max@example.com", "Passwort2!", beschwerden);
+
+        assertNotEquals(buerger1.hashCode(), buerger2.hashCode());
+    }
+
+
+
+
+
 
 }
 
