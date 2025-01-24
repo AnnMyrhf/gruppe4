@@ -84,33 +84,4 @@ class BeschwerdeControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Beschwerde erfolgreich erstellt."));
     }
-
-    @Test
-    void testUpdateKommentar() throws Exception {
-        Map<String, String> body = new HashMap<>();
-        body.put("kommentar", "Aktualisierter Kommentar");
-
-        when(beschwerdeService.updateKommentar(1L, "Aktualisierter Kommentar")).thenReturn(testBeschwerde);
-
-        mockMvc.perform(put("/beschwerde/1/kommentar")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"kommentar\":\"Aktualisierter Kommentar\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.titel").value("Testbeschwerde"));
-    }
-
-    @Test
-    void testUpdateStatus() throws Exception {
-        Map<String, String> body = new HashMap<>();
-        body.put("status", "IN_BEARBEITUNG");
-
-        testBeschwerde.setStatus(Status.IN_BEARBEITUNG);
-        when(beschwerdeService.updateStatus(1L, "IN_BEARBEITUNG")).thenReturn(testBeschwerde);
-
-        mockMvc.perform(put("/beschwerde/1/status")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"status\":\"IN_BEARBEITUNG\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("IN_BEARBEITUNG"));
-    }
 }

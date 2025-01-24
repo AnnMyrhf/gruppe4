@@ -28,21 +28,21 @@ const postBeschwerde = (data) => {
     });
 };
 
-const updateKommentar = (beschwerdeId, kommentar) => {
+const updateBeschwerde = (beschwerdeId, kommentar, status) => {
     return axios.put(
-        `${API_URL}beschwerde/${beschwerdeId}/kommentar`, // URL mit der Beschwerde-ID
-        { kommentar }, // Request-Body
+        `${API_URL}beschwerde/${beschwerdeId}/update`, // URL mit der Beschwerde-ID
+        { kommentar, status }, // Request-Body
         { headers: authHeader() } // Authentifizierungs-Header
     );
 };
 
-const updateStatus = (beschwerdeId, status) => {
-    return axios.put(
-        `${API_URL}beschwerde/${beschwerdeId}/status`, // URL mit der Beschwerde-ID
-        { status }, // Request-Body
-        { headers: authHeader() } // Authentifizierungs-Header
-    );
-};
+// const updateStatus = (beschwerdeId, status) => {
+//     return axios.put(
+//         `${API_URL}beschwerde/${beschwerdeId}/status`, // URL mit der Beschwerde-ID
+//         { status }, // Request-Body
+//         { headers: authHeader() } // Authentifizierungs-Header
+//     );
+// };
 
 const deleteAccount = (id, buerger) => {
     if (buerger) { // Role ist true falls Bürger angemeldet
@@ -85,8 +85,7 @@ export default {
     getMitarbeiterBoard,
     getBeschwerde,
     postBeschwerde,
-    updateKommentar,
-    updateStatus,
+    updateBeschwerde,
     deleteAccount,
     getInfo
 };

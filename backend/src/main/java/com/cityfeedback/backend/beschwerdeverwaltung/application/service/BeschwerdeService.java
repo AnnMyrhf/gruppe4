@@ -3,6 +3,7 @@ package com.cityfeedback.backend.beschwerdeverwaltung.application.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -118,23 +119,29 @@ public class BeschwerdeService {
     }
 
 
-    public Beschwerde updateKommentar(Long beschwerdeId, String kommentar) {
+    public Beschwerde updateBeschwerde(Long beschwerdeId, Map<String, String> data) {
+        String kommentar = data.get("kommentar");
+        String status = data.get("status");
+
         Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
                 .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
 
         beschwerde.setKommentar(kommentar);
-        return beschwerdeRepository.save(beschwerde);
-    }
-
-    public Beschwerde updateStatus(Long beschwerdeId, String status) {
-        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
-                .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
-
         Status newStatus = Status.valueOf(status.toUpperCase()); // Konvertierung in Großbuchstaben
         beschwerde.setStatus(newStatus); // Setzen des Status
 
         return beschwerdeRepository.save(beschwerde);
     }
+
+//    public Beschwerde updateStatus(Long beschwerdeId, String status) {
+//        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
+//                .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
+//
+//        Status newStatus = Status.valueOf(status.toUpperCase()); // Konvertierung in Großbuchstaben
+//        beschwerde.setStatus(newStatus); // Setzen des Status
+//
+//        return beschwerdeRepository.save(beschwerde);
+//    }
 
     /*public ResponseEntity<String> deleteBeschwerde(Long beschwerdeId) {
         try {
