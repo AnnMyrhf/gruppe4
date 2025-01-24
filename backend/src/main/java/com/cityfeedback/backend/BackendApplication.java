@@ -75,7 +75,6 @@ public class BackendApplication {
             Mitarbeiter testMitarbeiter2 = new Mitarbeiter("Frau", "Anna", "Meier", "123456", "mitarbeiter2@test.com", "StarkesPW11?");
             testMitarbeiter2.setPasswort(passwordEncoder.encode(testMitarbeiter2.getPasswort()));
             mitarbeiterRepository.save(testMitarbeiter2);
-            beschwerdeService.updateKommentar(1L, "TestTest");
             buergerService.loescheBuerger(1L);
             mitarbeiterRepository.delete(testMitarbeiter2);
 
