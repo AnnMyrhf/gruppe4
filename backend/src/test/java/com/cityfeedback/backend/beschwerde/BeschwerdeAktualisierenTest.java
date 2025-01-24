@@ -1,7 +1,6 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.events;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,8 @@ public class BeschwerdeAktualisierenTest {
     @BeforeEach
     void setUp() {
         timestamp = new Timestamp(System.currentTimeMillis());
-        beschwerdeAktualisieren = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
-        beschwerdeAktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        beschwerdeAktualisieren = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
+        beschwerdeAktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
     }
 
     @BeforeEach
@@ -29,7 +28,7 @@ public class BeschwerdeAktualisierenTest {
         // Vorbereitung: eine Beschwerde mit Testwerten erstellen
         beschwerde = new Beschwerde("Test Titel", "Test Typ", "Test Text", null, null);
         beschwerde.setStatus(Status.IN_BEARBEITUNG);
-        beschwerde.setPrioritaet(Prioritaet.HOCH);
+        beschwerde.setKommentar("Test Kommentar");
     }
 
     @Test
@@ -41,7 +40,7 @@ public class BeschwerdeAktualisierenTest {
         assertNull(aktualisieren.getTimestamp(), "Der Timestamp sollte null sein.");
         assertNull(aktualisieren.getTitel(), "Der Titel sollte null sein.");
         assertNull(aktualisieren.getStatus(), "Der Status sollte null sein.");
-        assertNull(aktualisieren.getPrioritaet(), "Die Priorität sollte null sein.");
+        assertNull(aktualisieren.getKommentar(), "Das Kommentar sollte null sein.");
     }
 
     @Test
@@ -53,7 +52,7 @@ public class BeschwerdeAktualisierenTest {
         assertEquals(beschwerde.getId(), aktualisieren.getId(), "Die ID sollte übereinstimmen.");
         assertEquals(beschwerde.getTitel(), aktualisieren.getTitel(), "Der Titel sollte übereinstimmen.");
         assertEquals(beschwerde.getStatus(), aktualisieren.getStatus(), "Der Status sollte übereinstimmen.");
-        assertEquals(beschwerde.getPrioritaet(), aktualisieren.getPrioritaet(), "Die Priorität sollte übereinstimmen.");
+        assertEquals(beschwerde.getKommentar(), aktualisieren.getKommentar(), "Das Kommentar sollte übereinstimmen.");
         assertNotNull(aktualisieren.getTimestamp(), "Der Timestamp sollte gesetzt sein.");
     }
 
@@ -89,11 +88,11 @@ public class BeschwerdeAktualisierenTest {
     }
 
     @Test
-    void testSetAndGetPrioritaet() {
-        // Test für den Getter und Setter der Priorität
+    void testSetAndGetKommentar() {
+        // Test für den Getter und Setter des Kommentars
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
-        aktualisieren.setPrioritaet(Prioritaet.MITTEL);
-        assertEquals(Prioritaet.MITTEL, aktualisieren.getPrioritaet(), "Die Priorität sollte korrekt gesetzt werden.");
+        aktualisieren.setKommentar("Test Kommentar");
+        assertEquals("Test Kommentar", aktualisieren.getKommentar(), "Das Kommentar sollte korrekt gesetzt werden.");
     }
 
     @Test
@@ -108,8 +107,8 @@ public class BeschwerdeAktualisierenTest {
     @Test
     void testEquals_Object() {
         // Test für equals(Object)
-        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
-        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
+        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
 
         assertEquals(aktualisieren1, aktualisieren2, "Die Objekte sollten gleich sein.");
 
@@ -122,12 +121,12 @@ public class BeschwerdeAktualisierenTest {
 
     @Test
     void testConstructorWithParameters() {
-        // Test für den Konstruktor mit Parametern (Long, Timestamp, String, Status, Prioritaet)
-        BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren(2L, timestamp, "Neuer Titel", Status.IN_BEARBEITUNG, Prioritaet.NIEDRIG);
+        // Test für den Konstruktor mit Parametern (Long, Timestamp, String, Status, Kommentar)
+        BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren(2L, timestamp, "Neuer Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
         assertEquals(2L, aktualisieren.getId(), "Die ID sollte korrekt gesetzt werden.");
         assertEquals("Neuer Titel", aktualisieren.getTitel(), "Der Titel sollte korrekt gesetzt werden.");
         assertEquals(Status.IN_BEARBEITUNG, aktualisieren.getStatus(), "Der Status sollte korrekt gesetzt werden.");
-        assertEquals(Prioritaet.NIEDRIG, aktualisieren.getPrioritaet(), "Die Priorität sollte korrekt gesetzt werden.");
+        assertEquals("Test Kommentar", aktualisieren.getKommentar(), "Das Kommentar sollte korrekt gesetzt werden.");
         assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
     }
 
@@ -135,15 +134,15 @@ public class BeschwerdeAktualisierenTest {
     void testToString() {
         // Test für toString()
         String expectedString = "BeschwerdeAktualisieren(id=1, timestamp=" + timestamp.toString() +
-                ", titel=Titel, status=IN_BEARBEITUNG, prioritaet=HOCH)";
+                ", titel=Titel, status=IN_BEARBEITUNG, kommentar=Test Kommentar)";
         assertEquals(expectedString, beschwerdeAktualisieren.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
     @Test
     void testHashCode() {
         // Test für hashCode()
-        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
-        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, Prioritaet.HOCH);
+        BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
+        BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Test Kommentar");
 
         assertEquals(aktualisieren1.hashCode(), aktualisieren2.hashCode(), "Die Hash-Codes sollten gleich sein.");
 
