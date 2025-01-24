@@ -415,6 +415,32 @@ public class BuergerTest {
         assertEquals("Passwort darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    @Test
+    public void testUserDetailsImplementation() {
+        assertTrue(testBuerger1.isAccountNonExpired(), "Der Account sollte nicht abgelaufen sein.");
+        assertTrue(testBuerger1.isAccountNonLocked(), "Der Account sollte nicht gesperrt sein.");
+        assertTrue(testBuerger1.isCredentialsNonExpired(), "Die Anmeldeinformationen sollten nicht abgelaufen sein.");
+        assertTrue(testBuerger1.isEnabled(), "Der Account sollte aktiviert sein.");
+    }
+
+    @Test
+    public void testTelefonnummerInvalidFormat() {
+        Buerger invalidBuerger = new Buerger("Frau", "Anna", "Muster", "abc-def-123", "anna@example.com", "Passwort123!", null);
+
+        Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Die Telefonnummer darf nur Zahlen")));
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        Buerger buerger1 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
+
+        assertEquals(buerger1, buerger2, "Die beiden Bürger sollten als gleich gelten.");
+        assertEquals(buerger1.hashCode(), buerger2.hashCode(), "Die Hash-Codes sollten übereinstimmen.");
+    }
+
 
 
 }
