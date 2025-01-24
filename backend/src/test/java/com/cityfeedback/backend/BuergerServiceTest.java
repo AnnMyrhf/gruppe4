@@ -1,4 +1,4 @@
-package com.cityfeedback.backend;
+package com.cityfeedback.backend.buergerverwaltung.application.service;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
