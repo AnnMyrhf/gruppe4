@@ -62,6 +62,23 @@ const deleteAccount = (id, buerger) => {
 
 };
 
+const getInfo = (id, buerger) => {
+    if (buerger) { // Role ist true falls Bürger angemeldet
+        return axios
+            .get(API_URL + "buerger-information/" + id, { headers: authHeader() })
+            .then((response) => {
+                console.log(response.data)
+                return response.data;
+            })
+    } else {
+        return axios
+            .get(API_URL + "mitarbeiter-information/" + id, { headers: authHeader() })
+            .then((response) => {
+                return response.data;
+            })
+    }
+};
+
 export default {
     //getPublicContent,
     getBuergerDashBoard,
@@ -70,5 +87,6 @@ export default {
     postBeschwerde,
     updateKommentar,
     updateStatus,
-    deleteAccount
+    deleteAccount,
+    getInfo
 };

@@ -1,5 +1,6 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.api;
 
+import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
@@ -33,5 +34,10 @@ public class MitarbeiterController {
     @DeleteMapping("/mitarbeiter-loeschen/{id}")
     public ResponseEntity<?> loescheBuerger(@PathVariable("id") Long id) {
         return mitarbeiterService.loescheMitarbeiter(id);
+    }
+
+    @GetMapping("/mitarbeiter-information/{id}")
+    public Mitarbeiter getMitarbeiterInfo(@PathVariable("id") Long id){
+        return mitarbeiterService.getMitarbeiterById(id).get();
     }
 }
