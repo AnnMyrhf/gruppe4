@@ -441,6 +441,42 @@ public class BuergerTest {
         assertEquals(buerger1.hashCode(), buerger2.hashCode(), "Die Hash-Codes sollten übereinstimmen.");
     }
 
+    @Test
+    public void testEquals_SameAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+
+        assertEquals(buerger1, buerger2);
+    }
+
+    @Test
+    public void testEquals_DifferentAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Max", "Mustermann", "987654321", "max@example.com", "Passwort2!", beschwerden);
+
+        assertNotEquals(buerger1, buerger2);
+    }
+
+
+    @Test
+    public void testHashCode_SameAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+
+        assertEquals(buerger1.hashCode(), buerger2.hashCode());
+    }
+
+    @Test
+    public void testHashCode_DifferentAttributes() {
+        Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
+        Buerger buerger2 = new Buerger("Herr", "Max", "Mustermann", "987654321", "max@example.com", "Passwort2!", beschwerden);
+
+        assertNotEquals(buerger1.hashCode(), buerger2.hashCode());
+    }
+
+
+
+
 
 
 }
