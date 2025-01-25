@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BeschwerdeAktualisierenTest {
+class BeschwerdeAktualisierenTest {
 
     private Beschwerde beschwerde;
     private BeschwerdeAktualisieren beschwerdeAktualisieren;
@@ -99,9 +99,9 @@ public class BeschwerdeAktualisierenTest {
     void testSetAndGetTimestamp() {
         // Test für den Getter und Setter des Timestamps
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        aktualisieren.setTimestamp(timestamp);
-        assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
+        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
+        aktualisieren.setTimestamp(timestamp2);
+        assertEquals(timestamp2, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class BeschwerdeAktualisierenTest {
         beschwerdeAktualisieren2.setTitel("Neuer Titel");
         assertNotEquals(aktualisieren1, beschwerdeAktualisieren2, "Die Objekte sollten ungleich sein.");
 
-        assertNotEquals(aktualisieren1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(null, aktualisieren1,"Das Objekt sollte nicht gleich null sein.");
         assertNotEquals(aktualisieren1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
     }
 

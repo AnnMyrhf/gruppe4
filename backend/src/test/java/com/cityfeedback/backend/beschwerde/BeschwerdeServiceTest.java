@@ -2,7 +2,6 @@ package com.cityfeedback.backend.beschwerde;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
@@ -85,16 +84,6 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findAll();
     }
 
-//    @Test
-//    void testGetAllBeschwerden_NotFound() {
-//        // Mocking
-//        when(beschwerdeRepository.findAll()).thenReturn(List.of());
-//
-//        // Test & Verify
-//        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getAllBeschwerden());
-//        verify(beschwerdeRepository, times(1)).findAll();
-//    }
-
     @Test
     void testGetAllBeschwerden_NotFound() {
         // Mocking
@@ -123,17 +112,6 @@ class BeschwerdeServiceTest {
         assertThat(result).hasSize(2);
         verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
     }
-
-//    @Test
-//    void testGetBeschwerdenByBuergerId_NotFound() {
-//        // Mocking
-//        Long buergerId = 1L;
-//        when(beschwerdeRepository.findByBuerger_Id(buergerId)).thenReturn(List.of());
-//
-//        // Test & Verify
-//        assertThrows(IllegalArgumentException.class, () -> beschwerdeService.getBeschwerdenByBuergerId(buergerId));
-//        verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
-//    }
 
     @Test
     void testGetBeschwerdenByBuergerId_NotFound() {

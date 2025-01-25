@@ -1,7 +1,11 @@
 package com.cityfeedback.backend;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class BackendApplicationTests {
@@ -15,8 +19,8 @@ class BackendApplicationTests {
 
     @Test
     void mainMethodTest() {
-        BackendApplication.main(new String[] {});
-        // Wenn keine Ausnahmen auftreten, besteht der Test.
+        ApplicationContext context = SpringApplication.run(BackendApplication.class, new String[]{});
+        assertNotNull(context.getBean("beschwerdeController"), "Der Bean 'beschwerdeController' sollte im Kontext vorhanden sein.");
     }
 
 }

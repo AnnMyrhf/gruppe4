@@ -196,7 +196,7 @@ class SecurityTest {
         assertNotEquals(loginDaten1, loginDaten3, "Die Objekte sollten ungleich sein.");
 
         // Test für Vergleich mit null
-        assertNotEquals(loginDaten1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(null, loginDaten1, "Das Objekt sollte nicht gleich null sein.");
 
         // Test für Vergleich mit einem Objekt eines anderen Typs
         assertNotEquals(loginDaten1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");

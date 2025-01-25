@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.buergerverwaltung.api;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.security.valueobjects.LoginDaten;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -9,9 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
-
-import java.util.List;
-
 
 /**
  * REST-Controller für die Buerger-Registrierung

@@ -302,7 +302,7 @@ class BuergerTest {
      * Überprüft, ob der Bürger die korrekte Authority besitzt und ob genau eine Authority vorhanden ist.
      */
     @Test
-    public void testGetAuthorities() {
+    void testGetAuthorities() {
         Collection<? extends GrantedAuthority> authorities = testBuerger1.getAuthorities();
 
         assertTrue(authorities.contains(new SimpleGrantedAuthority("BUERGER")));
