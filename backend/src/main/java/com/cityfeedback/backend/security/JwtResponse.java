@@ -1,6 +1,7 @@
 package com.cityfeedback.backend.security;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Nutzdaten/Parameter für die zu überprüfenden Sicherheitsangaben und Berechtigungen
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author Ann-Kathrin Meyerhof
  */
 @Data
+@EqualsAndHashCode
 public class JwtResponse {
     private String token;
     private String type = "Bearer"; // Inhaber-Token, Client schickt dann bei jeder Anfrage Token im HTTP-Autorisierungsheader mit
