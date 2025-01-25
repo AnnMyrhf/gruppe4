@@ -72,14 +72,14 @@ class AnhangTest {
     void testEqualsWithNull() {
         Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
-        assertNotEquals(anhang, null); // Vergleich mit null
+        assertNotEquals(null, anhang); // Vergleich mit null
     }
 
     @Test
     void testEqualsWithDifferentType() {
         Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
 
-        assertNotEquals(anhang, "string"); // Vergleich mit anderem Typ
+        assertNotEquals("string", anhang); // Vergleich mit anderem Typ
     }
 
     @Test
