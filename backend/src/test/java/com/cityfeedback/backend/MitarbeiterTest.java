@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.mitarbeiterverwaltung.application.service.MitarbeiterService;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +24,6 @@ import org.springframework.validation.BindingResult;
 
 import java.lang.module.ResolutionException;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -35,7 +33,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @Transactional
-public class MitarbeiterTest {
+class MitarbeiterTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -67,7 +65,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob ein Mitarbeiter erfolgreich registriert wird, einschließlich aller Attribute.
      */
     @Test
-    public void registriereMitarbeiter_sollErfolgreichSein() {
+    void registriereMitarbeiter_sollErfolgreichSein() {
 
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
@@ -85,7 +83,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob bei einer bereits bestehenden E-Mail-Adresse eine spezifische Fehlermeldung zurückgegeben wird.
      */
     @Test
-    public void registriereMitarbeiter_sollFehlerWerfenBeiDoppelterEmail() {
+    void registriereMitarbeiter_sollFehlerWerfenBeiDoppelterEmail() {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         // Simuliere, dass keine Validierungsfehler vorliegen
@@ -101,7 +99,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob das Passwort vor der Speicherung korrekt gehasht wird.
      */
     @Test
-    public void registriereMitarbeiter_sollPasswortHashen() {
+    void registriereMitarbeiter_sollPasswortHashen() {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         // Simuliere, dass keine Validierungsfehler vorliegen
@@ -123,7 +121,7 @@ public class MitarbeiterTest {
      * Prüft, ob ein Vorname mit mehr als 30 Zeichen eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testValidation_VornameZuLang() {
+    void testValidation_VornameZuLang() {
         testMitarbeiter1.setVorname("Anna".repeat(31)); // 31 Zeichen
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertFalse(violations.isEmpty(), "Fehler: Vorname zu lang");
@@ -133,7 +131,7 @@ public class MitarbeiterTest {
      * Prüft, ob ein Nachname mit mehr als 30 Zeichen eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testValidation_NachnameZuLang() {
+    void testValidation_NachnameZuLang() {
         testMitarbeiter1.setNachname("Mustermann".repeat(31)); // 31 Zeichen
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertFalse(violations.isEmpty(), "Fehler: Nachname zu lang");
@@ -143,7 +141,7 @@ public class MitarbeiterTest {
      * Prüft, ob eine ungültige E-Mail-Adresse eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testUngueltigeEmail() {
+    void testUngueltigeEmail() {
         testMitarbeiter1.setEmail("ungueltige Email");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertFalse(violations.isEmpty(), "Fehler: Ungültige E-Mail-Adresse");
@@ -153,7 +151,7 @@ public class MitarbeiterTest {
      * Prüft, ob das Fehlen einer Anrede eine entsprechende Fehlermeldung verursacht.
      */
     @Test
-    public void testAnredeNotBlank() {
+    void testAnredeNotBlank() {
         testMitarbeiter1.setAnrede("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -164,7 +162,7 @@ public class MitarbeiterTest {
      * Prüft, ob ein leerer Vorname eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testVornameNotBlank() {
+    void testVornameNotBlank() {
         testMitarbeiter1.setVorname("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -175,7 +173,7 @@ public class MitarbeiterTest {
      * Prüft, ob ein leerer Nachname eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testNachnameNotBlank() {
+    void testNachnameNotBlank() {
         testMitarbeiter1.setNachname("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -186,7 +184,7 @@ public class MitarbeiterTest {
      * Prüft, ob eine leere E-Mail eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testEmailNotBlank() {
+    void testEmailNotBlank() {
         testMitarbeiter1.setEmail("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -197,7 +195,7 @@ public class MitarbeiterTest {
      * Prüft, ob ein leeres Passwort eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testPasswortNotBlank() {
+    void testPasswortNotBlank() {
         testMitarbeiter1.setPasswort("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -208,18 +206,17 @@ public class MitarbeiterTest {
      * Prüft, ob eine leere Telefonnummer eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testTelefonnummerNotBlank() {
+    void testTelefonnummerNotBlank() {
         testMitarbeiter1.setTelefonnummer("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(2, violations.size());
-        //assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
     /**
      * Prüft, ob eine leere Abteilung eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testAbteilungNotBlank() {
+    void testAbteilungNotBlank() {
         testMitarbeiter1.setAbteilung("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -230,7 +227,7 @@ public class MitarbeiterTest {
      * Prüft, ob eine leere Position eine Validation-Fehlermeldung erzeugt.
      */
     @Test
-    public void testPositionNotBlank() {
+    void testPositionNotBlank() {
         testMitarbeiter1.setPosition("");
         Set<ConstraintViolation<Mitarbeiter>> violations = validator.validate(testMitarbeiter1);
         assertEquals(1, violations.size());
@@ -242,7 +239,7 @@ public class MitarbeiterTest {
      * und ob dabei ein gueltiges JWT mit den korrekten Buergerinfos zurückgegeben wird.
      */
     @Test
-    public void anmeldenMitarbeiter_sollErfolgreichSein() {
+    void anmeldenMitarbeiter_sollErfolgreichSein() {
         testMitarbeiter1.setPasswort(passwordEncoder.encode(testMitarbeiter1.getPasswort()));
         mitarbeiterRepository.save(testMitarbeiter1);
         LoginDaten loginDaten = new LoginDaten(testMitarbeiter1.getEmail(), "Hallo12!");
@@ -289,7 +286,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob ein existierender Mitarbeiter vollstaendig aus der Datenbank geloescht wird.
      */
     @Test
-    public void loescheMitarbeiter_sollErfolgreichSein() {
+    void loescheMitarbeiter_sollErfolgreichSein() {
 
         Mitarbeiter mitarbeiterLoeschen = mitarbeiterRepository.save(testMitarbeiter1);
 
@@ -303,14 +300,9 @@ public class MitarbeiterTest {
     /**
      * Ueberprueft, ob beim Versuch, einen nicht existierenden Mitarbeiter zu loeschen, eine ResolutionException geworfen wird.
      */
-//    @Test
-//    public void loescheMitarbeiter_sollExceptionWerfenWennBuergerNichtExistiert() {
-//        testMitarbeiter1.setId(55L);
-//        assertThrows(ResolutionException.class, () -> mitarbeiterService.loescheMitarbeiter(testMitarbeiter1.getId()));
-//    }
 
     @Test
-    public void loescheMitarbeiter_sollExceptionWerfenWennBuergerNichtExistiert() {
+    void loescheMitarbeiter_sollExceptionWerfenWennBuergerNichtExistiert() {
         // Arrange
         testMitarbeiter1.setId(55L);
 
@@ -329,7 +321,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für die Anrede den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Anrede() {
+    void testGetter_Anrede() {
         assertEquals("Frau", testMitarbeiter1.getAnrede());
     }
 
@@ -337,7 +329,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für den Vornamen den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Vorname() {
+    void testGetter_Vorname() {
         assertEquals("Anna", testMitarbeiter1.getVorname());
     }
 
@@ -345,7 +337,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für den Nachnamen den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Nachname() {
+    void testGetter_Nachname() {
         assertEquals("Müller", testMitarbeiter1.getNachname());
     }
 
@@ -353,7 +345,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für die Telefonnummer den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Telefonnummer() {
+    void testGetter_Telefonnummer() {
         assertEquals("123456", testMitarbeiter1.getTelefonnummer());
     }
 
@@ -361,7 +353,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für die E-Mail-Adresse den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Email() {
+    void testGetter_Email() {
         assertEquals("Hallo@web.com", testMitarbeiter1.getEmail());
     }
 
@@ -369,7 +361,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für das Passwort den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Passwort() {
+    void testGetter_Passwort() {
         assertEquals("Hallo12!", testMitarbeiter1.getPasswort());
     }
 
@@ -377,7 +369,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für die Abteilung den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Abteilung() {
+    void testGetter_Abteilung() {
         assertEquals("Bürgerservice", testMitarbeiter1.getAbteilung());
     }
 
@@ -385,7 +377,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Getter für die Position den korrekten Wert zurückgibt,
      */
     @Test
-    public void testGetter_Position() {
+    void testGetter_Position() {
         assertEquals("Angestellter", testMitarbeiter1.getPosition());
     }
 
@@ -393,7 +385,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter die Anrede korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Anrede() {
+    void testSetter_Anrede() {
         testMitarbeiter1.setAnrede("Person");
         assertEquals("Person", testMitarbeiter1.getAnrede());
     }
@@ -402,7 +394,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter den Vornamen korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Vorname() {
+    void testSetter_Vorname() {
         testMitarbeiter1.setVorname("Maxi");
         assertEquals("Maxi", testMitarbeiter1.getVorname());
     }
@@ -411,7 +403,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter den Nachnamen korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Nachname() {
+    void testSetter_Nachname() {
         testMitarbeiter1.setNachname("Schmidt");
         assertEquals("Schmidt", testMitarbeiter1.getNachname());
     }
@@ -420,7 +412,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter die Telefonnummer korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Telefonnummer() {
+    void testSetter_Telefonnummer() {
         testMitarbeiter1.setTelefonnummer("987654321");
         assertEquals("987654321", testMitarbeiter1.getTelefonnummer());
     }
@@ -429,7 +421,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter die E-Mail-Adresse korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Email() {
+    void testSetter_Email() {
         testMitarbeiter1.setEmail("test@test.de");
         assertEquals("test@test.de", testMitarbeiter1.getEmail());
     }
@@ -438,7 +430,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter das Passwort korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Passwort() {
+    void testSetter_Passwort() {
         testMitarbeiter1.setPasswort("EchtStark11!");
         assertEquals("EchtStark11!", testMitarbeiter1.getPasswort());
     }
@@ -447,7 +439,7 @@ public class MitarbeiterTest {
      * Ueberprueft, ob der Setter die Abteilung korrekt überschreibt und der neue Wert anschließend über den Getter korrekt zurückgegeben wird.
      */
     @Test
-    public void testSetter_Abteilung() {
+    void testSetter_Abteilung() {
         testMitarbeiter1.setAbteilung("Beschwerdemanagement");
         assertEquals("Beschwerdemanagement", testMitarbeiter1.getAbteilung());
     }
@@ -522,7 +514,7 @@ public class MitarbeiterTest {
      * Testet die `equals()`-Methode auf Korrektheit, einschließlich Symmetrie, Transitivitaet und Reflexivitaet.
      */
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(testMitarbeiter2.getVorname(), testMitarbeiter3.getVorname());
         assertEquals(testMitarbeiter2.getNachname(), testMitarbeiter3.getNachname());
 
