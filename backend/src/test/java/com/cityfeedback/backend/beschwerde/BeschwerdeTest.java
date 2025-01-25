@@ -157,7 +157,7 @@ class BeschwerdeTest {
         Beschwerde beschwerde = new Beschwerde();
         beschwerde.setTitel("Titel");
 
-        assertNotEquals(beschwerde, null); // Vergleich mit null
+        assertNotEquals(null, beschwerde); // Vergleich mit null
     }
 
     @Test
@@ -165,7 +165,7 @@ class BeschwerdeTest {
         Beschwerde beschwerde = new Beschwerde();
         beschwerde.setTitel("Titel");
 
-        assertNotEquals(beschwerde, "String"); // Vergleich mit anderem Typ
+        assertNotEquals("String", beschwerde); // Vergleich mit anderem Typ
     }
 
     @Test
