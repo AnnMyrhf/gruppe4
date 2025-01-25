@@ -109,4 +109,68 @@ class JwtResponseTest {
 
         assertEquals("Bearer", jwtResponse.getTokenType());
     }
+
+    @Test
+    void testEqualsWithItself() {
+        JwtResponse jwtResponse = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        assertTrue(jwtResponse.equals(jwtResponse), "Ein Objekt sollte immer gleich sich selbst sein");
+    }
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("differentToken", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlichen Attributwerten sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentId() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("token", 2L, "email@example.com", new Object[]{"ROLE_USER"});
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlicher ID sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentEmail() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("token", 1L, "other@example.com", new Object[]{"ROLE_USER"});
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlicher E-Mail sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentRole() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_ADMIN"});
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlicher Rolle sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentType() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        jwtResponse2.setTokenType("CustomType");
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlichem Token-Typ sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentClass() {
+        JwtResponse jwtResponse = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        Object otherObject = new Object();
+        assertFalse(jwtResponse.equals(otherObject), "Objekte unterschiedlicher Klassen sollten nicht gleich sein");
+    }
+
+    @Test
+    void testEqualsWithNull() {
+        JwtResponse jwtResponse = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        assertFalse(jwtResponse.equals(null), "Ein Objekt sollte nicht gleich null sein");
+    }
+
+    @Test
+    void testEqualsWithDifferentLengthRoles() {
+        JwtResponse jwtResponse1 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER"});
+        JwtResponse jwtResponse2 = new JwtResponse("token", 1L, "email@example.com", new Object[]{"ROLE_USER", "ROLE_ADMIN"});
+        assertFalse(jwtResponse1.equals(jwtResponse2), "Objekte mit unterschiedlicher Länge des Rollen-Arrays sollten nicht gleich sein");
+    }
+
 }
