@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,7 +68,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.anmeldenBuerger(loginDaten);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(jwtUtils, times(1)).generateJwtToken(authentication);
     }
 
@@ -79,7 +80,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.anmeldenBuerger(loginDaten);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("E-Mail konnten nicht gefunden"));
     }
 
@@ -95,7 +96,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.registriereBuerger(buerger, bindingResult);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(buergerRepository, times(1)).save(any(Buerger.class));
     }
 
@@ -108,7 +109,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.registriereBuerger(buerger, bindingResult);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         verify(buergerRepository, never()).save(any(Buerger.class));
     }
 
@@ -122,7 +123,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.registriereBuerger(buerger, bindingResult);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("E-Mail-Adresse existiert bereits"));
     }
 
@@ -138,7 +139,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.registriereBuerger(buerger, bindingResult);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("Fehler bei der Speicherung des Bürgers"));
     }
 
@@ -151,7 +152,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.loescheBuerger(id);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(buergerRepository, times(1)).delete(buerger);
     }
 
@@ -163,7 +164,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.loescheBuerger(id);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("Bürger konnte nicht gefunden werden"));
     }
 
@@ -176,7 +177,7 @@ class BuergerServiceTest {
 
         ResponseEntity<?> response = buergerService.loescheBuerger(id);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(beschwerdeService, times(1)).deleteBeschwerde(beschwerde.getId());
     }
 }
