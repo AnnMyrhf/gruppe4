@@ -20,7 +20,7 @@ public class BenachrichtigungsService {
         message.setSubject(betreff);
         message.setText(text);
         message.setFrom("cityfeedback@gruppe4.de");
-        //mailSender.send(message);
+        mailSender.send(message);
     }
 }
 
