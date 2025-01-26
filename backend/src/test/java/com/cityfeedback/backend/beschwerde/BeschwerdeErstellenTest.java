@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.events;
 
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BeschwerdeErstellenTest {
+class BeschwerdeErstellenTest {
 
     private BeschwerdeErstellen beschwerdeErstellen;
     private BeschwerdeErstellen beschwerdeErstellen2;
@@ -33,7 +32,7 @@ public class BeschwerdeErstellenTest {
         beschwerdeErstellen2.setTitel("Neuer Titel");
         assertNotEquals(erstellen1, beschwerdeErstellen2, "Die Objekte sollten ungleich sein.");
 
-        assertNotEquals(erstellen1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(null, erstellen1,"Das Objekt sollte nicht gleich null sein.");
         assertNotEquals(erstellen1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
     }
 

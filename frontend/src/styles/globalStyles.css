@@ -208,3 +208,20 @@ button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     flex-direction: column;
     gap: 32px;
 }
+
+.dashboard-head{
+    display: flex;
+    justify-content: space-between;
+}
+
+.neuebeschwerde-btn{
+    width: fit-content;
+}
+
+@media (max-width: 600px) {
+    .dashboard-head{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}

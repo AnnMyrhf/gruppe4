@@ -1,7 +1,6 @@
 package com.cityfeedback.backend.beschwerdeverwaltung.domain.events;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

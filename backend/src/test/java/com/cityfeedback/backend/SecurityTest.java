@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-public class SecurityTest {
+class SecurityTest {
 
     @Autowired
     private BenutzerDetailsService benutzerDetailsService;
@@ -196,7 +196,7 @@ public class SecurityTest {
         assertNotEquals(loginDaten1, loginDaten3, "Die Objekte sollten ungleich sein.");
 
         // Test für Vergleich mit null
-        assertNotEquals(loginDaten1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(null, loginDaten1, "Das Objekt sollte nicht gleich null sein.");
 
         // Test für Vergleich mit einem Objekt eines anderen Typs
         assertNotEquals(loginDaten1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
@@ -294,6 +294,46 @@ public class SecurityTest {
 
         // Assertion
         assertEquals(42L, jwtResponse.getId());
+    }
+
+    @Test
+    void testSetters() {
+        // Arrange
+        JwtResponse jwtResponse = new JwtResponse(null, null, null, null);
+        String newToken = "newToken";
+        String newType = "NewType";
+        Long newId = 456L;
+        String newEmail = "new@example.com";
+        Object[] newRoles = {"ROLE_NEW"};
+
+        // Act
+        jwtResponse.setAccessToken(newToken);
+        jwtResponse.setTokenType(newType);
+        jwtResponse.setId(newId);
+        jwtResponse.setEmail(newEmail);
+        jwtResponse.setRole(newRoles);
+
+        // Assert
+        assertEquals(newToken, jwtResponse.getAccessToken());
+        assertEquals(newType, jwtResponse.getTokenType());
+        assertEquals(newId, jwtResponse.getId());
+        assertEquals(newEmail, jwtResponse.getEmail());
+        assertArrayEquals(newRoles, (Object[]) jwtResponse.getRole());
+    }
+
+    @Test
+    void testDefaultType() {
+        // Arrange
+        String accessToken = "defaultToken";
+        Long id = 789L;
+        String email = "default@example.com";
+        Object[] roles = {"ROLE_DEFAULT"};
+
+        // Act
+        JwtResponse jwtResponse = new JwtResponse(accessToken, id, email, roles);
+
+        // Assert
+        assertEquals("Bearer", jwtResponse.getTokenType());
     }
 
 

@@ -99,12 +99,9 @@ const Dashboard = () => {
         }}>
             <main className="main">
                 <div>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between"
-                    }}>
+                    <div className="dashboard-head">
                         <h1>{name}s Dashboard</h1>
-                        {currentUser && currentUser.role.some(item => item.authority === 'BUERGER') && <button className="primary-btn" onClick={handleClick}>Neue Beschwerde</button>}
+                        {currentUser && currentUser.role.some(item => item.authority === 'BUERGER') && <button className="primary-btn neuebeschwerde-btn" onClick={handleClick}>Neue Beschwerde</button>}
                     </div>
                     <div>
 

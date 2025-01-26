@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.application.service;
 
-import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.mitarbeiterverwaltung.infrastructure.MitarbeiterRepository;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import com.cityfeedback.backend.security.JwtResponse;

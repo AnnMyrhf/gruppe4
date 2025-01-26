@@ -1,6 +1,5 @@
 package com.cityfeedback.backend.mitarbeiterverwaltung.domain.events;
 
-import com.cityfeedback.backend.mitarbeiterverwaltung.domain.events.DomainEvent;
 import com.cityfeedback.backend.mitarbeiterverwaltung.domain.model.Mitarbeiter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -53,3 +53,16 @@
     line-height: 1.5;               /* Optional: Stellt die Zeilenhöhe ein */
     text-overflow: ellipsis;        /* Zeigt "..." an, wenn der Text abgeschnitten wird */
 }
+
+
+@media (max-width: 600px) {
+    .beschwerde-title-container{
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .beschwerde-head{
+        gap: 4px;
+    }
+}

@@ -28,8 +28,8 @@ const Tag = ({ text, status }) => {
                 backgroundColor: tagColor,
                 fontSize: '14px',
                 lineHeight: "14px",
-                height: "22px"
-
+                height: "22px",
+                width: "fit-content"
             }}
         >
       {text}
