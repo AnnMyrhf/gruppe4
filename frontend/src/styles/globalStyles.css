@@ -170,6 +170,7 @@ button[type="submit"], .primary-btn {
     border: none;
     padding: 0 16px;
     cursor: pointer;
+    width: fit-content;
 }
 
 button[type="submit"]:hover, .primary-btn:hover {
@@ -207,4 +208,17 @@ button[type="submit"]:focus-visible, .primary-btn:focus-visible {
     display: flex;
     flex-direction: column;
     gap: 32px;
+}
+
+.dashboard-head{
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+    .dashboard-head{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 }
