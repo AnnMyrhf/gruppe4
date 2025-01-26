@@ -170,7 +170,6 @@ button[type="submit"], .primary-btn {
     border: none;
     padding: 0 16px;
     cursor: pointer;
-    width: fit-content;
 }
 
 button[type="submit"]:hover, .primary-btn:hover {
@@ -213,6 +212,10 @@ button[type="submit"]:focus-visible, .primary-btn:focus-visible {
 .dashboard-head{
     display: flex;
     justify-content: space-between;
+}
+
+.neuebeschwerde-btn{
+    width: fit-content;
 }
 
 @media (max-width: 600px) {
