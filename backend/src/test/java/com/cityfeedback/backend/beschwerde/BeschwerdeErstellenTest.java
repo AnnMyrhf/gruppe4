@@ -87,4 +87,58 @@ class BeschwerdeErstellenTest {
         // Überprüfung, ob die ID korrekt gesetzt wurde
         assertEquals(100L, erstellen.getId(), "Die ID sollte korrekt gesetzt werden.");
     }
+
+    /**
+     * Überprüft, ob der Status einer Beschwerde korrekt gesetzt wird.
+     */
+    @Test
+    void testSetStatus() {
+        // Arrange: Erstellen einer Instanz der Klasse BeschwerdeErstellen
+        BeschwerdeErstellen event = new BeschwerdeErstellen();
+
+        // Neuer Status
+        Status newStatus = Status.IN_BEARBEITUNG;
+
+        // Act: Setzen des neuen Status
+        event.setStatus(newStatus);
+
+        // Assert: Überprüfen, ob der Status korrekt gesetzt wurde
+        assertEquals(newStatus, event.getStatus(), "Der Status sollte korrekt aktualisiert werden.");
+    }
+
+    /**
+     * Überprüft, ob die E-Mail-Adresse einer Beschwerde korrekt gesetzt wird.
+     */
+    @Test
+    void testSetEmail() {
+        // Arrange: Erstellen einer Instanz der Klasse BeschwerdeErstellen
+        BeschwerdeErstellen event = new BeschwerdeErstellen();
+
+        // Neue E-Mail-Adresse
+        String newEmail = "neue.email@example.com";
+
+        // Act: Setzen der neuen E-Mail-Adresse
+        event.setEmail(newEmail);
+
+        // Assert: Überprüfen, ob die E-Mail korrekt gesetzt wurde
+        assertEquals(newEmail, event.getEmail(), "Die E-Mail-Adresse sollte korrekt aktualisiert werden.");
+    }
+
+    /**
+     * Überprüft, ob der Zeitstempel einer Beschwerde korrekt gesetzt wird.
+     */
+    @Test
+    void testSetTimestamp() {
+        // Arrange: Erstellen einer Instanz der Klasse BeschwerdeErstellen
+        BeschwerdeErstellen event = new BeschwerdeErstellen();
+
+        // Neuer Zeitstempel
+        Timestamp newTimestamp = new Timestamp(System.currentTimeMillis());
+
+        // Act: Setzen des neuen Zeitstempels
+        event.setTimestamp(newTimestamp);
+
+        // Assert: Überprüfen, ob der Zeitstempel korrekt gesetzt wurde
+        assertEquals(newTimestamp, event.getTimestamp(), "Der Zeitstempel sollte korrekt aktualisiert werden.");
+    }
 }
