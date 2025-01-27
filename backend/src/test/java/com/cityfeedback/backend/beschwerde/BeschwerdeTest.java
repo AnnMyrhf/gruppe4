@@ -42,9 +42,9 @@ class BeschwerdeTest {
 
         String toStringResult = beschwerde.toString();
 
-        assertThat(toStringResult).contains("titel=Testtitel");
-        assertThat(toStringResult).contains("beschwerdeTyp=Infrastruktur");
-        assertThat(toStringResult).contains("textfeld=Das ist ein Beispieltext für das Textfeld.");
+        assertThat(toStringResult)
+                .contains("titel=Testtitel", "beschwerdeTyp=Infrastruktur", "textfeld=Das ist ein Beispieltext für das Textfeld.");
+
     }
 
         private Validator validator;
@@ -196,7 +196,6 @@ class BeschwerdeTest {
     void testConstructorWithParameters() {
         Beschwerde beschwerde = new Beschwerde("Titel", "Typ", "Text", null, null);
 
-        //assertThat(beschwerde.getId()).isNotNull();
         assertThat(beschwerde.getErstellDatum()).isNotNull();
         assertThat(beschwerde.getStatus()).isNotNull();
         assertThat(beschwerde.getPrioritaet()).isNotNull();
@@ -210,7 +209,6 @@ class BeschwerdeTest {
     @Test
     void testConstructorWithInvalidParameters() {
         // Test mit null-Werten und prüfen, ob Fehler auftreten
-        Date date = new Date();
         Beschwerde beschwerde = new Beschwerde(null, null, null, null, null, null, null, null, null, null);
 
         assertThat(beschwerde.getId()).isNull();
