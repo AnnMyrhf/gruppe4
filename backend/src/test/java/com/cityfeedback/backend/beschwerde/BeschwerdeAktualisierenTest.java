@@ -31,9 +31,11 @@ class BeschwerdeAktualisierenTest {
         beschwerde.setStatus(Status.IN_BEARBEITUNG);
     }
 
+    /**
+     * Überprüft, ob der Standard-Konstruktor ohne Argumente ein korrektes Objekt erstellt.
+     */
     @Test
     void testNoArgsConstructor() {
-        // Test für den Standard-Konstruktor ohne Argumente
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         assertNotNull(aktualisieren, "Das Objekt sollte instanziiert werden.");
         assertNull(aktualisieren.getId(), "Die ID sollte null sein.");
@@ -43,9 +45,11 @@ class BeschwerdeAktualisierenTest {
         assertNull(aktualisieren.getKommentar(), "Der Kommentar sollte null sein");
     }
 
+    /**
+     * Überprüft, ob der Konstruktor mit einem `Beschwerde`-Objekt die Felder korrekt initialisiert.
+     */
     @Test
     void testConstructorWithBeschwerde() {
-        // Test für den Konstruktor, der ein `Beschwerde`-Objekt erwartet
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren(beschwerde);
 
         assertNotNull(aktualisieren, "Das Objekt sollte instanziiert werden.");
@@ -56,57 +60,68 @@ class BeschwerdeAktualisierenTest {
         assertNotNull(aktualisieren.getTimestamp(), "Der Timestamp sollte gesetzt sein.");
     }
 
+    /**
+     * Überprüft die equals- und hashCode-Methoden auf korrekte Implementierung.
+     */
     @Test
     void testEqualsAndHashCode() {
-        // Test für die equals- und hashCode-Methoden
         BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(beschwerde);
         BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(beschwerde);
 
         assertEquals(aktualisieren1, aktualisieren2, "Die Objekte sollten gleich sein.");
         assertEquals(aktualisieren1.hashCode(), aktualisieren2.hashCode(), "Die Hash-Codes sollten gleich sein.");
 
-        // Test für Ungleichheit
         beschwerde.setTitel("Neuer Titel");
         BeschwerdeAktualisieren aktualisieren3 = new BeschwerdeAktualisieren(beschwerde);
         assertNotEquals(aktualisieren1, aktualisieren3, "Die Objekte sollten ungleich sein.");
     }
 
+    /**
+     * Überprüft, ob der Getter und Setter für den Titel korrekt funktionieren.
+     */
     @Test
     void testSetAndGetTitel() {
-        // Test für den Getter und Setter des Titels
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         aktualisieren.setTitel("Neuer Titel");
         assertEquals("Neuer Titel", aktualisieren.getTitel(), "Der Titel sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Überprüft, ob der Getter und Setter für den Status korrekt funktionieren.
+     */
     @Test
     void testSetAndGetStatus() {
-        // Test für den Getter und Setter des Status
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         aktualisieren.setStatus(Status.IN_BEARBEITUNG);
         assertEquals(Status.IN_BEARBEITUNG, aktualisieren.getStatus(), "Der Status sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Überprüft, ob der Getter und Setter für den Kommentar korrekt funktionieren.
+     */
     @Test
     void testSetAndGetKommentar() {
-        // Test für den Getter und Setter des Kommentars
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         aktualisieren.setKommentar("Neuer Kommentar");
-        assertEquals("Neuer Kommentar", aktualisieren.getKommentar(), "Der neue Kommentar sollte korrekt gesetzt werden.");
+        assertEquals("Neuer Kommentar", aktualisieren.getKommentar(), "Der Kommentar sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Überprüft, ob der Getter und Setter für den Timestamp korrekt funktionieren.
+     */
     @Test
     void testSetAndGetTimestamp() {
-        // Test für den Getter und Setter des Timestamps
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
         aktualisieren.setTimestamp(timestamp2);
         assertEquals(timestamp2, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Überprüft die equals-Methode mit verschiedenen Objekten.
+     */
     @Test
     void testEquals_Object() {
-        // Test für equals(Object)
         BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Ein Kommentar");
         BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Ein Kommentar");
 
@@ -119,9 +134,11 @@ class BeschwerdeAktualisierenTest {
         assertNotEquals(aktualisieren1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
     }
 
+    /**
+     * Überprüft den Konstruktor mit Parametern (Long, Timestamp, String, Status, Kommentar).
+     */
     @Test
     void testConstructorWithParameters() {
-        // Test für den Konstruktor mit Parametern (Long, Timestamp, String, Status, Prioritaet)
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren(2L, timestamp, "Neuer Titel", Status.IN_BEARBEITUNG, "Ein Kommentar");
         assertEquals(2L, aktualisieren.getId(), "Die ID sollte korrekt gesetzt werden.");
         assertEquals("Neuer Titel", aktualisieren.getTitel(), "Der Titel sollte korrekt gesetzt werden.");
@@ -130,17 +147,21 @@ class BeschwerdeAktualisierenTest {
         assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Überprüft die toString-Methode auf korrekte Implementierung.
+     */
     @Test
     void testToString() {
-        // Test für toString()
         String expectedString = "BeschwerdeAktualisieren(id=1, timestamp=" + timestamp.toString() +
                 ", titel=Titel, status=IN_BEARBEITUNG, kommentar=Testkommentar)";
         assertEquals(expectedString, beschwerdeAktualisieren.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
+    /**
+     * Überprüft die hashCode-Methode auf korrekte Implementierung.
+     */
     @Test
     void testHashCode() {
-        // Test für hashCode()
         BeschwerdeAktualisieren aktualisieren1 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Ein Kommentar");
         BeschwerdeAktualisieren aktualisieren2 = new BeschwerdeAktualisieren(1L, timestamp, "Titel", Status.IN_BEARBEITUNG, "Ein Kommentar");
 
@@ -150,9 +171,11 @@ class BeschwerdeAktualisierenTest {
         assertNotEquals(aktualisieren1.hashCode(), beschwerdeAktualisieren2.hashCode(), "Die Hash-Codes sollten ungleich sein.");
     }
 
+    /**
+     * Überprüft, ob die setId-Methode die ID korrekt setzt.
+     */
     @Test
     void testSetId() {
-        // Test für setId(Long)
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
         aktualisieren.setId(100L);
         assertEquals(100L, aktualisieren.getId(), "Die ID sollte korrekt gesetzt werden.");

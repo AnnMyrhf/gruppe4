@@ -410,8 +410,6 @@ class BeschwerdeTest {
         assertNotEquals( "Der hashCode sollte nicht 0 sein.", hashCode != 0);
     }
 
-
-
     @Test
     void testHashCode_AllFieldsDifferent() {
         Beschwerde beschwerde1 = new Beschwerde();
