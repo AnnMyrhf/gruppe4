@@ -389,7 +389,6 @@ class BuergerTest {
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(2, violations.size());
-        //assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -398,7 +397,6 @@ class BuergerTest {
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für eine ungültige E-Mail auftreten.");
-       // assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
     }
 
     @Test
