@@ -135,7 +135,7 @@ public class BeschwerdeAktualisierenTest {
     void testToString() {
         // Test für toString()
         String expectedString = "BeschwerdeAktualisieren(id=1, timestamp=" + timestamp.toString() +
-                ", titel=Titel, status=IN_BEARBEITUNG, prioritaet=HOCH)";
+                ", titel=Titel, status=IN_BEARBEITUNG, kommentar=Testkommentar)";
         assertEquals(expectedString, beschwerdeAktualisieren.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
