@@ -405,8 +405,6 @@ class BeschwerdeTest {
 
         int hashCode = beschwerde.hashCode();
 
-        // Stellen Sie sicher, dass ein neuer Hash-Code korrekt berechnet wird.
-        assertNotNull(hashCode, "Der Hash-Code eines neuen Objekts darf nicht null sein.");
     }
 
     @Test
