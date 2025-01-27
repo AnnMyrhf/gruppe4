@@ -6,13 +6,16 @@ import { useSelector, useDispatch } from "react-redux";
 import logo from "../assests/Logo.png";
 import UserService from "../services/user.service"
 
-
+// Erstellt eine wiederverwendbare Komponente Header
+// @author Maik Bartels
 const Header = () => {
+
     const dispatch = useDispatch();
     const { user: currentUser } = useSelector((state) => state.auth);
     const [showDialog, setShowDialog] = useState(false);
     const navigate = useNavigate();
 
+    // Logout Button Handler
     const logOut = useCallback(() => {
         if (currentUser.role === "BUERGER") {
             dispatch(buergerLogout());
@@ -21,10 +24,12 @@ const Header = () => {
         }
     }, [dispatch, currentUser]);
 
+    // Mitarbeiter/Burger löschen Button handler
     const handleDeleteClick = () => {
         setShowDialog(true);
     };
 
+    // Dialog Confirm
     const handleConfirmDelete = () => {
         setShowDialog(false);
         if (currentUser.role.some(item => item.authority === 'BUERGER')) {
@@ -67,10 +72,12 @@ const Header = () => {
         }
     };
 
+    // Dialog Cancel Button
     const handleCancel = () => {
         setShowDialog(false);
     };
-    // TODO Button Styling
+
+    // Markup header Komponent
     return (
         <header>
             <div style={{ display: "flex", gap: "8px" }}>
@@ -109,6 +116,7 @@ const Header = () => {
     );
 };
 
+// Styling
 const backdropStyle = {
     position: "fixed",
     top: 0,

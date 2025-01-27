@@ -5,8 +5,10 @@ import Toaster from "../components/Toaster";
 import {useDispatch, useSelector} from "react-redux";
 import backIcon from "../assests/arrow-left-solid.svg";
 
-
+// Zeigt die Seite zum anlegen einer neuen Beschwerde und schickt diese an das backend
+// @author Maik Bartels
 const BeschwerdeForm = () => {
+  // States
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
@@ -20,6 +22,7 @@ const BeschwerdeForm = () => {
     titel: ""
   });
 
+  // Toaster Handler
   const handleShowToast = (message, status) => {
     setToastMessage(message);
     setToastStatus(status);
@@ -29,6 +32,7 @@ const BeschwerdeForm = () => {
     setTimeout(() => setShowToast(false), 3500);
   };
 
+  // Speichere Änderungen der Inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -38,13 +42,16 @@ const BeschwerdeForm = () => {
     console.log(formData)
   };
 
+  // Speichere hochgeladenes file separat
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // Go to Dashboard Handler
  function goToDashboard(){
         navigate('/dashboard', { replace: true });
 }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,6 +66,7 @@ const BeschwerdeForm = () => {
       data.append("file", file); // Datei hinzufügen
     }
 
+    // api call neue Beschwerde einreichen
     UserService.postBeschwerde(data).then(
         (response) => {
           handleShowToast("Beschwerde erfolgreich eingereicht", "success");
@@ -77,7 +85,7 @@ const BeschwerdeForm = () => {
     );
   };
 
-
+  // neue Beschwerde markup
   return (
       <div style={{
         width: "100%",

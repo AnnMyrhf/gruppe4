@@ -10,14 +10,15 @@ import decorationIMG from "../assests/FeedbackIMG.png"
 import Toaster from "../components/Toaster";
 
 
-const LoginForm = () => {
+// Zeigt das Loginformular
+// @author Katja Schneider, Maik Bartels
+  const LoginForm = () => {
+    // States
     const [formData, setFormData] = useState({
     email: '',
     passwort: '',
   });
-
-const [validation, setValidation] = useState({})
-
+  const [validation, setValidation] = useState({})
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("Bürger");
@@ -26,6 +27,7 @@ const [validation, setValidation] = useState({})
   const [toastMessage, setToastMessage] = useState('');
   const [toastStatus, setToastStatus] = useState('');
 
+  // Validation Effect
   useEffect(() => {
     if (Object.keys(validation).length > 0) {
       handleShowToast("Login fehlgeschlagen", "error");
@@ -33,10 +35,12 @@ const [validation, setValidation] = useState({})
     }
   }, [validation]);
 
+  // Falls User bereits im localstorage zu Dashboard gehen
   if (currentUser) {
     return <Navigate to="/dashboard" />;
   }
 
+  // Toaster Handler
   const handleShowToast = (message, status) => {
     setToastMessage(message);
     setToastStatus(status);
@@ -46,6 +50,7 @@ const [validation, setValidation] = useState({})
     setTimeout(() => setShowToast(false), 3500);
   };
 
+  // Speichert Input änderungen im State
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValidation({})
@@ -55,6 +60,8 @@ const [validation, setValidation] = useState({})
     }));
   };
 
+  // Submit on login Event
+  // api call Daten abfragen
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedRole === "Bürger"){
@@ -76,11 +83,13 @@ const [validation, setValidation] = useState({})
     }
   };
 
+  // reset Validation bei role change von Buürger und Mitarbeiter
   const handleRoleChange = (role) => {
     setValidation({})
     setSelectedRole(role);
   };
 
+  // keydown Event
   const handleKeyDown = (event, role) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault(); // Verhindert Scrollen bei Leertaste
@@ -88,6 +97,7 @@ const [validation, setValidation] = useState({})
     }
   };
 
+  // login markup
   return (
       <div className="login-container">
         <div className="login-decoration">

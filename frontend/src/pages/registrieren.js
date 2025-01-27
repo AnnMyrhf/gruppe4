@@ -8,7 +8,10 @@ import mitarbeiterIcon from "../assests/user-tie-solid.svg";
 import {mitarbeiterRegister} from "../actions/auth-mitarbeiter";
 import Toaster from "../components/Toaster";
 
+// Zeigt das Registerformular und sendet Daten an das backend
+// @author Katja Schneider, Maik Bartels
 const RegistrationForm = () => {
+  // States
   const [formData, setFormData] = useState({
     anrede: '',
     vorname: '',
@@ -19,10 +22,7 @@ const RegistrationForm = () => {
     abteilung: '',
     position: ''
   });
-
   const [confirmPasswort, setConfirmPasswort] = useState("")
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("Bürger");
@@ -32,6 +32,7 @@ const RegistrationForm = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [validation, setValidation] = useState({})
 
+  // Validation Effect
   useEffect(() => {
     if (Object.keys(validation).length > 0) {
       handleShowToast("Registrierung nicht erfolgreich", "error");
@@ -39,10 +40,12 @@ const RegistrationForm = () => {
     }
   }, [validation]);
 
+  // navigate to dashboard falls User im localstorage
   if (currentUser) {
     return <Navigate to="/dashboard" />;
   }
 
+  // Speichere Daten aus Inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -59,10 +62,13 @@ const RegistrationForm = () => {
     }
   };
 
+  // Sichere Confirm Input
   const handleConfirmChange = (e) =>{
     setConfirmPasswort(e.target.value);
   }
 
+  // api call
+  // testen ob Bürger oder Mitarbeiter registrieren
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedRole === "Bürger"){
@@ -98,7 +104,7 @@ const RegistrationForm = () => {
   };
 
 
-
+  // Toaster handler
   const handleShowToast = (message, status) => {
     setToastMessage(message);
     setToastStatus(status);
@@ -108,6 +114,7 @@ const RegistrationForm = () => {
     setTimeout(() => setShowToast(false), 3500);
   };
 
+  // validation zurücksetzen, wenn Rolle geändert wird
   const handleRoleChange = (role) => {
     setSelectedRole(role);
   };
@@ -119,6 +126,7 @@ const RegistrationForm = () => {
     }
   };
 
+  // register markup
   return (
       <div className="login-container">
         <div className="login-decoration">

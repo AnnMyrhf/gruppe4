@@ -4,16 +4,17 @@ import { useSelector } from "react-redux";
 import UserService from "../services/user.service";
 import backIcon from "../assests/arrow-left-solid.svg";
 import Toaster from "../components/Toaster";
-
+// Zeigt die Details einer Beschwerde, wenn Beschwerde im Dashboard ausgewählt wird. Für Mitarbeiter sind Änderungen möglich
+// @author Maik Bartels
 export default function BeschwerdeDetail() {
     const { id } = useParams(); // ID aus der URL holen
-    const [beschwerde, setBeschwerde] = useState({});
+    const [beschwerde, setBeschwerde] = useState({}); // Beschwerden
     const [originalBeschwerde, setOriginalBeschwerde] = useState(null); // Zustand für ursprüngliche Daten
-    const navigate = useNavigate();
-    const { user: currentUser } = useSelector((state) => state.auth);
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastStatus, setToastStatus] = useState('');
+    const navigate = useNavigate(); // Navigate
+    const { user: currentUser } = useSelector((state) => state.auth); // Angemeldeter User
+    const [showToast, setShowToast] = useState(false); // Toaster state
+    const [toastMessage, setToastMessage] = useState(''); // Toaster Message
+    const [toastStatus, setToastStatus] = useState(''); // Toaster Status
     const anhang = beschwerde.anhang;
     const hasValidAnhang = anhang && anhang.daten && anhang.datenTyp;
 
@@ -53,6 +54,7 @@ export default function BeschwerdeDetail() {
         return STATUS_LABELS[prio] || 'Unbekannter Status';
     };
 
+    // Handle changes der Beschwerde
     const handleChange = (e) => {
         const { name, value } = e.target;
         setBeschwerde(prevState => ({
@@ -61,6 +63,7 @@ export default function BeschwerdeDetail() {
         }));
     };
 
+    // Api call beschwerden
     useEffect(() => {
         UserService.getBeschwerde(id).then(
             (response) => {
@@ -85,7 +88,7 @@ export default function BeschwerdeDetail() {
     }, [id]);
 
 
-
+    // Api Put call für Änderungen der Beschwerde
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -101,22 +104,9 @@ export default function BeschwerdeDetail() {
                     handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
                 });
         }
-
-        // if (beschwerde.status !== originalBeschwerde.status) {
-        //     UserService.updateStatus(id, beschwerde.status)
-        //         .then(response => {
-        //             console.log("Status aktualisiert:", response.data);
-        //             handleShowToast("Beschwerde aktualisiert", "success")
-        //
-        //         })
-        //         .catch(error => {
-        //             console.error("Fehler beim Aktualisieren des Status:", error);
-        //             handleShowToast("Beschwerde aktualisieren fehlgeschlagen", "error")
-        //
-        //         });
-        // }
     };
 
+    // Toaster zeigen
     const handleShowToast = (message, status) => {
         setToastMessage(message);
         setToastStatus(status);
@@ -126,10 +116,12 @@ export default function BeschwerdeDetail() {
         setTimeout(() => setShowToast(false), 3500);
     };
 
+    // Ladezeit des api calls abfangen
     if (!beschwerde) {
         return <p>Lade Beschwerde...</p>;
     }
 
+    // Styling
     const mainStyle = {
         padding: "64px",
         display: "flex",
@@ -137,7 +129,8 @@ export default function BeschwerdeDetail() {
         gap: "16px",
         position: 'relative'
     };
-    // TODO Styling
+
+    // beschwerde Detail markup
     return (
         <div style={mainStyle}>
             <button className="tertiaryBtn"

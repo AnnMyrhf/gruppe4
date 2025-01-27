@@ -11,10 +11,16 @@ import Header from "./components/Header";
 import BeschwerdeDetail from "./pages/beschwerdeDetail";
 import NeueBeschwerde from "./pages/neueBeschwerde";
 
+// Routet die Anwendung, zeigt abhängig der URL die richtige Seite an. Header wird nur angezeigt, wenn User angemeldet
+// @author Maik Bartels
 export default function App(){
 
+    // testen, ob User angemeldet
     const { user: currentUser } = useSelector((state) => state.auth);
 
+    // App markup
+    // React Router um Layout festzulegen
+    // Header nur wenn User angemeldet
     return (
         <div className="app" style={{
             display: "flex",

@@ -3,17 +3,18 @@ import {Link, Navigate, useNavigate} from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import UserService from "../services/user.service"
 import Beschwerde from "../components/beschwerde";
-
+// Holt die Daten (Beschwerden) aus dem backend und zeigt sie auf einem Dashboard
+// @author Maik Bartels, Katja Schneider
 const Dashboard = () => {
 
     const [beschwerden, setBeschwerden] = useState([]);
     const [name, setName] = useState("User");
-
-    const dispatch = useDispatch();
     const { user: currentUser } = useSelector((state) => state.auth);
     const navigate = useNavigate();
 
+    // Api call Beschwerden
     useEffect(() => {
+        //Abfrage ob Bürger oder Mitarbeiter
         if (currentUser.role.some(item => item.authority === 'BUERGER')) {
             console.log("BUERGER ist vorhanden!");
             UserService.getBuergerDashBoard(currentUser.id).then(
@@ -83,10 +84,12 @@ const Dashboard = () => {
         }
     }, []);
 
+    // klick auf neue Beschwerde Button
     const handleClick = () => {
         navigate('/neuebeschwerde');
     }
 
+    // Dashboard markup
     return (
         <div style={{
             width: "100%",

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
+// Erstellt eine wiederverwendbare Komponente Toaster
+// @author Maik Bartels
 const Toaster = ({ text, visible, status }) => {
     const [show, setShow] = useState(visible);
 
+    // Effect um Toaster anzuzeigen
     useEffect(() => {
         if (visible) {
             setShow(true);
@@ -52,7 +54,7 @@ const Toaster = ({ text, visible, status }) => {
     };
 
     const statusStyles = getStatusStyles(status);
-
+    // Toaster Markup
     return (
         <div style={{
             ...styles.toastContainer,
@@ -67,6 +69,7 @@ const Toaster = ({ text, visible, status }) => {
     );
 };
 
+// Styles
 const styles = {
     toastContainer: {
         position: 'absolute',

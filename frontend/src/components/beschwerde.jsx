@@ -1,11 +1,13 @@
 import "../styles/beschwerde.css";
 import Tag from './Tag';
 
+// Erstellt eine wiederverwendbare Komponente Beschwerde
+// @author Maik Bartels
 export default function Beschwerde(props) {
     const {beschwerde} = props
 
     console.log(beschwerde)
-
+    // Datum fromatieren
     const formatDate = (dateString) => {
         const date = new Date(dateString); // Umwandlung des ISO 8601-Strings in ein Date-Objekt
         const options = {
@@ -18,6 +20,7 @@ export default function Beschwerde(props) {
         return new Intl.DateTimeFormat('de-DE', options).format(date);
     };
 
+    // Status formatieren
     const getReadableStatus = (status) => {
         const STATUS_LABELS = {
             EINGEGANGEN: 'Eingegangen',
@@ -28,6 +31,7 @@ export default function Beschwerde(props) {
         return STATUS_LABELS[status] || 'Unbekannter Status';
     };
 
+    //Markup der Beschwerde Komponente
     return (
         <div className="beschwerde">
             <div className="beschwerde-head">
@@ -39,12 +43,6 @@ export default function Beschwerde(props) {
                     <p>{formatDate(beschwerde.erstellDatum)}</p>
                     <div className="subinfo-divider"></div>
                     <p>{beschwerde.beschwerdeTyp}</p>
-                    {/*{beschwerde.anhang && (
-                        <>
-                            <div className="subinfo-divider"></div>
-                            <p>{beschwerde.anhang}</p>
-                        </>
-                    )}*/}
                 </div>
             </div>
             <p className="beschwerde-text">{beschwerde.textfeld}</p>

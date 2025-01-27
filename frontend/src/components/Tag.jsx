@@ -1,5 +1,6 @@
 import React from 'react';
-
+// Erstellt eine wiederverwendbare Komponente Tag
+// @author Maik Bartels
 // Definiere eine Funktion, um die Farbe basierend auf dem Status auszuwählen
 const getTagColor = (text) => {
     switch (text) {
