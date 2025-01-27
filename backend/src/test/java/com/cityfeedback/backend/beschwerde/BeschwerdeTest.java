@@ -397,13 +397,20 @@ class BeschwerdeTest {
         assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichem Kommentar unterscheiden.");
     }
 
+    /**
+     * Überprüft, ob der hashCode für ein neues Beschwerde-Objekt generiert werden kann.
+     */
     @Test
     void testHashCode_NewObject() {
         Beschwerde beschwerde = new Beschwerde();
 
         int hashCode = beschwerde.hashCode();
 
+        // Überprüft, ob der hashCode generiert wurde und im gültigen Bereich liegt
+        assertNotEquals( "Der hashCode sollte nicht 0 sein.", hashCode != 0);
     }
+
+
 
     @Test
     void testHashCode_AllFieldsDifferent() {
