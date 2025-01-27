@@ -10,7 +10,11 @@ import lombok.*;
 
 import java.sql.Timestamp;
 
-
+/**
+ * Repraesentiert die Erstellung einer neuen Beschwerde als Domain-Event
+ *
+ * @author Ann-Kathrin Meyerhof
+ */
 @Entity
 @Data
 @NoArgsConstructor

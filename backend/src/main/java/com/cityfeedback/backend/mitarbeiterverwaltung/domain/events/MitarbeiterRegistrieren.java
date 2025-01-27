@@ -11,7 +11,11 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
-
+/**
+ * Repraesentiert ein Domain-Event, das bei Registrierung eines Mitarbeiters ausgeloest wird.
+ *
+ * @author Ann-Kathrin Meyerhof
+ */
 @Entity
 @Data
 @NoArgsConstructor

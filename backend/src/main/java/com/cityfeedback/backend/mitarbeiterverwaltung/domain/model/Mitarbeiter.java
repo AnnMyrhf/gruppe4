@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * Repraesentiert einen Buerger in der CityFeedback-Anwendung
+ *
+ * @author Ann-Kathrin Meyerhof, Maik Bartels
  */
 @Entity // JPA-Entitaet fuer DB
 @Data
@@ -73,10 +75,11 @@ public class Mitarbeiter implements UserDetails {
     public List<DomainEvent> getDomainEvents() {
         List<DomainEvent> events = new ArrayList<>();
 
-            events.add(new MitarbeiterRegistrieren(this));
+        events.add(new MitarbeiterRegistrieren(this));
 
         return events;
     }
+
     /*
      * Basisimplementierung (SimpleGrantedAuthority) für Zugriffskontrollentscheidung
      *
@@ -118,16 +121,7 @@ public class Mitarbeiter implements UserDetails {
 
     @Override
     public String toString() {
-        return "Mitarbeiter(" +
-                "anrede='"+ anrede + '\'' +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                ", telefonnummer='" + telefonnummer + '\'' +
-                ", email='" + email + '\'' +
-                ", passwort='" + passwort + '\'' +
-                ", abteilung='" + abteilung + '\'' +
-                ", position='" + position + '\'' +
-                ')';
+        return "Mitarbeiter(" + "anrede='" + anrede + '\'' + ", vorname='" + vorname + '\'' + ", nachname='" + nachname + '\'' + ", telefonnummer='" + telefonnummer + '\'' + ", email='" + email + '\'' + ", passwort='" + passwort + '\'' + ", abteilung='" + abteilung + '\'' + ", position='" + position + '\'' + ')';
     }
 }
 

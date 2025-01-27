@@ -6,7 +6,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 /**
- *  Service zum Versenden von Benachrichtigungen basierend auf DomainEvents
+ * Service zum Versenden von Benachrichtigungen basierend auf DomainEvents
+ *
+ * @author Ann-Kathrin Meyerhof
  */
 @Service
 public class BenachrichtigungsService {
@@ -14,7 +16,7 @@ public class BenachrichtigungsService {
     @Autowired
     private JavaMailSender mailSender;
 
-        public void sendeEmail(String empfaenger, String betreff, String text) {
+    public void sendeEmail(String empfaenger, String betreff, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(empfaenger);
         message.setSubject(betreff);

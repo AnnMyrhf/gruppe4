@@ -2,7 +2,6 @@ package com.cityfeedback.backend;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Anhang;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import com.cityfeedback.backend.beschwerdeverwaltung.infrastructure.BeschwerdeRepository;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
@@ -22,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Hauptklasse, welche die Anwendung ausfuehrt
+ * Hauptklasse, welche die Anwendung ausfuehrt und dabei die Datenbank mit Testdaten befuellt
+ *
+ * @author Maik Bartels, Ann-Kathrin Meyerhof
  */
 @SpringBootApplication
 public class BackendApplication {

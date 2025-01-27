@@ -21,17 +21,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Implementiert die Geschaeftslogik rund um die Erstellung, Bearbeitung und Loeschen von Beschwerden
+ *
+ * @author Maik Bartels, Ann-Kathrin Meyerhof
+ */
 @Service
 public class BeschwerdeService {
 
     public static final String BUERGER_EXISTIERT_NICHT = "Buerger existiert nicht:";
-
+    // Regex-Muster zur Validierung
+    private static final Pattern STATUS_PATTERN = Pattern.compile("^(OPEN|IN_PROGRESS|RESOLVED|CLOSED)$");
+    private static final Pattern DATENTYP_ANHANG_PATTERN = Pattern.compile("^(application|text|image)/[a-zA-Z0-9]+$");
+    private static final Pattern UNERLAUBTE_MUSTER = Pattern.compile("(<script>|DROP TABLE|INSERT INTO|DELETE FROM|UPDATE .+ SET|SELECT .+ FROM)");
+    // Liste unerlaubter Zeichen
+    private final String[] UNERLAUBTE_ZEICHEN = {"<", ">", ";"};
     @Autowired
     private BuergerRepository buergerRepository;
-
     @Autowired
     private BeschwerdeRepository beschwerdeRepository;
-
     @Lazy
     @Autowired
     private BuergerService buergerService;
@@ -39,14 +47,6 @@ public class BeschwerdeService {
     public BeschwerdeService() {
         this.beschwerdeRepository = beschwerdeRepository;
     }
-
-    // Regex-Muster zur Validierung
-    private static final Pattern STATUS_PATTERN = Pattern.compile("^(OPEN|IN_PROGRESS|RESOLVED|CLOSED)$");
-    private static final Pattern DATENTYP_ANHANG_PATTERN = Pattern.compile("^(application|text|image)/[a-zA-Z0-9]+$");
-    private static final Pattern UNERLAUBTE_MUSTER = Pattern.compile("(<script>|DROP TABLE|INSERT INTO|DELETE FROM|UPDATE .+ SET|SELECT .+ FROM)");
-
-    // Liste unerlaubter Zeichen
-    private String[] UNERLAUBTE_ZEICHEN = {"<", ">", ";"};
 
     public List<Beschwerde> getBeschwerdenByBuergerId(Long buergerId) {
         try {
@@ -75,9 +75,9 @@ public class BeschwerdeService {
         }
     }
 
-    public Beschwerde getBeschwerde(Long id){
+    public Beschwerde getBeschwerde(Long id) {
         Optional<Beschwerde> beschwerde = beschwerdeRepository.findById(id);
-        if (beschwerde.isEmpty()){
+        if (beschwerde.isEmpty()) {
             throw new IllegalArgumentException("Beschwerde nicht gefunden ");
         }
         return beschwerde.orElse(null);
@@ -122,8 +122,7 @@ public class BeschwerdeService {
         String kommentar = data.get("kommentar");
         String status = data.get("status");
 
-        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId)
-                .orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
+        Beschwerde beschwerde = beschwerdeRepository.findById(beschwerdeId).orElseThrow(() -> new IllegalArgumentException("Beschwerde nicht gefunden"));
 
         beschwerde.setKommentar(kommentar);
         Status newStatus = Status.valueOf(status.toUpperCase()); // Konvertierung in Großbuchstaben
@@ -158,7 +157,7 @@ public class BeschwerdeService {
         }
     }*/
 
-    public void deleteBeschwerde(Long beschwerdeId){
+    public void deleteBeschwerde(Long beschwerdeId) {
         try {
             // Überprüfen, ob die Beschwerde existiert
             Optional<Beschwerde> beschwerdeOptional = beschwerdeRepository.findById(beschwerdeId);

@@ -21,6 +21,11 @@ import java.util.List;
 
 import static com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status.*;
 
+/**
+ * Repraesentiert eine Beschwerde eines Buergers
+ *
+ * @author Ann-Kathrin Meyerhof, Maik Bartels
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -53,7 +58,6 @@ public class Beschwerde {
 
     @Embedded
     private Anhang anhang;
-
 
     @ManyToOne
     @JoinColumn(name = "buerger_id")

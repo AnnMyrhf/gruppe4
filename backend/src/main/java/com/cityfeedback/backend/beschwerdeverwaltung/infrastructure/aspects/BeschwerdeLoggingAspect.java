@@ -8,6 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+/**
+ * Loggt das Erstellen und Loeschen von Beschwerden
+ *
+ * @author Maik Bartels
+ */
 @Aspect
 @Component
 public class BeschwerdeLoggingAspect {
@@ -16,25 +21,25 @@ public class BeschwerdeLoggingAspect {
     // register new Mitarbeiter
     // Pointcut für create new Mitarbeiter
     @Pointcut("execution(* com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService.createBeschwerde(..))")
-    public void createBeschwerde() {}
+    public void createBeschwerde() {
+    }
 
-    @AfterReturning(
-            pointcut = "createBeschwerde()",
-            returning = "result"
+    @AfterReturning(pointcut = "createBeschwerde()", returning = "result"
 
     )
     public void createBeschwerdeLogging(ResponseEntity<?> result) {
-        if (result.getStatusCode().isError()){
-            logger.error("Beschwerde erstellen fehlgeschlagen: " + result.getStatusCode().toString() + " "  + result.getBody().toString());
+        if (result.getStatusCode().isError()) {
+            logger.error("Beschwerde erstellen fehlgeschlagen: " + result.getStatusCode() + " " + result.getBody().toString());
         } else {
-            logger.info(result.getBody().toString() + " " + result.getStatusCode().toString());
+            logger.info(result.getBody().toString() + " " + result.getStatusCode());
         }
     }
 
     // lösche Beschwerde
     // Pointcut für lösche Beschwerde
     @Pointcut("execution(* com.cityfeedback.backend.beschwerdeverwaltung.application.service.BeschwerdeService.deleteBeschwerde(..))")
-    public void deleteBeschwerde() {}
+    public void deleteBeschwerde() {
+    }
 
     @AfterReturning(pointcut = "deleteBeschwerde()")
     public void deleteBeschwerdeLogging() {

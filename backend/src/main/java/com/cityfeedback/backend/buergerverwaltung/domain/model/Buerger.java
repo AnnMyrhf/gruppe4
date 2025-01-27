@@ -24,6 +24,8 @@ import java.util.List;
 
 /**
  * Repraesentiert einen Buerger in der CityFeedback-Anwendung
+ *
+ * @author Ann-Kathrin Meyerhof
  */
 @Entity // JPA-Entitaet fuer DB
 @Data // automatisch Getter, Setter, toString() usw
@@ -77,7 +79,7 @@ public class Buerger implements UserDetails {
     public List<DomainEvent> getDomainEvents() {
         List<DomainEvent> events = new ArrayList<>();
 
-            events.add(new BuergerLoeschen(this));
+        events.add(new BuergerLoeschen(this));
 
         return events;
     }
@@ -123,15 +125,7 @@ public class Buerger implements UserDetails {
 
     @Override
     public String toString() {
-        return "Buerger(" +
-                "anrede='" + anrede + '\'' +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                ", telefonnummer='" + telefonnummer + '\'' +
-                ", email='" + email + '\'' +
-                ", passwort='" + passwort + '\'' +
-                ", beschwerden=" + beschwerden +
-                ')';
+        return "Buerger(" + "anrede='" + anrede + '\'' + ", vorname='" + vorname + '\'' + ", nachname='" + nachname + '\'' + ", telefonnummer='" + telefonnummer + '\'' + ", email='" + email + '\'' + ", passwort='" + passwort + '\'' + ", beschwerden=" + beschwerden + ')';
     }
 }
 

@@ -9,6 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST-Controller fuer Mitarbeiter
+ * Verarbeitet HTTP -Requests eines Mitarbeiters
+ *
+ * @author Maik Bartels, Ann-Kathrin Meyerhof
+ */
 @CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 @RestController
@@ -16,10 +22,6 @@ public class MitarbeiterController {
 
     MitarbeiterService mitarbeiterService;
 
-    /*@PostMapping("/mitarbeiter-registrieren")
-    public ResponseEntity<?> registriereMitarbeiter(@Valid @RequestBody Mitarbeiter mitarbeiter) {
-        return mitarbeiterService.registriereMitarbeiter(mitarbeiter);
-    }*/
     @PostMapping("/mitarbeiter-registrieren")
     public ResponseEntity<?> registriereMitarbeiter(@Valid @RequestBody Mitarbeiter mitarbeiter, BindingResult bindingResult) {
         return mitarbeiterService.registriereMitarbeiter(mitarbeiter, bindingResult);

@@ -11,11 +11,16 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+/**
+ * Repraesentiert ein Domain-Event, das bei Loeschen eines Buergers ausgeloest wird.
+ *
+ * @author Ann-Kathrin Meyerhof
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuergerLoeschen implements DomainEvent{
+public class BuergerLoeschen implements DomainEvent {
 
     @Id // Markiert id als Primaerschluessel
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert

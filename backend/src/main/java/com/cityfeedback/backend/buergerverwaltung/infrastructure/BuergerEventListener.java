@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+/**
+ * Hoert auf Ereignisse im Zusammenhang mit einem Buerger und fuehrt entsprechende Aktionen aus
+ *
+ * @author Ann-Kathrin Meyerhof
+ */
 @Component
 public class BuergerEventListener {
 

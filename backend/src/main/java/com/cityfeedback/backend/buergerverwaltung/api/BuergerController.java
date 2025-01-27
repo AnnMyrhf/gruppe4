@@ -10,8 +10,10 @@ import com.cityfeedback.backend.buergerverwaltung.domain.model.Buerger;
 import com.cityfeedback.backend.buergerverwaltung.application.service.BuergerService;
 
 /**
- * REST-Controller für die Buerger-Registrierung
+ * REST-Controller für die Buerger
  * Verarbeitet HTTP -Requests fuer Buerger.
+ *
+ * @author Ann-Kathrin Meyerhof, Maik Bartels
  */
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -36,7 +38,7 @@ public class BuergerController {
     }
 
     @GetMapping("/buerger-information/{id}")
-    public Buerger getBuergerInfo(@PathVariable("id") Long id){
+    public Buerger getBuergerInfo(@PathVariable("id") Long id) {
         return buergerService.getBuergerById(id).get();
     }
 }

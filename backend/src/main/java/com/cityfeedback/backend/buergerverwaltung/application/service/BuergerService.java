@@ -36,6 +36,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementiert die Geschaeftslogik fuer die Registrierung, Login und Loeschen eines Buergers
+ *
+ * @author  Ann-Kathrin Meyerhof
+ */
 @Service
 @AllArgsConstructor
 public class BuergerService {
@@ -60,13 +65,10 @@ public class BuergerService {
     public ResponseEntity<?> anmeldenBuerger(LoginDaten loginDaten) {
         try {
             // Suche nach dem Buerrger in der Datenbank
-            buergerRepository.findByEmail(loginDaten.getEmail())
-                    .orElseThrow(() -> new UsernameNotFoundException(BUERGER_EXISTIERT_NICHT + loginDaten.getEmail()));
+            buergerRepository.findByEmail(loginDaten.getEmail()).orElseThrow(() -> new UsernameNotFoundException(BUERGER_EXISTIERT_NICHT + loginDaten.getEmail()));
 
             // Authentifizierung
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDaten.getEmail(), loginDaten.getPasswort())
-            );
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDaten.getEmail(), loginDaten.getPasswort()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
@@ -94,7 +96,6 @@ public class BuergerService {
      * @param buerger der zu registrierende Buerger mit Daten
      * @return HTTP-Antwort mit Status 200 (OK) bei erfolgreichem Speichern, ansonsten 400 (Bad Request) mit einer Fehlermeldung.
      * @throws DataAccessException Falls ein Datenbankfehler auftritt.
-     * @author Ann-Kathrin Meyerhof
      */
     @Transactional//  Rollback/Fehlerbehandlung, entweder sind alle Aenderungen an der Datenbank erfolgreich oder keine
     public ResponseEntity<?> registriereBuerger(@Valid Buerger buerger, BindingResult bindingResult) { // uebergebenes Buerger-Objekt soll vor der Verarbeitung validiert werden
@@ -139,7 +140,6 @@ public class BuergerService {
      * @param id Die ID des zu loeschenden Buergers.
      * @return ResponseEntity mit Erfolgsmeldung oder Fehlermeldung.
      * @throws EntityNotFoundException Wenn kein Buerger mit der angegebenen ID gefunden wird.
-     * @author Ann-Kathrin Meyerhof
      */
     @Transactional
     public ResponseEntity<?> loescheBuerger(Long id) {
@@ -147,7 +147,7 @@ public class BuergerService {
             // Bürger in der Datenbank speichern
             //Prüfen ob Bürger noch Beschwerden hat
             List<Beschwerde> beschwerden = beschwerdeService.getBeschwerdenByBuergerId(id);
-            if (!beschwerden.isEmpty()){
+            if (!beschwerden.isEmpty()) {
                 beschwerden.forEach(beschwerde -> beschwerdeService.deleteBeschwerde(beschwerde.getId()));
             }
             Buerger buerger = buergerRepository.findById(id).orElseThrow(() -> new ResolutionException(BUERGER_EXISTIERT_NICHT + id));
@@ -161,7 +161,7 @@ public class BuergerService {
         return ResponseEntity.ok("Bürgeraccount erfolgreich gelöscht");
     }
 
-    public Optional<Buerger> getBuergerById(Long id){
+    public Optional<Buerger> getBuergerById(Long id) {
         return buergerRepository.findById(id);
     }
 

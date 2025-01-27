@@ -10,7 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * REST-Controller für die Beschwerden eines Buergers
+ * Verarbeitet HTTP -Requests eines Buergers oder eines Mitarbeiters.
+ *
+ * @author Maik Bartels
+ */
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
@@ -19,27 +24,22 @@ public class BeschwerdeController {
     BeschwerdeService beschwerdeService;
 
     @GetMapping("/buerger/dashboard/{id}")
-    public List<Beschwerde> getBeschwerdenByBuergerId(@PathVariable("id") Long id){
+    public List<Beschwerde> getBeschwerdenByBuergerId(@PathVariable("id") Long id) {
         return beschwerdeService.getBeschwerdenByBuergerId(id);
     }
 
     @GetMapping("/mitarbeiter/dashboard")
-    public List<Beschwerde> getAllBeschwerden(){
+    public List<Beschwerde> getAllBeschwerden() {
         return beschwerdeService.getAllBeschwerden();
     }
 
     @GetMapping("/beschwerde/{id}")
-    public Beschwerde getBeschwerde(@PathVariable("id") Long id){
+    public Beschwerde getBeschwerde(@PathVariable("id") Long id) {
         return beschwerdeService.getBeschwerde(id);
     }
 
     @PostMapping("beschwerde/erstellen")
-    public ResponseEntity<?> createBeschwerde(
-            @RequestParam("buergerId") Long buergerId,
-            @RequestParam("titel") String titel,
-            @RequestParam("beschwerdeTyp") String beschwerdeTyp,
-            @RequestParam("textfeld") String textfeld,
-            @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<?> createBeschwerde(@RequestParam("buergerId") Long buergerId, @RequestParam("titel") String titel, @RequestParam("beschwerdeTyp") String beschwerdeTyp, @RequestParam("textfeld") String textfeld, @RequestParam(value = "file", required = false) MultipartFile file) {
 
         return beschwerdeService.createBeschwerde(titel, beschwerdeTyp, textfeld, file, buergerId);
     }
@@ -58,8 +58,6 @@ public class BeschwerdeController {
 //        Beschwerde aktualisierteBeschwerde = beschwerdeService.updateStatus(id, status);
 //        return ResponseEntity.ok(aktualisierteBeschwerde);
 //    }
-
-
 
 
 }

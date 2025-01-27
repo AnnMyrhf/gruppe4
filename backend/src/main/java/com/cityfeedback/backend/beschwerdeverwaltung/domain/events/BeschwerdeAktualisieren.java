@@ -12,27 +12,32 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+/**
+ * Repraesentiert ein Domain-Event, das eine Aktualisierung einer Beschwerde signalisiert
+ *
+ * @author Ann-Kathrin Meyerhof
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeschwerdeAktualisieren implements DomainEvent{
+public class BeschwerdeAktualisieren implements DomainEvent {
 
 
-        @Id // Markiert id als Primaerschluessel
-        @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
-        private Long id;
-        private Timestamp timestamp;
-        private String titel;
-        private Status status;
-        private String kommentar;
+    @Id // Markiert id als Primaerschluessel
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // id wird automatisch inkrementiert
+    private Long id;
+    private Timestamp timestamp;
+    private String titel;
+    private Status status;
+    private String kommentar;
 
-        public BeschwerdeAktualisieren(Beschwerde beschwerde) {
-            this.id = beschwerde.getId();
-            this.timestamp = new Timestamp(System.currentTimeMillis());
-            this.titel = beschwerde.getTitel();
-            this.status = beschwerde.getStatus();
-            this.kommentar = beschwerde.getKommentar();
-        }
+    public BeschwerdeAktualisieren(Beschwerde beschwerde) {
+        this.id = beschwerde.getId();
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.titel = beschwerde.getTitel();
+        this.status = beschwerde.getStatus();
+        this.kommentar = beschwerde.getKommentar();
     }
+}
 
