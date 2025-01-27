@@ -2,6 +2,10 @@
 
 ---
 
+Dieses Repository beinhaltet ein Java-Projekt zum Thema CityFeedback. Bürger sich in einem Beschwerdesystem anmelden, Beschwerden erstellen und den Status der Bearbeitung verfolgen. Mitarbeiter bearbeiten die eingereichten Beschwerden und verschicken automatisch bei Update des Status eine Benachrichtigung an den Bürger.
+
+---
+
 **Übung 1: Handout**
 ## 1. Was ist Git und warum sollte es verwendet werden? (Katja)
 

@@ -103,9 +103,8 @@ class AnhangTest {
         Anhang anhang = new Anhang("datei.pdf", "application/pdf", 12345L, null);
         String toStringResult = anhang.toString();
 
-        assertThat(toStringResult).contains("dateiName=datei.pdf");
-        assertThat(toStringResult).contains("datenTyp=application/pdf");
-        assertThat(toStringResult).contains("dateiGroesse=12345");
-        assertThat(toStringResult).contains("daten=null");
+        assertThat(toStringResult)
+                .contains("dateiName=datei.pdf", "datenTyp=application/pdf", "dateiGroesse=12345", "daten=null");
+
     }
 }

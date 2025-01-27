@@ -328,6 +328,9 @@ class BuergerTest {
         validator = factory.getValidator();
     }
 
+    /**
+     * Überprüft, ob ein gültiges Bürgerobjekt keine Validierungsfehler aufweist.
+     */
     @Test
     void testValidBuerger() {
         Buerger validBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -336,6 +339,9 @@ class BuergerTest {
         assertTrue(violations.isEmpty(), "Es sollten keine Validierungsfehler auftreten.");
     }
 
+    /**
+     * Überprüft, dass die Anrede nicht leer sein darf.
+     */
     @Test
     void testAnredeNotBlank() {
         Buerger invalidBuerger = new Buerger("", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -345,6 +351,9 @@ class BuergerTest {
         assertEquals("Anrede darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft, dass der Vorname nicht leer sein darf.
+     */
     @Test
     void testVornameNotBlank() {
         Buerger invalidBuerger = new Buerger("Frau", "", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -354,6 +363,9 @@ class BuergerTest {
         assertEquals("Vorname darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft, dass der Vorname die maximale Länge von 30 Zeichen nicht überschreitet.
+     */
     @Test
     void testVornameMaxLength() {
         Buerger invalidBuerger = new Buerger("Frau", "MaxiMaxiMaxiMaxiMaxiMaxiMaxiMaxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -361,9 +373,11 @@ class BuergerTest {
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für einen zu langen Vornamen auftreten.");
         assertEquals("Vorname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
-
     }
 
+    /**
+     * Überprüft, dass der Nachname nicht leer sein darf.
+     */
     @Test
     void testNachnameNotBlank() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -373,6 +387,9 @@ class BuergerTest {
         assertEquals("Nachname darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft, dass der Nachname die maximale Länge von 30 Zeichen nicht überschreitet.
+     */
     @Test
     void testNachnameMaxLength() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "MusterfrauenMusterfrauenMusterfrauen", "123456789", "maxi@example.com", "Passwort1!", null);
@@ -380,27 +397,33 @@ class BuergerTest {
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size());
         assertEquals("Nachname darf max. 30 Zeichen lang sein!", violations.iterator().next().getMessage());
-
     }
 
+    /**
+     * Überprüft, dass die Telefonnummer nicht leer ist und nur Zahlen enthält.
+     */
     @Test
     void testTelefonnummerNotBlankAndOnlyNumbers() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "", "maxi@example.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(2, violations.size());
-        //assertEquals("Telefonnummer darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft, dass die E-Mail-Adresse im gültigen Format vorliegt.
+     */
     @Test
     void testEmailValid() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi.com", "Passwort1!", null);
 
         Set<ConstraintViolation<Buerger>> violations = validator.validate(invalidBuerger);
         assertEquals(1, violations.size(), "Es sollte ein Validierungsfehler für eine ungültige E-Mail auftreten.");
-       // assertEquals("must be a well-formed email address", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft, dass das Passwort nicht leer sein darf.
+     */
     @Test
     void testPasswortNotBlank() {
         Buerger invalidBuerger = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "", null);
@@ -410,6 +433,9 @@ class BuergerTest {
         assertEquals("Passwort darf nicht leer sein!", violations.iterator().next().getMessage());
     }
 
+    /**
+     * Überprüft die Implementierung der Benutzerkontodetails.
+     */
     @Test
     void testUserDetailsImplementation() {
         assertTrue(testBuerger1.isAccountNonExpired(), "Der Account sollte nicht abgelaufen sein.");
@@ -418,6 +444,9 @@ class BuergerTest {
         assertTrue(testBuerger1.isEnabled(), "Der Account sollte aktiviert sein.");
     }
 
+    /**
+     * Überprüft, ob ungültige Telefonnummern erkannt werden.
+     */
     @Test
     void testTelefonnummerInvalidFormat() {
         Buerger invalidBuerger = new Buerger("Frau", "Anna", "Muster", "abc-def-123", "anna@example.com", "Passwort123!", null);
@@ -427,6 +456,9 @@ class BuergerTest {
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Die Telefonnummer darf nur Zahlen")));
     }
 
+    /**
+     * Überprüft, ob equals und hashCode für gleiche Bürger korrekt funktionieren.
+     */
     @Test
     void testEqualsAndHashCode() {
         Buerger buerger1 = new Buerger("Herr", "Juan", "Perez", "123456789", "juan.perez@example.com", "pinFuerte123!", beschwerden);
@@ -436,6 +468,9 @@ class BuergerTest {
         assertEquals(buerger1.hashCode(), buerger2.hashCode(), "Die Hash-Codes sollten übereinstimmen.");
     }
 
+    /**
+     * Überprüft, ob equals für gleiche Attribute korrekt funktioniert.
+     */
     @Test
     void testEquals_SameAttributes() {
         Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
@@ -444,6 +479,9 @@ class BuergerTest {
         assertEquals(buerger1, buerger2);
     }
 
+    /**
+     * Überprüft, ob equals für unterschiedliche Attribute korrekt funktioniert.
+     */
     @Test
     void testEquals_DifferentAttributes() {
         Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
@@ -452,7 +490,9 @@ class BuergerTest {
         assertNotEquals(buerger1, buerger2);
     }
 
-
+    /**
+     * Überprüft, ob hashCode für gleiche Attribute korrekt funktioniert.
+     */
     @Test
     void testHashCode_SameAttributes() {
         Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
@@ -461,6 +501,9 @@ class BuergerTest {
         assertEquals(buerger1.hashCode(), buerger2.hashCode());
     }
 
+    /**
+     * Überprüft, ob hashCode für unterschiedliche Attribute korrekt funktioniert.
+     */
     @Test
     void testHashCode_DifferentAttributes() {
         Buerger buerger1 = new Buerger("Frau", "Maxi", "Musterfrau", "123456789", "maxi@example.com", "Passwort1!", beschwerden);
@@ -468,6 +511,7 @@ class BuergerTest {
 
         assertNotEquals(buerger1.hashCode(), buerger2.hashCode());
     }
+
 
 
 

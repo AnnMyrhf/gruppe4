@@ -190,7 +190,6 @@ class BeschwerdeServiceTest {
         String textfeld = "Test Text";
         MultipartFile mockFile = mock(MultipartFile.class);
         Buerger mockBuerger = new Buerger();
-        Beschwerde beschwerde = new Beschwerde();
 
         DataIntegrityViolationException exception = new DataIntegrityViolationException("Datenbankfehler", new ConstraintViolationException("Constraint verletzt", null));
 

@@ -2,7 +2,6 @@ package com.cityfeedback.backend.beschwerde;
 
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.events.BeschwerdeAktualisieren;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.model.Beschwerde;
-import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Prioritaet;
 import com.cityfeedback.backend.beschwerdeverwaltung.domain.valueobjects.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BeschwerdeAktualisierenTest {
+class BeschwerdeAktualisierenTest {
 
     private Beschwerde beschwerde;
     private BeschwerdeAktualisieren beschwerdeAktualisieren;
@@ -100,9 +99,9 @@ public class BeschwerdeAktualisierenTest {
     void testSetAndGetTimestamp() {
         // Test für den Getter und Setter des Timestamps
         BeschwerdeAktualisieren aktualisieren = new BeschwerdeAktualisieren();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        aktualisieren.setTimestamp(timestamp);
-        assertEquals(timestamp, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
+        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
+        aktualisieren.setTimestamp(timestamp2);
+        assertEquals(timestamp2, aktualisieren.getTimestamp(), "Der Timestamp sollte korrekt gesetzt werden.");
     }
 
     @Test
@@ -116,7 +115,7 @@ public class BeschwerdeAktualisierenTest {
         beschwerdeAktualisieren2.setTitel("Neuer Titel");
         assertNotEquals(aktualisieren1, beschwerdeAktualisieren2, "Die Objekte sollten ungleich sein.");
 
-        assertNotEquals(aktualisieren1, null, "Das Objekt sollte nicht gleich null sein.");
+        assertNotEquals(null, aktualisieren1, "Das Objekt sollte nicht gleich null sein.");
         assertNotEquals(aktualisieren1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
     }
 
@@ -135,7 +134,7 @@ public class BeschwerdeAktualisierenTest {
     void testToString() {
         // Test für toString()
         String expectedString = "BeschwerdeAktualisieren(id=1, timestamp=" + timestamp.toString() +
-                ", titel=Titel, status=IN_BEARBEITUNG, prioritaet=HOCH)";
+                ", titel=Titel, status=IN_BEARBEITUNG, kommentar=Testkommentar)";
         assertEquals(expectedString, beschwerdeAktualisieren.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
