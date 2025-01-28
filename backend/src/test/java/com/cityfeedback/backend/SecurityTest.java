@@ -60,6 +60,10 @@ class SecurityTest {
         buergerRepository.deleteAll();
         mitarbeiterRepository.deleteAll();
     }
+
+    /**
+     * Testet die Funktionalität der Methode loadUserByUsername mit einem Mitarbeiter und überprüft, ob das erwartete Benutzer-Objekt zurückgegeben wird
+     */
     @Test
     void testLoadUserByUsername_Mitarbeiter_SollErfolgreichSein() {
         mitarbeiterRepository.save(testMitarbeiter1);
@@ -69,6 +73,9 @@ class SecurityTest {
         assertEquals(testMitarbeiter1, userDetails);
     }
 
+    /**
+     * Testet die Funktionalität der Methode loadUserByUsername mit einem Bürger und überprüft, ob das erwartete Benutzer-Objekt zurückgegeben wird
+     */
     @Test
     void testLoadUserByUsername_Buerger_SollErfolgreichSein() {
         buergerRepository.save(testBuerger1);
@@ -78,6 +85,9 @@ class SecurityTest {
         assertEquals(testBuerger1, userDetails);
     }
 
+    /**
+     * Testet den Fall, wenn der Benutzer nicht gefunden wird, und stellt sicher, dass eine UsernameNotFoundException geworfen wird
+     */
     @Test
     void testLoadUserByUsernameNotFound() {
         mitarbeiterRepository.save(testMitarbeiter1);
@@ -88,6 +98,9 @@ class SecurityTest {
         assertThrows(UsernameNotFoundException.class, () -> benutzerDetailsService.loadUserByUsername("nicht.gefunden@example.com"));
     }
 
+    /**
+     * Testet den Konstruktor und die Getter-Methoden der JwtResponse-Klasse für Bürger
+     */
     @Test
     void testConstructorAndGetters_Buerger() {
         assertEquals("eyJhbGciOiJIUzI1NiIsInR5...", jwtResponseBuerger.getAccessToken());
@@ -97,6 +110,9 @@ class SecurityTest {
         assertArrayEquals(new String[]{"BUERGER"}, (Object[]) jwtResponseBuerger.getRole());
     }
 
+    /**
+     * Testet den Konstruktor und die Getter-Methoden der JwtResponse-Klasse für Mitarbeiter
+     */
     @Test
     void testConstructorAndGetters_Mitarbeiter() {
         assertEquals("eyJhbGciOiJIUzI1NiIsInR6...", jwtResponseMitarbeiter.getAccessToken());
@@ -106,6 +122,9 @@ class SecurityTest {
         assertArrayEquals(new String[]{"MITARBEITER"}, (Object[]) jwtResponseMitarbeiter.getRole());
     }
 
+    /**
+     * Testet die Getter-Methoden der JwtResponse-Klasse für Bürger und überprüft, ob die Werte korrekt zurückgegeben werden
+     */
     @Test
     void testGetters_Buerger() {
         String actualToken = jwtResponseBuerger.getAccessToken();
@@ -121,6 +140,9 @@ class SecurityTest {
         assertArrayEquals(new String[]{"BUERGER"}, actualRole);
     }
 
+    /**
+     * Testet die Setter-Methoden der JwtResponse-Klasse für Mitarbeiter und überprüft, ob die Werte korrekt gesetzt werden
+     */
     @Test
     void testSetters_Mitarbeiter() {
         String newToken = "newToken";
@@ -132,16 +154,20 @@ class SecurityTest {
         assertEquals(newType, jwtResponseMitarbeiter.getTokenType());
     }
 
-        @Test
-     void testToString_Buerger() {
+    /**
+     * Testet die toString-Methode der JwtResponse-Klasse für Bürger und überprüft, ob die wichtigsten Werte im String enthalten sind
+     */
+    @Test
+    void testToString_Buerger() {
         String toString = jwtResponseBuerger.toString();
 
         assertTrue(toString.contains("eyJhbGciOiJIUzI1NiIsInR5..."));
-        //assertTrue(toString.contains("1"));
         assertTrue(toString.contains("test@example.com"));
-       // assertTrue(toString.contains("BUERGER"));
     }
 
+    /**
+     * Testet die Funktionalität der Methode generateJwtTokenMitEmail mit einer leeren E-Mail und stellt sicher, dass ein Token generiert wird
+     */
     @Test
     void testGenerateJwtTokenMitEmptyEmail() {
         String email = "";
@@ -149,9 +175,11 @@ class SecurityTest {
 
         assertNotNull(token);
         assertFalse(token.isEmpty());
-
     }
 
+    /**
+     * Testet die Funktionalität der Methode generateJwtTokenMitEmail mit einer null-E-Mail und stellt sicher, dass ein Token generiert wird
+     */
     @Test
     void testGenerateJwtTokenMitNullEmail() {
         String email = null;
@@ -166,11 +194,11 @@ class SecurityTest {
     LoginDaten loginDaten3 = new LoginDaten("otheruser@example.com", "password456");
 
 
-    // --- Tests für die LoginDaten Klasse ---
-
+    /**
+     * Testet die Getter- und Setter-Methoden der LoginDaten-Klasse
+     */
     @Test
     void testGetterSetter() {
-        // Test für Getter und Setter
         LoginDaten loginDaten = new LoginDaten();
         loginDaten.setEmail("newuser@example.com");
         loginDaten.setPasswort("newpassword");
@@ -179,55 +207,57 @@ class SecurityTest {
         assertEquals("newpassword", loginDaten.getPasswort(), "Das Passwort sollte korrekt gesetzt und zurückgegeben werden.");
     }
 
+    /**
+     * Testet den Konstruktor der LoginDaten-Klasse und stellt sicher, dass die Werte korrekt gesetzt werden
+     */
     @Test
     void testConstructor() {
-        // Test für den Konstruktor
         LoginDaten loginDaten = new LoginDaten("test@example.com", "testpassword");
         assertEquals("test@example.com", loginDaten.getEmail(), "Die E-Mail-Adresse sollte im Konstruktor gesetzt werden.");
         assertEquals("testpassword", loginDaten.getPasswort(), "Das Passwort sollte im Konstruktor gesetzt werden.");
     }
 
+    /**
+     * Testet die equals-Methode der LoginDaten-Klasse und überprüft verschiedene Vergleichsfälle
+     */
     @Test
     void testEquals() {
-        // Test für equals(Object)
         assertEquals(loginDaten1, loginDaten2, "Die Objekte sollten gleich sein.");
-
-        // Test für unterschiedliche Objekte
         assertNotEquals(loginDaten1, loginDaten3, "Die Objekte sollten ungleich sein.");
-
-        // Test für Vergleich mit null
         assertNotEquals(null, loginDaten1, "Das Objekt sollte nicht gleich null sein.");
-
-        // Test für Vergleich mit einem Objekt eines anderen Typs
         assertNotEquals(loginDaten1, new Object(), "Das Objekt sollte nicht gleich einem anderen Typ sein.");
     }
 
+    /**
+     * Testet die hashCode-Methode der LoginDaten-Klasse und vergleicht die Hash-Werte für gleichwertige und unterschiedliche Objekte
+     */
     @Test
     void testHashCode() {
-        // Test für hashCode()
         assertEquals(loginDaten1.hashCode(), loginDaten2.hashCode(), "Die Hash-Codes sollten gleich sein.");
         assertNotEquals(loginDaten1.hashCode(), loginDaten3.hashCode(), "Die Hash-Codes sollten ungleich sein.");
     }
 
+    /**
+     * Testet die toString-Methode der LoginDaten-Klasse und verifiziert, dass sie die richtigen Werte zurückgibt
+     */
     @Test
     void testToString() {
-        // Test für toString()
         String expectedString = "LoginDaten(email=user@example.com, passwort=password123)";
         assertEquals(expectedString, loginDaten1.toString(), "Die toString() Methode sollte korrekt arbeiten.");
     }
 
+    /**
+     * Testet den Konstruktor und die Getter-Methoden der JwtResponse-Klasse
+     */
     @Test
     void testConstructorAndGetters() {
-        // Testdaten
         String token = "testToken123";
         Long id = 1L;
         String email = "test@example.com";
         Object[] roles = {"ROLE_USER", "ROLE_ADMIN"};
 
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse(token, id, email, roles);
 
-        // Assertions
         assertEquals(token, jwtResponse.getAccessToken());
         assertEquals("Bearer", jwtResponse.getTokenType());
         assertEquals(id, jwtResponse.getId());
@@ -235,70 +265,62 @@ class SecurityTest {
         assertEquals(roles, jwtResponse.getRole());
     }
 
+    /**
+     * Testet die setAccessToken-Methode der JwtResponse-Klasse und stellt sicher, dass das Token korrekt gesetzt wird
+     */
     @Test
     void testSetAccessToken() {
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse("initialToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
-
-        // Token ändern
         jwtResponse.setAccessToken("newToken123");
-
-        // Assertion
         assertEquals("newToken123", jwtResponse.getAccessToken());
     }
 
+    /**
+     * Testet die setTokenType-Methode der JwtResponse-Klasse und stellt sicher, dass der Typ korrekt gesetzt wird
+     */
     @Test
     void testSetTokenType() {
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
-
-        // Typ ändern
         jwtResponse.setTokenType("CustomType");
-
-        // Assertion
         assertEquals("CustomType", jwtResponse.getTokenType());
     }
 
+    /**
+     * Testet die setEmail-Methode der JwtResponse-Klasse und stellt sicher, dass die E-Mail korrekt gesetzt wird
+     */
     @Test
     void testSetEmail() {
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
-
-        // E-Mail ändern
         jwtResponse.setEmail("newemail@example.com");
-
-        // Assertion
         assertEquals("newemail@example.com", jwtResponse.getEmail());
     }
 
+    /**
+     * Testet die setRole-Methode der JwtResponse-Klasse und stellt sicher, dass die Rolle korrekt gesetzt wird
+     */
     @Test
     void testSetRole() {
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
-
-        // Rolle ändern
         Object[] newRoles = {"ROLE_ADMIN"};
         jwtResponse.setRole(newRoles);
-
-        // Assertion
         assertEquals(newRoles, jwtResponse.getRole());
     }
 
+    /**
+     * Testet die setId-Methode der JwtResponse-Klasse und stellt sicher, dass die ID korrekt gesetzt wird
+     */
     @Test
     void testSetId() {
-        // Objekt erstellen
         JwtResponse jwtResponse = new JwtResponse("testToken", 1L, "test@example.com", new Object[]{"ROLE_USER"});
-
-        // ID ändern
         jwtResponse.setId(42L);
-
-        // Assertion
         assertEquals(42L, jwtResponse.getId());
     }
 
+    /**
+     * Testet die Setter-Methoden der JwtResponse-Klasse und überprüft, ob alle Werte korrekt gesetzt werden
+     */
     @Test
     void testSetters() {
-        // Arrange
         JwtResponse jwtResponse = new JwtResponse(null, null, null, null);
         String newToken = "newToken";
         String newType = "NewType";
@@ -306,14 +328,12 @@ class SecurityTest {
         String newEmail = "new@example.com";
         Object[] newRoles = {"ROLE_NEW"};
 
-        // Act
         jwtResponse.setAccessToken(newToken);
         jwtResponse.setTokenType(newType);
         jwtResponse.setId(newId);
         jwtResponse.setEmail(newEmail);
         jwtResponse.setRole(newRoles);
 
-        // Assert
         assertEquals(newToken, jwtResponse.getAccessToken());
         assertEquals(newType, jwtResponse.getTokenType());
         assertEquals(newId, jwtResponse.getId());
@@ -321,20 +341,19 @@ class SecurityTest {
         assertArrayEquals(newRoles, (Object[]) jwtResponse.getRole());
     }
 
+    /**
+     * Testet den Default-Wert des Token-Typs in der JwtResponse-Klasse
+     */
     @Test
     void testDefaultType() {
-        // Arrange
         String accessToken = "defaultToken";
         Long id = 789L;
         String email = "default@example.com";
         Object[] roles = {"ROLE_DEFAULT"};
 
-        // Act
         JwtResponse jwtResponse = new JwtResponse(accessToken, id, email, roles);
 
-        // Assert
         assertEquals("Bearer", jwtResponse.getTokenType());
     }
-
 
 }
