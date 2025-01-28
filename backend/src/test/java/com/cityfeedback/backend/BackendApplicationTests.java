@@ -17,6 +17,12 @@ class BackendApplicationTests {
         // Sie dient als Basisprüfung für die Konfigurationsintegrität der Anwendung.
     }
 
+    /**
+     * Überprüft, ob die Hauptanwendung ordnungsgemäß gestartet wird und der Bean
+     * 'beschwerdeController' im Anwendungskontext vorhanden ist.
+     * Dieser Test stellt sicher, dass die Anwendung korrekt konfiguriert ist und der
+     * Controller wie erwartet verfügbar ist.
+     */
     @Test
     void mainMethodTest() {
         ApplicationContext context = SpringApplication.run(BackendApplication.class, new String[]{});
