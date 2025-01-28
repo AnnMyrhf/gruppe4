@@ -24,16 +24,20 @@ class MitarbeiterRegistrierenTest {
         testMitarbeiter.setEmail("anna.schmidt@example.com");
     }
 
+    /**
+     * Testet den No-Args-Konstruktor und überprüft, ob ein Objekt erstellt wird
+     */
     @Test
     void testNoArgsConstructor() {
-        // Teste den No-Args-Konstruktor
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren();
         assertNotNull(event, "No-Args-Konstruktor sollte ein Objekt erstellen");
     }
 
+    /**
+     * Testet den All-Args-Konstruktor und überprüft, ob alle Felder korrekt gesetzt werden
+     */
     @Test
     void testAllArgsConstructor() {
-        // Teste den All-Args-Konstruktor
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren(
                 1L,
                 testTimestamp,
@@ -50,9 +54,11 @@ class MitarbeiterRegistrierenTest {
         assertEquals("anna.schmidt@example.com", event.getEmail(), "Die Email sollte korrekt gesetzt sein");
     }
 
+    /**
+     * Testet den Konstruktor, der ein Mitarbeiter-Objekt verwendet und überprüft, ob die Felder korrekt gesetzt werden
+     */
     @Test
     void testMitarbeiterConstructor() {
-        // Teste den Konstruktor, der ein Mitarbeiter-Objekt verwendet
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren(testMitarbeiter);
 
         assertNotNull(event, "Der Konstruktor mit Mitarbeiter sollte ein Objekt erstellen");
@@ -63,9 +69,11 @@ class MitarbeiterRegistrierenTest {
         assertEquals(testMitarbeiter.getEmail(), event.getEmail(), "Die Email sollte mit der Mitarbeiter-Email übereinstimmen");
     }
 
+    /**
+     * Testet die Getter- und Setter-Methoden und überprüft, ob die Werte korrekt gesetzt und zurückgegeben werden
+     */
     @Test
     void testSettersAndGetters() {
-        // Teste die Getter und Setter
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren();
 
         event.setId(2L);
@@ -81,9 +89,11 @@ class MitarbeiterRegistrierenTest {
         assertEquals("tom.mueller@example.com", event.getEmail(), "Die Email sollte korrekt gesetzt und zurückgegeben werden");
     }
 
+    /**
+     * Testet die Generierung des Timestamps im Konstruktor und überprüft, ob der Timestamp korrekt gesetzt ist
+     */
     @Test
     void testTimestampGeneration() {
-        // Teste, ob der Timestamp im Konstruktor korrekt generiert wird
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren(testMitarbeiter);
 
         assertNotNull(event.getTimestamp(), "Der Timestamp sollte nicht null sein");
@@ -91,9 +101,11 @@ class MitarbeiterRegistrierenTest {
                 "Der Timestamp sollte kleiner oder gleich der aktuellen Zeit sein");
     }
 
+    /**
+     * Testet die equals- und hashCode-Methoden und überprüft, ob zwei gleiche Objekte korrekt verglichen werden
+     */
     @Test
     void testEqualsAndHashCode() {
-        // Teste die equals- und hashCode-Methoden
         MitarbeiterRegistrieren event1 = new MitarbeiterRegistrieren(testMitarbeiter);
         MitarbeiterRegistrieren event2 = new MitarbeiterRegistrieren(testMitarbeiter);
 
@@ -101,9 +113,11 @@ class MitarbeiterRegistrierenTest {
         assertEquals(event1.hashCode(), event2.hashCode(), "Die HashCodes von identischen Events sollten gleich sein");
     }
 
+    /**
+     * Testet die toString-Methode und überprüft, ob sie die richtigen Informationen enthält
+     */
     @Test
     void testToString() {
-        // Teste die toString-Methode
         MitarbeiterRegistrieren event = new MitarbeiterRegistrieren(testMitarbeiter);
 
         String toString = event.toString();
@@ -112,4 +126,5 @@ class MitarbeiterRegistrierenTest {
         assertTrue(toString.contains("Schmidt"), "Die toString-Methode sollte den Nachnamen enthalten");
         assertTrue(toString.contains("anna.schmidt@example.com"), "Die toString-Methode sollte die Email enthalten");
     }
+
 }
