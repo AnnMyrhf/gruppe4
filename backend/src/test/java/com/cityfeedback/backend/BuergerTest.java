@@ -121,50 +121,6 @@ class BuergerTest {
     }
 
     /**
-     * Ueberprueft, ob ein bereits registrierter Buerger sich erfolgreich mit den korrekten Anmeldedaten anmelden kann
-     * und ob dabei ein gueltiges JWT mit den korrekten Buergerinfos zurückgegeben wird.
-     */
-    /*@Test
-    public void anmeldenBuerger_sollErfolgreichSein() {
-
-        buergerRepository.save(testBuerger1);
-        LoginDaten loginDaten = new LoginDaten(testBuerger1.getEmail(), testBuerger1.getPasswort());
-
-        ResponseEntity<?> response = buergerService.anmeldenBuerger(loginDaten);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        JwtResponse jwtResponse = (JwtResponse) response.getBody();
-        assertNotNull(jwtResponse.getToken());
-
-        assertEquals(7, jwtResponse.getId()); // 3, weil in der main-Methode bereits zwei Testbuerger angelegt werden
-        assertEquals(testBuerger4.getEmail(), jwtResponse.getEmail());
-    }
-
-    @Test
-    void anmeldenBuerger_FalscheEmail() {
-        buergerRepository.save(testBuerger3);
-        LoginDaten loginDaten = new LoginDaten("falsche@email.de", testBuerger2.getPasswort());
-
-        ResponseEntity<?> response = buergerService.anmeldenBuerger(loginDaten);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-
-    }
-
-    @Test
-    void anmeldenBuerger_FalschesPasswort() {
-        buergerRepository.save(testBuerger3);
-
-        LoginDaten loginDaten = new LoginDaten(testBuerger2.getEmail(), "falschesPW123!");
-
-        ResponseEntity<?> response = buergerService.anmeldenBuerger(loginDaten);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-
-    }
-
-
-    /**
      * Ueberprueft, ob ein existierender Buerger vollständig aus der Datenbank geloescht wird.
      */
     @Test
@@ -182,7 +138,6 @@ class BuergerTest {
     /**
      * Ueberprueft, ob beim Versuch, einen nicht existierenden Buerger zu loeschen, eine ResolutionException geworfen wird.
      */
-
     @Test
     void loescheBuerger_sollExceptionWerfenWennBuergerNichtExistiert() {
         testBuerger1.setId(55L);
@@ -193,8 +148,6 @@ class BuergerTest {
         assertFalse(buergerRepository.findById(55L).isPresent(),
                 "Es sollte keinen Buerger mit dieser ID geben.");
     }
-
-
 
     /**
      * Überprüft, ob der Getter für die Anrede den korrekten Wert zurückgibt.
@@ -511,12 +464,6 @@ class BuergerTest {
 
         assertNotEquals(buerger1.hashCode(), buerger2.hashCode());
     }
-
-
-
-
-
-
 
 }
 
