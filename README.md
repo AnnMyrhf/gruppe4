@@ -2,7 +2,7 @@
 
 ---
 
-Dieses Repository beinhaltet ein Java-Projekt zum Thema CityFeedback. Bürger sich in einem Beschwerdesystem anmelden, Beschwerden erstellen und den Status der Bearbeitung verfolgen. Mitarbeiter bearbeiten die eingereichten Beschwerden und verschicken automatisch bei Update des Status eine Benachrichtigung an den Bürger.
+Dieses Repository beinhaltet ein Java-Projekt für ein Beschwerdeticketsystem (CityFeedback). Bürger können sich in einem Beschwerdesystem anmelden, Beschwerden erstellen und den Status der Bearbeitung verfolgen. Mitarbeiter bearbeiten die eingereichten Beschwerden und verschicken automatisch bei Update des Status eine Benachrichtigung an den Bürger.
 
 ---
 
