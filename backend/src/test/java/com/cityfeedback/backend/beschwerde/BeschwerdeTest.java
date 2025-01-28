@@ -21,6 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BeschwerdeTest {
 
+    /**
+     * Testet die Getter- und Setter-Methoden der Klasse Beschwerde.
+     */
     @Test
     void testLombokGetterSetter() {
         Beschwerde beschwerde = new Beschwerde();
@@ -33,6 +36,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTextfeld()).isEqualTo("Das ist ein Beispieltext für das Textfeld.");
     }
 
+    /**
+     * Überprüft, ob die toString-Methode korrekt die Felder der Beschwerde enthält.
+     */
     @Test
     void testLombokToString() {
         Beschwerde beschwerde = new Beschwerde();
@@ -49,12 +55,18 @@ class BeschwerdeTest {
 
         private Validator validator;
 
+    /**
+     * Initialisiert den Validator für die Validierung der Beschwerde-Objekte.
+     */
         @BeforeEach
         void setUp() {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             validator = factory.getValidator();
         }
 
+    /**
+     * Überprüft, ob eine gültige Beschwerde keine Validierungsfehler auslöst.
+     */
         @Test
         void testValidBeschwerde() {
             Beschwerde beschwerde = new Beschwerde();
@@ -67,6 +79,9 @@ class BeschwerdeTest {
             assertThat(violations).isEmpty(); // Keine Validierungsfehler
         }
 
+    /**
+     * Testet eine ungültige Beschwerde mit fehlendem oder leerem BeschwerdeTyp.
+     */
         @Test
         void testInvalidBeschwerde_NullOrEmptyBeschwerdeTyp() {
             Beschwerde beschwerde = new Beschwerde();
@@ -80,6 +95,9 @@ class BeschwerdeTest {
             assertThat(violations.iterator().next().getMessage()).isEqualTo("Bitte wählen Sie eine Kategorie aus!");
         }
 
+    /**
+     * Überprüft, ob die Validierung fehlschlägt, wenn der Titel zu lang ist.
+     */
         @Test
         void testInvalidBeschwerde_TitelTooLong() {
             Beschwerde beschwerde = new Beschwerde();
@@ -93,6 +111,9 @@ class BeschwerdeTest {
             assertThat(violations.iterator().next().getMessage()).isEqualTo("Der Titel darf nur 100 Zeichen enthalten.");
         }
 
+    /**
+     * Testet die Validierung, wenn das Textfeld leer ist.
+     */
         @Test
         void testInvalidBeschwerde_EmptyTextfeld() {
             Beschwerde beschwerde = new Beschwerde();
@@ -106,6 +127,9 @@ class BeschwerdeTest {
             assertThat(violations.iterator().next().getMessage()).isEqualTo("Das Texfeld darf nicht leer sein!");
         }
 
+    /**
+     * Testet die Validierung des Anhängformats (nur .pdf, .jpg, .png erlaubt).
+     */
         @Test
         void testAnhangFormatValid() {
             String validAnhangPdf = "dokument.pdf";
@@ -119,6 +143,9 @@ class BeschwerdeTest {
             assertFalse(pattern.matcher(invalidAnhang).matches());
         }
 
+    /**
+     * Überprüft, ob zwei gleiche Objekte als gleich erkannt werden.
+     */
     @Test
     void testEquals_SameObject() {
         Beschwerde beschwerde = new Beschwerde();
@@ -128,6 +155,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde, beschwerde); // Das gleiche Objekt
     }
 
+    /**
+     * Testet die Gleichheit von zwei Objekten mit denselben Werten.
+     */
     @Test
     void testEquals_DifferentObjectsSameValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -141,6 +171,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde1, beschwerde2); // Verschiedene Objekte, gleiche Werte
     }
 
+    /**
+     * Überprüft, ob zwei Objekte mit unterschiedlichen Werten als ungleich erkannt werden.
+     */
     @Test
     void testEquals_DifferentValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -152,6 +185,9 @@ class BeschwerdeTest {
         assertNotEquals(beschwerde1, beschwerde2); // Verschiedene Werte
     }
 
+    /**
+     * Überprüft, ob ein Objekt ungleich null ist.
+     */
     @Test
     void testEquals_Null() {
         Beschwerde beschwerde = new Beschwerde();
@@ -160,6 +196,9 @@ class BeschwerdeTest {
         assertNotEquals(null, beschwerde); // Vergleich mit null
     }
 
+    /**
+     * Testet die Ungleichheit von Objekten unterschiedlichen Typs.
+     */
     @Test
     void testEquals_DifferentType() {
         Beschwerde beschwerde = new Beschwerde();
@@ -168,6 +207,9 @@ class BeschwerdeTest {
         assertNotEquals("String", beschwerde); // Vergleich mit anderem Typ
     }
 
+    /**
+     * Überprüft, ob zwei Objekte mit gleichen Werten denselben Hash-Code haben.
+     */
     @Test
     void testHashCode_SameValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -181,6 +223,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode()); // Gleiche Werte, gleicher Hash-Code
     }
 
+    /**
+     * Testet, ob Objekte mit unterschiedlichen Werten unterschiedliche Hash-Codes haben.
+     */
     @Test
     void testHashCode_DifferentValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -191,6 +236,10 @@ class BeschwerdeTest {
 
         assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode()); // Unterschiedliche Werte, unterschiedlicher Hash-Code
     }
+
+    /**
+     * Testet den Konstruktor mit Parametern und überprüft die Initialisierung der Felder.
+     */
 
     @Test
     void testConstructorWithParameters() {
@@ -206,6 +255,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getBuerger()).isNull();
     }
 
+    /**
+     * Testet den Konstruktor mit ungültigen (null) Parametern.
+     */
     @Test
     void testConstructorWithInvalidParameters() {
         // Test mit null-Werten und prüfen, ob Fehler auftreten
@@ -222,6 +274,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getBuerger()).isNull();
     }
 
+    /**
+     * Überprüft das Setzen und Auslesen des Erstellungsdatums.
+     */
     @Test
     void testSetErstellDatum() {
         Beschwerde beschwerde = new Beschwerde();
@@ -231,6 +286,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getErstellDatum()).isEqualTo(date);
     }
 
+    /**
+     * Testet das Setzen und Abrufen des Status einer Beschwerde.
+     */
     @Test
     void testSetStatus() {
         Beschwerde beschwerde = new Beschwerde();
@@ -240,6 +298,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getStatus()).isEqualTo(status);
     }
 
+    /**
+     * Überprüft das Setzen und Abrufen der Priorität einer Beschwerde.
+     */
     @Test
     void testSetPrioritaet() {
         Beschwerde beschwerde = new Beschwerde();
@@ -249,6 +310,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getPrioritaet()).isEqualTo(prioritaet);
     }
 
+    /**
+     * Testet das Setzen und Abrufen eines Anhangs.
+     */
     @Test
     void testSetAnhang() {
         Beschwerde beschwerde = new Beschwerde();
@@ -258,6 +322,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getAnhang()).isEqualTo(anhang);
     }
 
+    /**
+     * Überprüft das Setzen und Abrufen eines Bürgers in der Beschwerde.
+     */
     @Test
     void testSetBuerger() {
         Beschwerde beschwerde = new Beschwerde();
@@ -267,6 +334,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getBuerger()).isEqualTo(buerger);
     }
 
+    /**
+     * Testet das Setzen und Abrufen der ID der Beschwerde.
+     */
     @Test
     void testSetId() {
         Beschwerde beschwerde = new Beschwerde();
@@ -276,6 +346,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getId()).isEqualTo(id);
     }
 
+    /**
+     * Testet das Setzen und Abrufen des Titels der Beschwerde.
+     */
     @Test
     void testSetTitel() {
         Beschwerde beschwerde = new Beschwerde();
@@ -285,6 +358,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTitel()).isEqualTo(titel);
     }
 
+    /**
+     * Überprüft das Setzen und Abrufen des Beschwerde-Typs.
+     */
     @Test
     void testSetBeschwerdeTyp() {
         Beschwerde beschwerde = new Beschwerde();
@@ -294,6 +370,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getBeschwerdeTyp()).isEqualTo(typ);
     }
 
+    /**
+     * Testet das Setzen und Abrufen des Textfelds einer Beschwerde.
+     */
     @Test
     void testSetTextfeld() {
         Beschwerde beschwerde = new Beschwerde();
@@ -303,6 +382,9 @@ class BeschwerdeTest {
         assertThat(beschwerde.getTextfeld()).isEqualTo(textfeld);
     }
 
+    /**
+     * Überprüft das Setzen und Abrufen eines Kommentars in der Beschwerde.
+     */
     @Test
     void testSetKommentar() {
         // Arrange: Erstellen eines Testobjekts der Beschwerde
@@ -318,6 +400,9 @@ class BeschwerdeTest {
         assertEquals(neuerKommentar, beschwerde.getKommentar(), "Der Kommentar sollte korrekt gesetzt werden.");
     }
 
+    /**
+     * Testet das Setzen eines Kommentars auf null.
+     */
     @Test
     void testSetKommentarNull() {
         // Arrange: Erstelle ein Testobjekt der Beschwerde
@@ -329,6 +414,10 @@ class BeschwerdeTest {
         // Assert: Überprüfe, ob der Kommentar korrekt auf null gesetzt wurde
         assertEquals(null, beschwerde.getKommentar(), "Der Kommentar sollte null sein.");
     }
+
+    /**
+     * Testet das Setzen eines leeren Strings als Kommentar.
+     */
 
     @Test
     void testSetKommentarLeererString() {
@@ -342,6 +431,9 @@ class BeschwerdeTest {
         assertEquals("", beschwerde.getKommentar(), "Der Kommentar sollte ein leerer String sein.");
     }
 
+    /**
+     * Testet die Konsistenz des Hash-Codes bei mehrfachen Aufrufen.
+     */
     @Test
     void testHashCode_SameObject() {
         Beschwerde beschwerde = new Beschwerde();
@@ -355,6 +447,9 @@ class BeschwerdeTest {
         assertEquals(hashCode1, hashCode2, "Der Hash-Code des gleichen Objekts sollte immer gleich sein.");
     }
 
+    /**
+     * Überprüft den Hash-Code für Objekte mit null-Werten.
+     */
     @Test
     void testHashCode_NullValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -368,6 +463,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Zwei Objekte mit null Titel sollten den gleichen Hash-Code haben.");
     }
 
+    /**
+     * Testet den Hash-Code für Objekte mit leeren Feldern.
+     */
     @Test
     void testHashCode_EmptyValues() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -381,6 +479,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Zwei Objekte mit leeren Feldern sollten den gleichen Hash-Code haben.");
     }
 
+    /**
+     * Überprüft, ob Objekte mit unterschiedlichen Feldern verschiedene Hash-Codes haben.
+     */
     @Test
     void testHashCode_DifferentFields() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -410,6 +511,9 @@ class BeschwerdeTest {
         assertNotEquals( "Der hashCode sollte nicht 0 sein.", hashCode != 0);
     }
 
+    /**
+     * Testet unterschiedliche Hash-Codes für Objekte mit komplett verschiedenen Feldern.
+     */
     @Test
     void testHashCode_AllFieldsDifferent() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -425,6 +529,9 @@ class BeschwerdeTest {
         assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Die Hash-Codes sollten sich bei unterschiedlichen Werten unterscheiden.");
     }
 
+    /**
+     * Überprüft, ob Objekte mit identischen Werten in unterschiedlichen Instanzen denselben Hash-Code haben.
+     */
     @Test
     void testHashCode_SameValuesMultipleInstances() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -439,6 +546,9 @@ class BeschwerdeTest {
         assertEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Obwohl es zwei Instanzen sind, sollten ihre Hash-Codes gleich sein.");
     }
 
+    /**
+     * Testet unterschiedliche Hash-Codes für Objekte mit unterschiedlichen IDs.
+     */
     @Test
     void testHashCode_DifferentIds() {
         Beschwerde beschwerde1 = new Beschwerde();
@@ -452,6 +562,9 @@ class BeschwerdeTest {
         assertNotEquals(beschwerde1.hashCode(), beschwerde2.hashCode(), "Objekte mit unterschiedlichen IDs sollten unterschiedliche Hash-Codes haben.");
     }
 
+    /**
+     * Testet die Hash-Codes für Objekte mit zufälligen Werten.
+     */
     @Test
     void testHashCode_RandomValues() {
         Beschwerde beschwerde1 = new Beschwerde();
