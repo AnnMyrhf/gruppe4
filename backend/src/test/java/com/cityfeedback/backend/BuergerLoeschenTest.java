@@ -24,16 +24,22 @@ class BuergerLoeschenTest {
         testBuerger.setEmail("max.mustermann@example.com");
     }
 
+    /**
+     * Testet den No-Args-Konstruktor der Klasse BuergerLoeschen.
+     * Stellt sicher, dass der Konstruktor ein gültiges Objekt erstellt.
+     */
     @Test
     void testNoArgsConstructor() {
-        // Teste den No-Args-Konstruktor
         BuergerLoeschen event = new BuergerLoeschen();
         assertNotNull(event, "No-Args-Konstruktor sollte ein Objekt erstellen");
     }
 
+    /**
+     * Testet den All-Args-Konstruktor der Klasse BuergerLoeschen.
+     * Stellt sicher, dass alle Felder korrekt initialisiert werden.
+     */
     @Test
     void testAllArgsConstructor() {
-        // Teste den All-Args-Konstruktor
         BuergerLoeschen event = new BuergerLoeschen(
                 1L,
                 testTimestamp,
@@ -50,9 +56,13 @@ class BuergerLoeschenTest {
         assertEquals("max.mustermann@example.com", event.getEmail(), "Die Email sollte korrekt gesetzt sein");
     }
 
+    /**
+     * Testet den Konstruktor der Klasse BuergerLoeschen,
+     * der ein Buerger-Objekt als Parameter verwendet.
+     * Stellt sicher, dass die Felder mit den Werten des Buerger-Objekts initialisiert werden.
+     */
     @Test
     void testBuergerConstructor() {
-        // Teste den Konstruktor, der ein Buerger-Objekt verwendet
         BuergerLoeschen event = new BuergerLoeschen(testBuerger);
 
         assertNotNull(event, "Der Konstruktor mit Buerger sollte ein Objekt erstellen");
@@ -63,9 +73,12 @@ class BuergerLoeschenTest {
         assertEquals(testBuerger.getEmail(), event.getEmail(), "Die Email sollte mit der Buerger-Email übereinstimmen");
     }
 
+    /**
+     * Testet die Getter- und Setter-Methoden der Klasse BuergerLoeschen.
+     * Stellt sicher, dass die Werte korrekt gesetzt und abgerufen werden können.
+     */
     @Test
     void testSettersAndGetters() {
-        // Teste die Getter und Setter
         BuergerLoeschen event = new BuergerLoeschen();
 
         event.setId(2L);
@@ -81,9 +94,12 @@ class BuergerLoeschenTest {
         assertEquals("lisa.mueller@example.com", event.getEmail(), "Die Email sollte korrekt gesetzt und zurückgegeben werden");
     }
 
+    /**
+     * Testet, ob der Timestamp im Konstruktor korrekt generiert wird.
+     * Stellt sicher, dass der Timestamp nicht null ist und der aktuellen Zeit entspricht.
+     */
     @Test
     void testTimestampGeneration() {
-        // Teste, ob der Timestamp im Konstruktor korrekt generiert wird
         BuergerLoeschen event = new BuergerLoeschen(testBuerger);
 
         assertNotNull(event.getTimestamp(), "Der Timestamp sollte nicht null sein");
@@ -91,9 +107,13 @@ class BuergerLoeschenTest {
                 "Der Timestamp sollte kleiner oder gleich der aktuellen Zeit sein");
     }
 
+    /**
+     * Testet die equals- und hashCode-Methoden der Klasse BuergerLoeschen.
+     * Stellt sicher, dass zwei identische Objekte als gleich betrachtet werden
+     * und dass ihre HashCodes übereinstimmen.
+     */
     @Test
     void testEqualsAndHashCode() {
-        // Teste die equals- und hashCode-Methoden
         BuergerLoeschen event1 = new BuergerLoeschen(testBuerger);
         BuergerLoeschen event2 = new BuergerLoeschen(testBuerger);
 
@@ -101,9 +121,12 @@ class BuergerLoeschenTest {
         assertEquals(event1.hashCode(), event2.hashCode(), "Die HashCodes von identischen Events sollten gleich sein");
     }
 
+    /**
+     * Testet die toString-Methode der Klasse BuergerLoeschen.
+     * Stellt sicher, dass alle relevanten Felder im String enthalten sind.
+     */
     @Test
     void testToString() {
-        // Teste die toString-Methode
         BuergerLoeschen event = new BuergerLoeschen(testBuerger);
 
         String toString = event.toString();
@@ -112,4 +135,5 @@ class BuergerLoeschenTest {
         assertTrue(toString.contains("Mustermann"), "Die toString-Methode sollte den Nachnamen enthalten");
         assertTrue(toString.contains("max.mustermann@example.com"), "Die toString-Methode sollte die Email enthalten");
     }
+
 }

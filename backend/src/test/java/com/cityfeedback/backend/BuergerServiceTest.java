@@ -55,6 +55,10 @@ class BuergerServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Testet die erfolgreiche Anmeldung eines Bürgers.
+     * Stellt sicher, dass bei gültigen Login-Daten ein JWT-Token generiert wird.
+     */
     @Test
     void testAnmeldenBuergerErfolgreich() {
         LoginDaten loginDaten = new LoginDaten("test@example.com", "password");
@@ -72,6 +76,10 @@ class BuergerServiceTest {
         verify(jwtUtils, times(1)).generateJwtToken(authentication);
     }
 
+    /**
+     * Testet die Anmeldung eines Bürgers, wenn die E-Mail nicht gefunden wird.
+     * Stellt sicher, dass eine entsprechende Fehlermeldung zurückgegeben wird.
+     */
     @Test
     void testAnmeldenBuergerNichtGefunden() {
         LoginDaten loginDaten = new LoginDaten("unknown@example.com", "password");
@@ -84,6 +92,10 @@ class BuergerServiceTest {
         assertTrue(response.getBody().toString().contains("E-Mail konnten nicht gefunden"));
     }
 
+    /**
+     * Testet die erfolgreiche Registrierung eines Bürgers.
+     * Stellt sicher, dass ein neuer Bürger korrekt gespeichert wird.
+     */
     @Test
     void testRegistriereBuergerErfolgreich() {
         Buerger buerger = new Buerger();
@@ -100,6 +112,10 @@ class BuergerServiceTest {
         verify(buergerRepository, times(1)).save(any(Buerger.class));
     }
 
+    /**
+     * Testet die Registrierung eines Bürgers bei Validierungsfehlern.
+     * Stellt sicher, dass keine Speicherung erfolgt und ein Fehler zurückgegeben wird.
+     */
     @Test
     void testRegistriereBuergerValidationError() {
         Buerger buerger = new Buerger();
@@ -113,6 +129,10 @@ class BuergerServiceTest {
         verify(buergerRepository, never()).save(any(Buerger.class));
     }
 
+    /**
+     * Testet die Registrierung eines Bürgers, wenn die E-Mail bereits existiert.
+     * Stellt sicher, dass keine Speicherung erfolgt und ein Fehler zurückgegeben wird.
+     */
     @Test
     void testRegistriereBuergerEmailExists() {
         Buerger buerger = new Buerger();
@@ -127,6 +147,10 @@ class BuergerServiceTest {
         assertTrue(response.getBody().toString().contains("E-Mail-Adresse existiert bereits"));
     }
 
+    /**
+     * Testet die Registrierung eines Bürgers bei einem Datenbankfehler.
+     * Stellt sicher, dass ein entsprechender Fehler zurückgegeben wird.
+     */
     @Test
     void testRegistriereBuergerDatabaseError() {
         Buerger buerger = new Buerger();
@@ -143,6 +167,10 @@ class BuergerServiceTest {
         assertTrue(response.getBody().toString().contains("Fehler bei der Speicherung des Bürgers"));
     }
 
+    /**
+     * Testet das erfolgreiche Löschen eines Bürgers.
+     * Stellt sicher, dass der Bürger aus der Datenbank entfernt wird.
+     */
     @Test
     void testLoescheBuergerErfolgreich() {
         Long id = 1L;
@@ -156,6 +184,10 @@ class BuergerServiceTest {
         verify(buergerRepository, times(1)).delete(buerger);
     }
 
+    /**
+     * Testet das Löschen eines Bürgers, wenn der Bürger nicht gefunden wird.
+     * Stellt sicher, dass ein entsprechender Fehler zurückgegeben wird.
+     */
     @Test
     void testLoescheBuergerNichtGefunden() {
         Long id = 1L;
@@ -168,6 +200,10 @@ class BuergerServiceTest {
         assertTrue(response.getBody().toString().contains("Bürger konnte nicht gefunden werden"));
     }
 
+    /**
+     * Testet das Löschen eines Bürgers mit vorhandenen Beschwerden.
+     * Stellt sicher, dass die Beschwerden des Bürgers entfernt werden.
+     */
     @Test
     void testLoescheBuergerMitBeschwerden() {
         Long id = 1L;
@@ -180,4 +216,5 @@ class BuergerServiceTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(beschwerdeService, times(1)).deleteBeschwerde(beschwerde.getId());
     }
+
 }

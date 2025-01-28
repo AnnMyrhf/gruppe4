@@ -41,6 +41,10 @@ class BeschwerdeServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Testet die Methode getBeschwerdeById für den Fall, dass eine Beschwerde gefunden wird.
+     * Überprüft, ob das Ergebnis korrekt zurückgegeben wird und die Repository-Methode aufgerufen wird.
+     */
     @Test
     void testGetBeschwerdeById_Found() {
         // Mocking
@@ -58,6 +62,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findById(beschwerdeId);
     }
 
+    /**
+     * Testet die Methode getBeschwerdeById für den Fall, dass keine Beschwerde gefunden wird.
+     * Erwartet eine IllegalArgumentException und überprüft den Repository-Aufruf.
+     */
     @Test
     void testGetBeschwerdeById_NotFound() {
         // Mocking
@@ -69,6 +77,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findById(beschwerdeId);
     }
 
+    /**
+     * Testet die Methode getAllBeschwerden für den Fall, dass Beschwerden gefunden werden.
+     * Überprüft, ob die korrekte Anzahl an Beschwerden zurückgegeben wird.
+     */
     @Test
     void testGetAllBeschwerden_Found() {
         // Mocking
@@ -84,6 +96,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findAll();
     }
 
+    /**
+     * Testet die Methode getAllBeschwerden für den Fall, dass keine Beschwerden gefunden werden.
+     * Überprüft, ob eine leere Liste zurückgegeben wird.
+     */
     @Test
     void testGetAllBeschwerden_NotFound() {
         // Mocking
@@ -95,8 +111,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findAll();
     }
 
-
-
+    /**
+     * Testet die Methode getBeschwerdenByBuergerId für den Fall, dass Beschwerden gefunden werden.
+     * Überprüft, ob die korrekte Anzahl an Beschwerden zurückgegeben wird.
+     */
     @Test
     void testGetBeschwerdenByBuergerId_Found() {
         // Mocking
@@ -113,6 +131,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
     }
 
+    /**
+     * Testet die Methode getBeschwerdenByBuergerId für den Fall, dass keine Beschwerden gefunden werden.
+     * Überprüft, ob eine leere Liste zurückgegeben wird.
+     */
     @Test
     void testGetBeschwerdenByBuergerId_NotFound() {
         // Mocking
@@ -125,7 +147,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).findByBuerger_Id(buergerId);
     }
 
-
+    /**
+     * Testet die Methode createBeschwerde für den erfolgreichen Fall.
+     * Überprüft, ob die Beschwerde erfolgreich erstellt und gespeichert wird.
+     */
     @Test
     void testCreateBeschwerde_Success() throws IOException {
         // Mocking
@@ -159,7 +184,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
 
-
+    /**
+     * Testet die Methode createBeschwerde für den Fall, dass der Bürger nicht gefunden wird.
+     * Erwartet eine Fehlermeldung und überprüft, dass keine Beschwerde gespeichert wird.
+     */
     @Test
     void testCreateBeschwerde_BuergerNotFound() {
         // Mocking
@@ -181,6 +209,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, never()).save(any(Beschwerde.class));
     }
 
+    /**
+     * Testet die Methode createBeschwerde für den Fall einer Datenintegritätsverletzung.
+     * Überprüft, ob ein Fehler korrekt behandelt wird.
+     */
     @Test
     void testCreateBeschwerde_DataIntegrityViolationException() {
         // Mocking
@@ -205,6 +237,10 @@ class BeschwerdeServiceTest {
         verify(beschwerdeRepository, times(1)).save(any(Beschwerde.class));
     }
 
+    /**
+     * Testet die Methode createBeschwerde für den Fall eines unerwarteten Fehlers.
+     * Überprüft, ob der Fehler korrekt behandelt wird.
+     */
     @Test
     void testCreateBeschwerde_InternalServerError() {
         // Mocking
